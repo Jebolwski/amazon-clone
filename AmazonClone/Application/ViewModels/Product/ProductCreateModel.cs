@@ -10,6 +10,6 @@ namespace AmazonClone.Application.ViewModels.Product
         public float price { get; set; }
         public string description { get; set; }
         public ICollection<ProductCategoryCreateModel> productCategories { get; set; }
-        public ICollection<ProductPhotoCreateModel> photos { get; set; }
+        public ICollection<ProductPhotoCreateProduct> photos { get; set; }
     }
 }

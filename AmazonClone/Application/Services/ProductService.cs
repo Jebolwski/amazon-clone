@@ -1,6 +1,7 @@
 ﻿using AmazonClone.Application.Interfaces;
 using AmazonClone.Application.ViewModels.Product;
 using AmazonClone.Application.ViewModels.ProductCategory;
+using AmazonClone.Application.ViewModels.ProductPhoto;
 using AmazonClone.Data.Repositories;
 using AmazonClone.Domain.Entities;
 using AmazonClone.Domain.Interfaces;
@@ -10,10 +11,16 @@ namespace AmazonClone.Application.Services
     public class ProductService : IProductService
     {
         private readonly IProductRepository productRepository;
+        private readonly IProductCategoryService productCategoryService;
+        private readonly IProductPhotoService productPhotoService;
 
-        public ProductService(IProductRepository productRepository)
+        public ProductService(IProductRepository productRepository,
+            IProductCategoryService productCategoryService,
+            IProductPhotoService productPhotoService)
         {
             this.productRepository = productRepository;
+            this.productCategoryService = productCategoryService;
+            this.productPhotoService = productPhotoService;
         }
 
         public ProductResponseModel add(ProductCreateModel model)
@@ -21,12 +28,8 @@ namespace AmazonClone.Application.Services
             
             if (model != null)
             {
-                foreach (ProductCategoryCreateModel category in model.productCategories)
-                {
-                    //Burada veritabanına ürün kategorilerini ekle ama onun için ilk 
-                    // önce ürün kategorisi servisini oluşturman gerekiyor
-                    Console.WriteLine(category.name);
-                }
+                
+
                 Product product = new Product()
                 {
                     description = model.description,
@@ -35,13 +38,35 @@ namespace AmazonClone.Application.Services
                     carts = null,
                 };
                 product = productRepository.add(product);
+
+                //veritabanına ürün kategorileri ekleniyor
+                HashSet<ProductCategoryResponseModel> productModels = new HashSet<ProductCategoryResponseModel>();
+                foreach (ProductCategoryCreateModel category in model.productCategories)
+                {
+                    productModels.Add(productCategoryService.add(category));
+
+                }
+
+                //veritabanına ürün fotoğrafları ekleniyor
+                HashSet<ProductPhotoResponseModel> productPhotoModels = new HashSet<ProductPhotoResponseModel>();
+                foreach (ProductPhotoCreateProduct photo in model.photos)
+                {
+                    ProductPhotoCreateModel productPhotoCreateModel = new ProductPhotoCreateModel()
+                    {
+                        productId = product.Id,
+                        photoUrl = photo.photoUrl,
+                    };
+                    productPhotoModels.Add(productPhotoService.add(productPhotoCreateModel));
+                }
+                
                 ProductResponseModel productResponse = new ProductResponseModel()
                 {
                     description = product.description,
                     name = product.name,
                     price = product.price,
                     cart = null,
-                    productCategories = new HashSet<ProductCategoryResponseModel>()
+                    photos = productPhotoModels,
+                    productCategories = productModels
                 };
                 return productResponse;
             }

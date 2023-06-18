@@ -434,13 +434,11 @@ namespace AmazonClone.Migrations
 
             modelBuilder.Entity("AmazonClone.Domain.Entities.ProductPhoto", b =>
                 {
-                    b.HasOne("AmazonClone.Domain.Entities.Product", "product")
+                    b.HasOne("AmazonClone.Domain.Entities.Product", null)
                         .WithMany("photos")
                         .HasForeignKey("productId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("product");
                 });
 
             modelBuilder.Entity("CartProduct", b =>

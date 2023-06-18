@@ -1,33 +1,13 @@
-﻿using AmazonClone.Domain.Entities;
+﻿using AmazonClone.Data.Context;
+using AmazonClone.Domain.Entities;
 using AmazonClone.Domain.Interfaces;
 
 namespace AmazonClone.Data.Repositories
 {
-    public class ProductCategoryRepository : IProductCategoryRepository
+    public class ProductCategoryRepository : Repository<ProductCategory>, IProductCategoryRepository
     {
-        public ProductCategory add(ProductCategory entity)
+        public ProductCategoryRepository(BaseContext db) : base(db)
         {
-            throw new NotImplementedException();
-        }
-
-        public bool delete(Guid id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ProductCategory get(Guid id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IQueryable<ProductCategory> getAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public ProductCategory update(ProductCategory entity)
-        {
-            throw new NotImplementedException();
         }
     }
 }

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "O8UTBtyg1pm216PR56/1uawQnDT/1Tix9wCR5+eGk97gCk8oBks4J2SmHe7YcZWoGaR25JRexTvHXtYjOYyH6A==",
+  "dgSpecHash": "6m9lju4a65GOhwV8kBv8PlR1OS7znbbVhsFCeAeGw7iEUmUyU3jhU6r4BUrfzPJJFYr58ZSD4W+IYzMZk2yF8A==",
   "success": true,
-  "projectFilePath": "C:\\Users\\mertg\\source\\repos\\AmazonClone\\AmazonClone\\AmazonClone.csproj",
+  "projectFilePath": "C:\\Users\\mertg\\OneDrive\\Masaüstü\\Dosya\\Programming\\amazon-clone\\AmazonClone\\AmazonClone.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\mertg\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\mertg\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\7.0.7\\microsoft.aspnetcore.cryptography.internal.7.0.7.nupkg.sha512",

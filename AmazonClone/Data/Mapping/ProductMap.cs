@@ -13,7 +13,8 @@ namespace AmazonClone.Data.Mapping
             builder.Property(p => p.price).HasColumnName("price");
             builder.Property(p => p.description).HasColumnName("description");
             builder.Property(p => p.name).HasColumnName("name");
-            builder.HasMany(p => p.photos).WithOne(p => p.product);
+            builder.HasMany(p => p.photos).WithOne().HasForeignKey(p => p.productId)
+                .OnDelete(DeleteBehavior.Cascade);
             builder.HasMany(p => p.carts).WithMany(p => p.products);
             builder.HasMany(p => p.productCategories).WithMany(p => p.products);
         }

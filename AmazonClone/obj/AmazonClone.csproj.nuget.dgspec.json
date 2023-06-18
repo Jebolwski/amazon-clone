@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\mertg\\source\\repos\\AmazonClone\\AmazonClone\\AmazonClone.csproj": {}
+    "C:\\Users\\mertg\\OneDrive\\Masaüstü\\Dosya\\Programming\\amazon-clone\\AmazonClone\\AmazonClone.csproj": {}
   },
   "projects": {
-    "C:\\Users\\mertg\\source\\repos\\AmazonClone\\AmazonClone\\AmazonClone.csproj": {
+    "C:\\Users\\mertg\\OneDrive\\Masaüstü\\Dosya\\Programming\\amazon-clone\\AmazonClone\\AmazonClone.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\mertg\\source\\repos\\AmazonClone\\AmazonClone\\AmazonClone.csproj",
+        "projectUniqueName": "C:\\Users\\mertg\\OneDrive\\Masaüstü\\Dosya\\Programming\\amazon-clone\\AmazonClone\\AmazonClone.csproj",
         "projectName": "AmazonClone",
-        "projectPath": "C:\\Users\\mertg\\source\\repos\\AmazonClone\\AmazonClone\\AmazonClone.csproj",
+        "projectPath": "C:\\Users\\mertg\\OneDrive\\Masaüstü\\Dosya\\Programming\\amazon-clone\\AmazonClone\\AmazonClone.csproj",
         "packagesPath": "C:\\Users\\mertg\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\mertg\\source\\repos\\AmazonClone\\AmazonClone\\obj\\",
+        "outputPath": "C:\\Users\\mertg\\OneDrive\\Masaüstü\\Dosya\\Programming\\amazon-clone\\AmazonClone\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\mertg\\AppData\\Roaming\\NuGet\\NuGet.Config",
