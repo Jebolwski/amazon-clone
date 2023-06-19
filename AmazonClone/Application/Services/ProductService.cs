@@ -28,7 +28,23 @@ namespace AmazonClone.Application.Services
             
             if (model != null)
             {
-                
+                ICollection<ProductCategory> productCategories = new HashSet<ProductCategory>();
+                foreach (ProductCategoryCreateModel categoryCreateModel in model.productCategories)
+                {
+                    productCategories.Add(new ProductCategory()
+                    {
+                        description = categoryCreateModel.description,
+                        name = categoryCreateModel.name,
+                    });
+                }
+
+                ICollection<ProductPhoto> photos = new HashSet<ProductPhoto>();
+                foreach (ProductPhotoCreateProduct item in model.photos)
+                {
+                    photos.Add(new ProductPhoto() { 
+                        photoUrl = item.photoUrl,
+                    });
+                }
 
                 Product product = new Product()
                 {
@@ -36,31 +52,35 @@ namespace AmazonClone.Application.Services
                     name = model.name,
                     price = model.price,
                     carts = null,
+                    photos = photos,
+                    productCategories = productCategories
+
                 };
                 product = productRepository.add(product);
 
-                //veritabanına ürün kategorileri ekleniyor
                 HashSet<ProductCategoryResponseModel> productModels = new HashSet<ProductCategoryResponseModel>();
-                foreach (ProductCategoryCreateModel category in model.productCategories)
+                foreach (ProductCategory category in product.productCategories)
                 {
-                    productModels.Add(productCategoryService.add(category));
-
+                    productModels.Add(new ProductCategoryResponseModel() { 
+                        description = category.description,
+                        name = category.name,
+                        id = category.id
+                    });
                 }
 
-                //veritabanına ürün fotoğrafları ekleniyor
                 HashSet<ProductPhotoResponseModel> productPhotoModels = new HashSet<ProductPhotoResponseModel>();
-                foreach (ProductPhotoCreateProduct photo in model.photos)
+                foreach (ProductPhoto photo in product.photos)
                 {
-                    ProductPhotoCreateModel productPhotoCreateModel = new ProductPhotoCreateModel()
+                    productPhotoModels.Add(new ProductPhotoResponseModel()
                     {
-                        productId = product.Id,
                         photoUrl = photo.photoUrl,
-                    };
-                    productPhotoModels.Add(productPhotoService.add(productPhotoCreateModel));
+                        id = photo.id
+                    });
                 }
                 
                 ProductResponseModel productResponse = new ProductResponseModel()
                 {
+                    id = product.id,
                     description = product.description,
                     name = product.name,
                     price = product.price,

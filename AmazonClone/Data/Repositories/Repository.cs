@@ -21,7 +21,7 @@ namespace AmazonClone.Data.Repositories
         public T add(T entity)
         {
             dbset.Add(entity);
-            Console.WriteLine(entity.Id);
+            Console.WriteLine(entity.id);
             db.SaveChanges();
             return entity;
         }
@@ -40,7 +40,7 @@ namespace AmazonClone.Data.Repositories
 
         public T get(Guid id)
         {
-            return dbset.FirstOrDefault(p => p.Id == id);
+            return dbset.FirstOrDefault(p => p.id == id);
         }
 
         public T update(T entity)

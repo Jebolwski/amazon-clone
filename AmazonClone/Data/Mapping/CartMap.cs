@@ -8,8 +8,8 @@ namespace AmazonClone.Data.Mapping
     {
         public void Configure(EntityTypeBuilder<Cart> builder)
         {
-            builder.ToTable("cart");
-            builder.Property(p => p.Id).HasColumnName("id");
+            builder.ToTable("Cart");
+            builder.Property(p => p.id).HasColumnName("id");
             builder.Property(p => p.userId).HasColumnName("user_id");
             builder.HasMany(p => p.products).WithMany(p => p.carts);
         }

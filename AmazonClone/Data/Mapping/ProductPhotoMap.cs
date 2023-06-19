@@ -8,8 +8,8 @@ namespace AmazonClone.Data.Mapping
     {
         public void Configure(EntityTypeBuilder<ProductPhoto> builder)
         {
-            builder.ToTable("product_photo");
-            builder.Property(p => p.Id).HasColumnName("id");
+            builder.ToTable("ProductPhoto");
+            builder.Property(p => p.id).HasColumnName("id");
             builder.Property(p => p.photoUrl).HasColumnName("photo_url");
         }
     }

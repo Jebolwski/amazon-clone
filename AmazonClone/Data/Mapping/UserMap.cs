@@ -8,8 +8,8 @@ namespace AmazonClone.Data.Mapping
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.ToTable("user");
-            builder.Property(p => p.Id).HasColumnName("id");
+            builder.ToTable("User");
+            builder.Property(p => p.id).HasColumnName("id");
             builder.Property(p => p.username).HasColumnName("username");
             builder.Property(p => p.password).HasColumnName("password");
             builder.Property(p => p.roleId).HasColumnName("role_id");
