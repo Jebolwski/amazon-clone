@@ -1,33 +1,13 @@
-﻿using AmazonClone.Domain.Entities;
+﻿using AmazonClone.Data.Context;
+using AmazonClone.Domain.Entities;
 using AmazonClone.Domain.Interfaces;
 
 namespace AmazonClone.Data.Repositories
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository : Repository<User>, IUserRepository
     {
-        public User add(User entity)
+        public UserRepository(BaseContext db) : base(db)
         {
-            throw new NotImplementedException();
-        }
-
-        public bool delete(Guid id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public User get(Guid id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IQueryable<User> getAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public User update(User entity)
-        {
-            throw new NotImplementedException();
         }
     }
 }

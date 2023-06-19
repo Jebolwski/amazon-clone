@@ -96,3 +96,11 @@ C:\Users\mertg\OneDrive\Masaüstü\Dosya\Programming\amazon-clone\AmazonClone\ob
 C:\Users\mertg\OneDrive\Masaüstü\Dosya\Programming\amazon-clone\AmazonClone\obj\Debug\net7.0\AmazonClone.pdb
 C:\Users\mertg\OneDrive\Masaüstü\Dosya\Programming\amazon-clone\AmazonClone\obj\Debug\net7.0\AmazonClone.genruntimeconfig.cache
 C:\Users\mertg\OneDrive\Masaüstü\Dosya\Programming\amazon-clone\AmazonClone\obj\Debug\net7.0\ref\AmazonClone.dll
+C:\Users\mertg\OneDrive\Masaüstü\Dosya\Programming\amazon-clone\AmazonClone\bin\Debug\net7.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\mertg\OneDrive\Masaüstü\Dosya\Programming\amazon-clone\AmazonClone\bin\Debug\net7.0\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\mertg\OneDrive\Masaüstü\Dosya\Programming\amazon-clone\AmazonClone\bin\Debug\net7.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\mertg\OneDrive\Masaüstü\Dosya\Programming\amazon-clone\AmazonClone\bin\Debug\net7.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\mertg\OneDrive\Masaüstü\Dosya\Programming\amazon-clone\AmazonClone\bin\Debug\net7.0\Microsoft.IdentityModel.Protocols.dll
+C:\Users\mertg\OneDrive\Masaüstü\Dosya\Programming\amazon-clone\AmazonClone\bin\Debug\net7.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\mertg\OneDrive\Masaüstü\Dosya\Programming\amazon-clone\AmazonClone\bin\Debug\net7.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\mertg\OneDrive\Masaüstü\Dosya\Programming\amazon-clone\AmazonClone\bin\Debug\net7.0\System.IdentityModel.Tokens.Jwt.dll
