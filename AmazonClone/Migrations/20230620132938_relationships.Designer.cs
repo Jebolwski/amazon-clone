@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AmazonClone.Migrations
 {
     [DbContext(typeof(BaseContext))]
-    [Migration("20230619073536_uppercase")]
-    partial class uppercase
+    [Migration("20230620132938_relationships")]
+    partial class relationships
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,11 +54,16 @@ namespace AmazonClone.Migrations
                         .HasColumnType("text")
                         .HasColumnName("comment");
 
+                    b.Property<Guid>("productId")
+                        .HasColumnType("uuid");
+
                     b.Property<Guid>("userId")
                         .HasColumnType("uuid")
                         .HasColumnName("user_id");
 
                     b.HasKey("id");
+
+                    b.HasIndex("productId");
 
                     b.ToTable("Comment", "AmazonClone");
                 });
@@ -424,6 +429,15 @@ namespace AmazonClone.Migrations
                     b.ToTable("ProductProductCategory", "AmazonClone");
                 });
 
+            modelBuilder.Entity("AmazonClone.Domain.Entities.Comment", b =>
+                {
+                    b.HasOne("AmazonClone.Domain.Entities.Product", null)
+                        .WithMany("comments")
+                        .HasForeignKey("productId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("AmazonClone.Domain.Entities.CommentPhoto", b =>
                 {
                     b.HasOne("AmazonClone.Domain.Entities.Comment", "comment")
@@ -532,6 +546,8 @@ namespace AmazonClone.Migrations
 
             modelBuilder.Entity("AmazonClone.Domain.Entities.Product", b =>
                 {
+                    b.Navigation("comments");
+
                     b.Navigation("photos");
                 });
 #pragma warning restore 612, 618

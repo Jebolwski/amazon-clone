@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AmazonClone.Migrations
 {
     [DbContext(typeof(BaseContext))]
-    [Migration("20230618120950_fixingRelationships")]
-    partial class fixingRelationships
+    [Migration("20230620133716_relationships1")]
+    partial class relationships1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -28,7 +28,7 @@ namespace AmazonClone.Migrations
 
             modelBuilder.Entity("AmazonClone.Domain.Entities.Cart", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("id");
@@ -37,14 +37,14 @@ namespace AmazonClone.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("user_id");
 
-                    b.HasKey("Id");
+                    b.HasKey("id");
 
-                    b.ToTable("cart", "AmazonClone");
+                    b.ToTable("Cart", "AmazonClone");
                 });
 
             modelBuilder.Entity("AmazonClone.Domain.Entities.Comment", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("id");
@@ -54,18 +54,23 @@ namespace AmazonClone.Migrations
                         .HasColumnType("text")
                         .HasColumnName("comment");
 
+                    b.Property<Guid>("productId")
+                        .HasColumnType("uuid");
+
                     b.Property<Guid>("userId")
                         .HasColumnType("uuid")
                         .HasColumnName("user_id");
 
-                    b.HasKey("Id");
+                    b.HasKey("id");
 
-                    b.ToTable("comment", "AmazonClone");
+                    b.HasIndex("productId");
+
+                    b.ToTable("Comment", "AmazonClone");
                 });
 
             modelBuilder.Entity("AmazonClone.Domain.Entities.CommentPhoto", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("id");
@@ -78,16 +83,16 @@ namespace AmazonClone.Migrations
                         .HasColumnType("text")
                         .HasColumnName("photo_url");
 
-                    b.HasKey("Id");
+                    b.HasKey("id");
 
                     b.HasIndex("commentId");
 
-                    b.ToTable("comment_photo", "AmazonClone");
+                    b.ToTable("CommentPhoto", "AmazonClone");
                 });
 
             modelBuilder.Entity("AmazonClone.Domain.Entities.Product", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("id");
@@ -106,14 +111,14 @@ namespace AmazonClone.Migrations
                         .HasColumnType("real")
                         .HasColumnName("price");
 
-                    b.HasKey("Id");
+                    b.HasKey("id");
 
-                    b.ToTable("product", "AmazonClone");
+                    b.ToTable("Product", "AmazonClone");
                 });
 
             modelBuilder.Entity("AmazonClone.Domain.Entities.ProductCategory", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("id");
@@ -128,14 +133,14 @@ namespace AmazonClone.Migrations
                         .HasColumnType("text")
                         .HasColumnName("name");
 
-                    b.HasKey("Id");
+                    b.HasKey("id");
 
-                    b.ToTable("product_category", "AmazonClone");
+                    b.ToTable("ProductCategory", "AmazonClone");
                 });
 
             modelBuilder.Entity("AmazonClone.Domain.Entities.ProductPhoto", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("id");
@@ -148,16 +153,16 @@ namespace AmazonClone.Migrations
                     b.Property<Guid>("productId")
                         .HasColumnType("uuid");
 
-                    b.HasKey("Id");
+                    b.HasKey("id");
 
                     b.HasIndex("productId");
 
-                    b.ToTable("product_photo", "AmazonClone");
+                    b.ToTable("ProductPhoto", "AmazonClone");
                 });
 
             modelBuilder.Entity("AmazonClone.Domain.Entities.Role", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("id");
@@ -167,14 +172,14 @@ namespace AmazonClone.Migrations
                         .HasColumnType("text")
                         .HasColumnName("name");
 
-                    b.HasKey("Id");
+                    b.HasKey("id");
 
-                    b.ToTable("role", "AmazonClone");
+                    b.ToTable("Role", "AmazonClone");
                 });
 
             modelBuilder.Entity("AmazonClone.Domain.Entities.User", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("id");
@@ -193,22 +198,22 @@ namespace AmazonClone.Migrations
                         .HasColumnType("text")
                         .HasColumnName("username");
 
-                    b.HasKey("Id");
+                    b.HasKey("id");
 
-                    b.ToTable("user", "AmazonClone");
+                    b.ToTable("User", "AmazonClone");
                 });
 
             modelBuilder.Entity("CartProduct", b =>
                 {
-                    b.Property<Guid>("cartsId")
+                    b.Property<Guid>("cartsid")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("productsId")
+                    b.Property<Guid>("productsid")
                         .HasColumnType("uuid");
 
-                    b.HasKey("cartsId", "productsId");
+                    b.HasKey("cartsid", "productsid");
 
-                    b.HasIndex("productsId");
+                    b.HasIndex("productsid");
 
                     b.ToTable("CartProduct", "AmazonClone");
                 });
@@ -411,28 +416,35 @@ namespace AmazonClone.Migrations
 
             modelBuilder.Entity("ProductProductCategory", b =>
                 {
-                    b.Property<Guid>("productCategoriesId")
+                    b.Property<Guid>("productCategoriesid")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("productsId")
+                    b.Property<Guid>("productsid")
                         .HasColumnType("uuid");
 
-                    b.HasKey("productCategoriesId", "productsId");
+                    b.HasKey("productCategoriesid", "productsid");
 
-                    b.HasIndex("productsId");
+                    b.HasIndex("productsid");
 
                     b.ToTable("ProductProductCategory", "AmazonClone");
                 });
 
+            modelBuilder.Entity("AmazonClone.Domain.Entities.Comment", b =>
+                {
+                    b.HasOne("AmazonClone.Domain.Entities.Product", null)
+                        .WithMany("comments")
+                        .HasForeignKey("productId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("AmazonClone.Domain.Entities.CommentPhoto", b =>
                 {
-                    b.HasOne("AmazonClone.Domain.Entities.Comment", "comment")
+                    b.HasOne("AmazonClone.Domain.Entities.Comment", null)
                         .WithMany("commentPhotos")
                         .HasForeignKey("commentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("comment");
                 });
 
             modelBuilder.Entity("AmazonClone.Domain.Entities.ProductPhoto", b =>
@@ -448,13 +460,13 @@ namespace AmazonClone.Migrations
                 {
                     b.HasOne("AmazonClone.Domain.Entities.Cart", null)
                         .WithMany()
-                        .HasForeignKey("cartsId")
+                        .HasForeignKey("cartsid")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("AmazonClone.Domain.Entities.Product", null)
                         .WithMany()
-                        .HasForeignKey("productsId")
+                        .HasForeignKey("productsid")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -514,13 +526,13 @@ namespace AmazonClone.Migrations
                 {
                     b.HasOne("AmazonClone.Domain.Entities.ProductCategory", null)
                         .WithMany()
-                        .HasForeignKey("productCategoriesId")
+                        .HasForeignKey("productCategoriesid")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("AmazonClone.Domain.Entities.Product", null)
                         .WithMany()
-                        .HasForeignKey("productsId")
+                        .HasForeignKey("productsid")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -532,6 +544,8 @@ namespace AmazonClone.Migrations
 
             modelBuilder.Entity("AmazonClone.Domain.Entities.Product", b =>
                 {
+                    b.Navigation("comments");
+
                     b.Navigation("photos");
                 });
 #pragma warning restore 612, 618

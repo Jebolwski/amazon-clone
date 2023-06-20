@@ -4,7 +4,7 @@
     {
         public Guid userId { get; set; }
         public string comment { get; set; }
-        public Product product { get; set; }
+        public Guid productId { get; set; }
         public ICollection<CommentPhoto> commentPhotos { get; set; }
     }
 }

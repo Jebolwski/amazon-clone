@@ -3,7 +3,7 @@
     public class CommentPhoto : Entity
     {
         public string photoUrl { get; set; }
-        public Comment comment { get; set; }
+        public Guid commentId { get; set; }
 
 
     }

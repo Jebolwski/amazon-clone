@@ -12,7 +12,7 @@ namespace AmazonClone.Data.Mapping
             builder.Property(p => p.id).HasColumnName("id");
             builder.Property(p => p.userId).HasColumnName("user_id");
             builder.Property(p => p.comment).HasColumnName("comment");
-            builder.HasMany(p => p.commentPhotos).WithOne(p => p.comment);
+            builder.HasMany(p => p.commentPhotos).WithOne().HasForeignKey(p=>p.commentId);
         }
     }
 }

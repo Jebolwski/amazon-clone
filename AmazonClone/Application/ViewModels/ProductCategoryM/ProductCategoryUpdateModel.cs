@@ -1,4 +1,4 @@
-﻿using AmazonClone.Application.ViewModels.ProductPhoto;
+﻿using AmazonClone.Application.ViewModels.ProductPhotoM;
 using AmazonClone.Domain.Entities;
 
 namespace AmazonClone.Application.ViewModels.ProductCategoryM

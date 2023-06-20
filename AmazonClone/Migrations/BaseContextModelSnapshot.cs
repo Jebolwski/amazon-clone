@@ -51,11 +51,16 @@ namespace AmazonClone.Migrations
                         .HasColumnType("text")
                         .HasColumnName("comment");
 
+                    b.Property<Guid>("productId")
+                        .HasColumnType("uuid");
+
                     b.Property<Guid>("userId")
                         .HasColumnType("uuid")
                         .HasColumnName("user_id");
 
                     b.HasKey("id");
+
+                    b.HasIndex("productId");
 
                     b.ToTable("Comment", "AmazonClone");
                 });
@@ -67,7 +72,7 @@ namespace AmazonClone.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
-                    b.Property<Guid>("commentid")
+                    b.Property<Guid>("commentId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("photoUrl")
@@ -77,7 +82,7 @@ namespace AmazonClone.Migrations
 
                     b.HasKey("id");
 
-                    b.HasIndex("commentid");
+                    b.HasIndex("commentId");
 
                     b.ToTable("CommentPhoto", "AmazonClone");
                 });
@@ -421,15 +426,22 @@ namespace AmazonClone.Migrations
                     b.ToTable("ProductProductCategory", "AmazonClone");
                 });
 
-            modelBuilder.Entity("AmazonClone.Domain.Entities.CommentPhoto", b =>
+            modelBuilder.Entity("AmazonClone.Domain.Entities.Comment", b =>
                 {
-                    b.HasOne("AmazonClone.Domain.Entities.Comment", "comment")
-                        .WithMany("commentPhotos")
-                        .HasForeignKey("commentid")
+                    b.HasOne("AmazonClone.Domain.Entities.Product", null)
+                        .WithMany("comments")
+                        .HasForeignKey("productId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
 
-                    b.Navigation("comment");
+            modelBuilder.Entity("AmazonClone.Domain.Entities.CommentPhoto", b =>
+                {
+                    b.HasOne("AmazonClone.Domain.Entities.Comment", null)
+                        .WithMany("commentPhotos")
+                        .HasForeignKey("commentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("AmazonClone.Domain.Entities.ProductPhoto", b =>
@@ -529,6 +541,8 @@ namespace AmazonClone.Migrations
 
             modelBuilder.Entity("AmazonClone.Domain.Entities.Product", b =>
                 {
+                    b.Navigation("comments");
+
                     b.Navigation("photos");
                 });
 #pragma warning restore 612, 618

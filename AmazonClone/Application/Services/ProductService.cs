@@ -2,11 +2,12 @@
 using AmazonClone.Application.ViewModels.CommentM;
 using AmazonClone.Application.ViewModels.ProductM;
 using AmazonClone.Application.ViewModels.ProductCategoryM;
-using AmazonClone.Application.ViewModels.ProductPhoto;
+using AmazonClone.Application.ViewModels.ProductPhotoM;
 using AmazonClone.Data.Repositories;
 using AmazonClone.Domain.Entities;
 using AmazonClone.Domain.Interfaces;
 using AmazonClone.Application.ViewModels.ProductPhotoM;
+using AmazonClone.Application.ViewModels.GuidM;
 
 namespace AmazonClone.Application.Services
 {
@@ -30,7 +31,42 @@ namespace AmazonClone.Application.Services
             
             if (model != null)
             {
-                Product product = ProductCreateModel.convert(model);
+                ICollection<ProductCategory> productCategories = new HashSet<ProductCategory>();
+                foreach (GuidCreateModel guidCreateModel in model.productCategories)
+                {
+                    ProductCategoryResponseModel productCategoryResponseModel = productCategoryService.get(guidCreateModel.id);
+                    if (productCategoryResponseModel == null)
+                    {
+                        return null;
+                    }
+                    productCategories.Add(ProductCategoryResponseModel.convert(productCategoryResponseModel));
+                }
+
+                ICollection<ProductPhoto> photos = new HashSet<ProductPhoto>();
+                foreach (ProductPhotoCreateProduct item in model.photos)
+                {
+                    photos.Add(new ProductPhoto()
+                    {
+                        photoUrl = item.photoUrl,
+                    });
+                }
+
+                ICollection<Comment> comments = new HashSet<Comment>();
+                foreach (PostCommentModel item in model.comments)
+                {
+                    comments.Add(PostCommentModel.convert1(item));
+                }
+
+                Product product = new Product()
+                {
+                    description = model.description,
+                    name = model.name,
+                    price = model.price,
+                    carts = null,
+                    photos = photos,
+                    comments = comments,
+                    productCategories = productCategories
+                };
                 product = productRepository.add(product);
                 return ProductResponseModel.convert(product);
             }
