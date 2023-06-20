@@ -1,6 +1,6 @@
 ﻿using AmazonClone.Domain.Entities;
 
-namespace AmazonClone.Application.ViewModels.CommentPhoto
+namespace AmazonClone.Application.ViewModels.CommentPhotoM
 {
     public class CreateCommentPhotoModel
     {

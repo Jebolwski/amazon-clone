@@ -1,4 +1,4 @@
-﻿using AmazonClone.Application.ViewModels.Product;
+﻿using AmazonClone.Application.ViewModels.ProductM;
 
 namespace AmazonClone.Application.Interfaces
 {

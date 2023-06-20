@@ -1,4 +1,4 @@
-﻿namespace AmazonClone.Application.ViewModels.ProductCategory
+﻿namespace AmazonClone.Application.ViewModels.ProductCategoryM
 {
     public class ProductCategoryCreateModel
     {

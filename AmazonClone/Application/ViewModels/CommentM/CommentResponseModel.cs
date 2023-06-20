@@ -1,6 +1,6 @@
-﻿using AmazonClone.Application.ViewModels.CommentPhoto;
+﻿using AmazonClone.Application.ViewModels.CommentPhotoM;
 
-namespace AmazonClone.Application.ViewModels.Comment
+namespace AmazonClone.Application.ViewModels.CommentM
 {
     public class CommentResponseModel
     {

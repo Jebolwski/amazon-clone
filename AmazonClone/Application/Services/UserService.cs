@@ -1,5 +1,5 @@
 ﻿using AmazonClone.Application.Interfaces;
-using AmazonClone.Application.ViewModels.Auth;
+using AmazonClone.Application.ViewModels.AuthM;
 
 namespace AmazonClone.Application.Services
 {

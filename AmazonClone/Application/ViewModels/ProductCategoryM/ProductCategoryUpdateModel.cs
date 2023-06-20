@@ -1,7 +1,7 @@
 ﻿using AmazonClone.Application.ViewModels.ProductPhoto;
 using AmazonClone.Domain.Entities;
 
-namespace AmazonClone.Application.ViewModels.ProductCategory
+namespace AmazonClone.Application.ViewModels.ProductCategoryM
 {
     public class ProductCategoryUpdateModel
     {

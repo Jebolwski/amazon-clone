@@ -1,4 +1,4 @@
-﻿namespace AmazonClone.Application.ViewModels.ProductPhoto
+﻿namespace AmazonClone.Application.ViewModels.ProductPhotoM
 {
     public class ProductPhotoCreateProduct
     {

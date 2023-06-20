@@ -1,6 +1,6 @@
 ﻿using AmazonClone.Application.Interfaces;
-using AmazonClone.Application.ViewModels.Product;
-using AmazonClone.Application.ViewModels.ProductCategory;
+using AmazonClone.Application.ViewModels.ProductM;
+using AmazonClone.Application.ViewModels.ProductCategoryM;
 using AmazonClone.Application.ViewModels.ProductPhoto;
 using AmazonClone.Domain.Entities;
 using AmazonClone.Domain.Interfaces;

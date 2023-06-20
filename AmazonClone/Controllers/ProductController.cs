@@ -1,5 +1,5 @@
 ﻿using AmazonClone.Application.Interfaces;
-using AmazonClone.Application.ViewModels.Product;
+using AmazonClone.Application.ViewModels.ProductM;
 using AmazonClone.Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 

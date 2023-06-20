@@ -1,4 +1,4 @@
-﻿namespace AmazonClone.Application.ViewModels.Auth
+﻿namespace AmazonClone.Application.ViewModels.AuthM
 {
     public class RegisterModel
     {

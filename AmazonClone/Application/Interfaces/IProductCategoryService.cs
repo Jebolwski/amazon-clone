@@ -1,5 +1,5 @@
-﻿using AmazonClone.Application.ViewModels.Product;
-using AmazonClone.Application.ViewModels.ProductCategory;
+﻿using AmazonClone.Application.ViewModels.ProductM;
+using AmazonClone.Application.ViewModels.ProductCategoryM;
 
 namespace AmazonClone.Application.Interfaces
 {

@@ -1,5 +1,5 @@
-﻿using AmazonClone.Application.ViewModels.Comment;
-using AmazonClone.Application.ViewModels.CommentPhoto;
+﻿using AmazonClone.Application.ViewModels.CommentM;
+using AmazonClone.Application.ViewModels.CommentPhotoM;
 using AmazonClone.Domain.Entities;
 
 namespace AmazonClone.Application.Interfaces
