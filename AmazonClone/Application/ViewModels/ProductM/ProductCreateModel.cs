@@ -13,7 +13,6 @@ namespace AmazonClone.Application.ViewModels.ProductM
         public string name { get; set; }
         public float price { get; set; }
         public string description { get; set; }
-        public ICollection<PostCommentModel> comments { get; set; }
         public ICollection<GuidCreateModel> productCategories { get; set; }
         public ICollection<ProductPhotoCreateProduct> photos { get; set; }
 
@@ -39,21 +38,13 @@ namespace AmazonClone.Application.ViewModels.ProductM
             }
 
             ICollection<Comment> comments = new HashSet<Comment>();
-            foreach (PostCommentModel item in model.comments)
-            {
-                comments.Add(PostCommentModel.convert1(item));
-            }
 
             return new Product()
             {
                 description = model.description,
                 name = model.name,
                 price = model.price,
-                carts = null,
                 photos = photos,
-                comments = comments,
-                productCategories = productCategories
-
             };
 
         }

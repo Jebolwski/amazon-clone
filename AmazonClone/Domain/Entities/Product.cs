@@ -7,9 +7,7 @@ namespace AmazonClone.Domain.Entities
         public string name { get; set; }
         public float price { get; set; }
         public string description { get; set; }
-        public ICollection<ProductCategory> productCategories { get; set; }
         public ICollection<ProductPhoto> photos { get; set; }
         public ICollection<Comment> comments { get; set; }
-        public ICollection<Cart> carts { get; set; }
     }
 }

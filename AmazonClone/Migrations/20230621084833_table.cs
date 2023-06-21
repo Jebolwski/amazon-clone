@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AmazonClone.Migrations
 {
     /// <inheritdoc />
-    public partial class relationships : Migration
+    public partial class table : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -57,19 +57,6 @@ namespace AmazonClone.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Cart",
-                schema: "AmazonClone",
-                columns: table => new
-                {
-                    id = table.Column<Guid>(type: "uuid", nullable: false),
-                    user_id = table.Column<Guid>(type: "uuid", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Cart", x => x.id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Product",
                 schema: "AmazonClone",
                 columns: table => new
@@ -85,6 +72,20 @@ namespace AmazonClone.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ProductCart",
+                schema: "AmazonClone",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    cartId = table.Column<Guid>(type: "uuid", nullable: false),
+                    productId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductCart", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ProductCategory",
                 schema: "AmazonClone",
                 columns: table => new
@@ -96,6 +97,20 @@ namespace AmazonClone.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ProductCategory", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProductCategoryProduct",
+                schema: "AmazonClone",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    productId = table.Column<Guid>(type: "uuid", nullable: false),
+                    productCategoryId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductCategoryProduct", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -244,30 +259,23 @@ namespace AmazonClone.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CartProduct",
+                name: "Cart",
                 schema: "AmazonClone",
                 columns: table => new
                 {
-                    cartsid = table.Column<Guid>(type: "uuid", nullable: false),
-                    productsid = table.Column<Guid>(type: "uuid", nullable: false)
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    user_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Productid = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CartProduct", x => new { x.cartsid, x.productsid });
+                    table.PrimaryKey("PK_Cart", x => x.id);
                     table.ForeignKey(
-                        name: "FK_CartProduct_Cart_cartsid",
-                        column: x => x.cartsid,
-                        principalSchema: "AmazonClone",
-                        principalTable: "Cart",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_CartProduct_Product_productsid",
-                        column: x => x.productsid,
+                        name: "FK_Cart_Product_Productid",
+                        column: x => x.Productid,
                         principalSchema: "AmazonClone",
                         principalTable: "Product",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "id");
                 });
 
             migrationBuilder.CreateTable(
@@ -347,14 +355,14 @@ namespace AmazonClone.Migrations
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     photo_url = table.Column<string>(type: "text", nullable: false),
-                    commentid = table.Column<Guid>(type: "uuid", nullable: false)
+                    commentId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_CommentPhoto", x => x.id);
                     table.ForeignKey(
-                        name: "FK_CommentPhoto_Comment_commentid",
-                        column: x => x.commentid,
+                        name: "FK_CommentPhoto_Comment_commentId",
+                        column: x => x.commentId,
                         principalSchema: "AmazonClone",
                         principalTable: "Comment",
                         principalColumn: "id",
@@ -406,10 +414,10 @@ namespace AmazonClone.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_CartProduct_productsid",
+                name: "IX_Cart_Productid",
                 schema: "AmazonClone",
-                table: "CartProduct",
-                column: "productsid");
+                table: "Cart",
+                column: "Productid");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Comment_productId",
@@ -418,10 +426,10 @@ namespace AmazonClone.Migrations
                 column: "productId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CommentPhoto_commentid",
+                name: "IX_CommentPhoto_commentId",
                 schema: "AmazonClone",
                 table: "CommentPhoto",
-                column: "commentid");
+                column: "commentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProductPhoto_productId",
@@ -460,11 +468,19 @@ namespace AmazonClone.Migrations
                 schema: "AmazonClone");
 
             migrationBuilder.DropTable(
-                name: "CartProduct",
+                name: "Cart",
                 schema: "AmazonClone");
 
             migrationBuilder.DropTable(
                 name: "CommentPhoto",
+                schema: "AmazonClone");
+
+            migrationBuilder.DropTable(
+                name: "ProductCart",
+                schema: "AmazonClone");
+
+            migrationBuilder.DropTable(
+                name: "ProductCategoryProduct",
                 schema: "AmazonClone");
 
             migrationBuilder.DropTable(
@@ -489,10 +505,6 @@ namespace AmazonClone.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers",
-                schema: "AmazonClone");
-
-            migrationBuilder.DropTable(
-                name: "Cart",
                 schema: "AmazonClone");
 
             migrationBuilder.DropTable(

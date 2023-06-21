@@ -8,6 +8,7 @@ using AmazonClone.Domain.Entities;
 using AmazonClone.Domain.Interfaces;
 using AmazonClone.Application.ViewModels.ProductPhotoM;
 using AmazonClone.Application.ViewModels.GuidM;
+using AmazonClone.Application.ViewModels.ProductProductCategory;
 
 namespace AmazonClone.Application.Services
 {
@@ -16,14 +17,19 @@ namespace AmazonClone.Application.Services
         private readonly IProductRepository productRepository;
         private readonly IProductCategoryService productCategoryService;
         private readonly IProductPhotoService productPhotoService;
+        private readonly IProductProductCategoryService productProductCategoryService;
 
-        public ProductService(IProductRepository productRepository,
-            IProductCategoryService productCategoryService,
-            IProductPhotoService productPhotoService)
+        
+
+        public ProductService(IProductRepository productRepository, 
+            IProductCategoryService productCategoryService, 
+            IProductPhotoService productPhotoService, 
+            IProductProductCategoryService productProductCategoryService)
         {
             this.productRepository = productRepository;
             this.productCategoryService = productCategoryService;
             this.productPhotoService = productPhotoService;
+            this.productProductCategoryService = productProductCategoryService;
         }
 
         public ProductResponseModel add(ProductCreateModel model)
@@ -31,17 +37,7 @@ namespace AmazonClone.Application.Services
             
             if (model != null)
             {
-                ICollection<ProductCategory> productCategories = new HashSet<ProductCategory>();
-                foreach (GuidCreateModel guidCreateModel in model.productCategories)
-                {
-                    ProductCategoryResponseModel productCategoryResponseModel = productCategoryService.get(guidCreateModel.id);
-                    if (productCategoryResponseModel == null)
-                    {
-                        return null;
-                    }
-                    productCategories.Add(ProductCategoryResponseModel.convert(productCategoryResponseModel));
-                }
-
+                //fotoğraflar
                 ICollection<ProductPhoto> photos = new HashSet<ProductPhoto>();
                 foreach (ProductPhotoCreateProduct item in model.photos)
                 {
@@ -51,24 +47,55 @@ namespace AmazonClone.Application.Services
                     });
                 }
 
-                ICollection<Comment> comments = new HashSet<Comment>();
-                foreach (PostCommentModel item in model.comments)
-                {
-                    comments.Add(PostCommentModel.convert1(item));
-                }
 
                 Product product = new Product()
                 {
                     description = model.description,
                     name = model.name,
                     price = model.price,
-                    carts = null,
                     photos = photos,
-                    comments = comments,
+                };
+                
+                //eklendi
+                product = productRepository.add(product);
+
+                //response oluşturuluyor
+
+                //ürün kategorileri
+                ICollection<ProductCategoryResponseModel> productCategories = new HashSet<ProductCategoryResponseModel>();
+                foreach (GuidCreateModel guidCreateModel in model.productCategories)
+                {
+                    ProductProductCategoryCreateModel productProductCategoryCreateModel = new ProductProductCategoryCreateModel()
+                    {
+                      productCategoryId = guidCreateModel.id,
+                      productId = product.id
+                    };
+
+                    productCategories.Add(productProductCategoryService.add(productProductCategoryCreateModel));
+                    
+                }
+
+
+                //ürün fotoğrafları
+                HashSet<ProductPhotoResponseModel> productPhotoModels = new HashSet<ProductPhotoResponseModel>();
+                foreach (ProductPhoto photo in product.photos)
+                {
+                    productPhotoModels.Add(new ProductPhotoResponseModel()
+                    {
+                        photoUrl = photo.photoUrl,
+                        id = photo.id
+                    });
+                }
+
+                return new ProductResponseModel()
+                {
+                    id = product.id,
+                    description = product.description,
+                    name = product.name,
+                    price = product.price,
+                    photos = productPhotoModels,
                     productCategories = productCategories
                 };
-                product = productRepository.add(product);
-                return ProductResponseModel.convert(product);
             }
             return null;
         }

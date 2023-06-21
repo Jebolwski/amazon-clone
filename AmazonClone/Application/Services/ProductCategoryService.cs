@@ -52,7 +52,8 @@ namespace AmazonClone.Application.Services
                 ProductCategoryResponseModel categoryResponseModel = new ProductCategoryResponseModel()
                 {
                     description = productCategory.description,
-                    name = productCategory.name
+                    name = productCategory.name,
+                    id = productCategory.id
                 };
                 return categoryResponseModel;
             }

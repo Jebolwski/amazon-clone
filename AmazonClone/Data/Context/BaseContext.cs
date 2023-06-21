@@ -34,6 +34,8 @@ namespace AmazonClone.Data.Context
             modelBuilder.ApplyConfiguration(new CartMap());
             modelBuilder.ApplyConfiguration(new ProductMap());
             modelBuilder.ApplyConfiguration(new ProductCategoryMap());
+            modelBuilder.ApplyConfiguration(new ProductProductCategoryMap());
+            modelBuilder.ApplyConfiguration(new CartProductMap());
             modelBuilder.ApplyConfiguration(new ProductPhotoMap());
             modelBuilder.ApplyConfiguration(new CommentMap());
             modelBuilder.ApplyConfiguration(new CommentPhotoMap());

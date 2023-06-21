@@ -47,10 +47,8 @@ namespace AmazonClone.Application.ViewModels.ProductM
                 description = model.description,
                 name = model.name,
                 price = model.price,
-                carts = null,
                 photos = photos,
                 comments = comments,
-                productCategories = productCategories
 
             };
 

@@ -12,20 +12,11 @@ namespace AmazonClone.Application.ViewModels.ProductM
         public string description { get; set; }
         public ICollection<ProductCategoryResponseModel> productCategories { get; set; }
         public ICollection<ProductPhotoResponseModel> photos { get; set; }
-        public Cart cart { get; set; } = null;
-
         public static ProductResponseModel convert(Product product)
         {
             HashSet<ProductCategoryResponseModel> productModels = new HashSet<ProductCategoryResponseModel>();
-            foreach (ProductCategory category in product.productCategories)
-            {
-                productModels.Add(new ProductCategoryResponseModel()
-                {
-                    description = category.description,
-                    name = category.name,
-                    id = category.id
-                });
-            }
+
+
 
             HashSet<ProductPhotoResponseModel> productPhotoModels = new HashSet<ProductPhotoResponseModel>();
             foreach (ProductPhoto photo in product.photos)
@@ -43,7 +34,6 @@ namespace AmazonClone.Application.ViewModels.ProductM
                 description = product.description,
                 name = product.name,
                 price = product.price,
-                cart = null,
                 photos = productPhotoModels,
                 productCategories = productModels
             };

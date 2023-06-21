@@ -11,7 +11,6 @@ namespace AmazonClone.Data.Mapping
             builder.ToTable("Cart");
             builder.Property(p => p.id).HasColumnName("id");
             builder.Property(p => p.userId).HasColumnName("user_id");
-            builder.HasMany(p => p.products).WithMany(p => p.carts);
         }
     }
 }
