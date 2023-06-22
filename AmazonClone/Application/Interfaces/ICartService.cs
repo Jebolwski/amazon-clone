@@ -6,6 +6,6 @@ namespace AmazonClone.Application.Interfaces
 {
     public interface ICartService
     {
-        
+        //create new cart for user
     }
 }

@@ -11,5 +11,7 @@ namespace AmazonClone.Application.Interfaces
         public ICollection<ProductCategoryResponseModel> getProductCategoriesByProductId(Guid productId);
 
         public bool deleteProductProductCategoriesByProductId(Guid productId);
+
+        public bool deleteProductProductCategoriesByProductCategoryId(Guid productCategoryId);
     }
 }

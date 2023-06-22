@@ -63,14 +63,19 @@ namespace AmazonClone.Application.Services
 
         public bool deleteProductProductCategoriesByProductId(Guid productId)
         {
-            ICollection<ProductProductCategory> productProductCategories = productProductCategoryRepository.FindByProductId(productId);
-            foreach (ProductProductCategory item in productProductCategories)
+            List<ProductProductCategory> productProductCategories = productProductCategoryRepository
+                .FindByProductId(productId).ToList();
+            if (productProductCategories == null)
             {
-                productProductCategoryRepository.delete(item.id);
+                return false;
             }
+            productProductCategoryRepository.DeleteItems(productProductCategories);
             return true;
         }
 
-
+        public bool deleteProductProductCategoriesByProductCategoryId(Guid productCategoryId)
+        {
+            return productProductCategoryRepository.deleteByProductCategoryId(productCategoryId);
+        }
     }
 }
