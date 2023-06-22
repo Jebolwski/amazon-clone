@@ -15,7 +15,7 @@ namespace AmazonClone.Data.Mapping
             builder.Property(p => p.name).HasColumnName("name");
             builder.HasMany(p => p.photos).WithOne().HasForeignKey(p => p.productId)
                 .OnDelete(DeleteBehavior.Cascade);
-            builder.HasMany(p => p.comments).WithOne().HasForeignKey(p=>p.productId);
+            builder.HasMany(p => p.comments).WithOne().HasForeignKey(p => p.productId);
         }
     }
 }

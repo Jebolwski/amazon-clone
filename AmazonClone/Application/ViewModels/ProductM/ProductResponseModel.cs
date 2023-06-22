@@ -15,10 +15,8 @@ namespace AmazonClone.Application.ViewModels.ProductM
         public static ProductResponseModel convert(Product product)
         {
             HashSet<ProductCategoryResponseModel> productModels = new HashSet<ProductCategoryResponseModel>();
-
-
-
             HashSet<ProductPhotoResponseModel> productPhotoModels = new HashSet<ProductPhotoResponseModel>();
+            
             foreach (ProductPhoto photo in product.photos)
             {
                 productPhotoModels.Add(new ProductPhotoResponseModel()

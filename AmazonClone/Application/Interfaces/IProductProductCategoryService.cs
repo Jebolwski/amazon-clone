@@ -7,5 +7,9 @@ namespace AmazonClone.Application.Interfaces
     public interface IProductProductCategoryService
     {
         public ProductCategoryResponseModel add(ProductProductCategoryCreateModel model);
+
+        public ICollection<ProductCategoryResponseModel> getProductCategoriesByProductId(Guid productId);
+
+        public bool deleteProductProductCategoriesByProductId(Guid productId);
     }
 }

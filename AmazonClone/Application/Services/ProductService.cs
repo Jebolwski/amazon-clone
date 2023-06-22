@@ -102,15 +102,37 @@ namespace AmazonClone.Application.Services
 
         public bool delete(Guid id)
         {
+            //ilk ürün - ürün kategorisi listesinden silinmeli
+            //sonra ürün silinmeli
+            productProductCategoryService.deleteProductProductCategoriesByProductId(id);
             return productRepository.delete(id);
         }
 
         public ProductResponseModel get(Guid id)
         {
             Product product = productRepository.get(id);
+            HashSet<ProductPhotoResponseModel> productPhotoModels = new HashSet<ProductPhotoResponseModel>();
+            if (product.photos != null) { 
+                foreach (ProductPhoto photo in product.photos)
+                {
+                    productPhotoModels.Add(new ProductPhotoResponseModel()
+                    {
+                        photoUrl = photo.photoUrl,
+                        id = photo.id
+                    });
+                }
+            }
             if (product != null)
             {
-                return ProductResponseModel.convert(product);
+                return new ProductResponseModel()
+                {
+                    description = product.description,
+                    name = product.name,
+                    id = product.id,
+                    price = product.price,
+                    productCategories = productProductCategoryService.getProductCategoriesByProductId(id),
+                    photos = productPhotoModels
+                };
             }
             return null;
         }

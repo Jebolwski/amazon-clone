@@ -33,5 +33,44 @@ namespace AmazonClone.Application.Services
             });
             return productCategoryResponseModel;
         }
+    
+        public bool delete(Guid id)
+        {
+            return productProductCategoryRepository.delete(id);
+        }
+
+        public ProductProductCategory get(Guid id)
+        {
+            ProductProductCategory productProductCategory  = productProductCategoryRepository.get(id);
+            if (productProductCategory == null) {
+                return productProductCategory;
+            }
+            return null;
+
+        }
+
+        public ICollection<ProductCategoryResponseModel> getProductCategoriesByProductId(Guid productId) {
+            ICollection<ProductProductCategory> productProductCategories = productProductCategoryRepository.FindByProductId(productId);
+            ICollection<ProductCategoryResponseModel> productCategoryResponseModels = new HashSet<ProductCategoryResponseModel>();
+            
+            foreach (ProductProductCategory item in productProductCategories)
+            {
+                productCategoryResponseModels.Add(productCategoryService.get(item.productCategoryId));
+            }
+            
+            return productCategoryResponseModels;
+        }
+
+        public bool deleteProductProductCategoriesByProductId(Guid productId)
+        {
+            ICollection<ProductProductCategory> productProductCategories = productProductCategoryRepository.FindByProductId(productId);
+            foreach (ProductProductCategory item in productProductCategories)
+            {
+                productProductCategoryRepository.delete(item.id);
+            }
+            return true;
+        }
+
+
     }
 }
