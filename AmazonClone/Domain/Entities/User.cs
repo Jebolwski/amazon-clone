@@ -7,6 +7,7 @@
         public byte[] passwordHash { get; set; }
         public byte[] passwordSalt { get; set; }
         public string RefreshToken { get; set; } = string.Empty;
+        public string AccessToken { get; set; } = string.Empty;
         public DateTime TokenCreated { get; set; }
         public DateTime TokenExpires { get; set; }
     }

@@ -1,18 +1,20 @@
 ﻿using AmazonClone.Application.Interfaces;
 using AmazonClone.Application.ViewModels.AuthM;
+using AmazonClone.Domain.Entities;
+using AmazonClone.Domain.Interfaces;
 
 namespace AmazonClone.Application.Services
 {
     public class UserService : IUserService
     {
-        public bool Login(LoginModel model)
-        {
-            throw new NotImplementedException();
-        }
+        private readonly IUserRepository userRepository;
 
-        public bool Register(RegisterModel model)
+        public User update(User user)
         {
-            throw new NotImplementedException();
+            if (user != null) { 
+                return userRepository.update(user);
+            }
+            return null;
         }
     }
 }

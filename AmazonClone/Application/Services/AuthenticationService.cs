@@ -14,19 +14,22 @@ using AmazonClone.Domain.Interfaces;
 using AmazonClone.Migrations;
 using System.Web.Http.Description;
 using System.Net.Http;
+using System.Text.Json.Serialization;
+using Newtonsoft.Json;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace AmazonClone.Application.Services
 {
     public class AuthenticationService : IAuthenticationService
     {
         private readonly IConfiguration _configuration;
-        private readonly IUserService _userService;
         private readonly IUserRepository userRepository;
+        private readonly IUserService userService;
 
         public AuthenticationService(IConfiguration configuration, IUserService userService, IUserRepository userRepository)
         {
             _configuration = configuration;
-            _userService = userService;
+            this.userService = userService;
             this.userRepository = userRepository;
         }
 
@@ -44,15 +47,17 @@ namespace AmazonClone.Application.Services
             }
                 
             string token = CreateToken(user);
-
-            user.RefreshToken = token;
-            user.TokenExpires = DateTime.UtcNow.AddDays(1);
-            userRepository.update(user);
+            Console.WriteLine(token);
 
             var refreshToken = GenerateRefreshToken();
-            SetRefreshToken(refreshToken,user);
+            SetRefreshToken(refreshToken,user,token);
 
-            return token;
+            var obj = new
+            {
+                accessToken = token,
+                refreshToken = refreshToken,
+            };
+            return JsonConvert.SerializeObject(obj);
         }
 
         public User Register(RegisterModel model)
@@ -116,17 +121,12 @@ namespace AmazonClone.Application.Services
             return jwt;
         }
 
-        private void SetRefreshToken(RefreshToken newRefreshToken,User user)
+        private void SetRefreshToken(RefreshToken newRefreshToken,User user,string accessToken)
         {
-            var cookieOptions = new CookieOptions
-            {
-                HttpOnly = true,
-                Expires = newRefreshToken.Expires
-            };
-            
             user.RefreshToken = newRefreshToken.Token;
             user.TokenCreated = newRefreshToken.Created;
             user.TokenExpires = newRefreshToken.Expires;
+            user.AccessToken = accessToken;
             userRepository.update(user);
         }
 
@@ -160,10 +160,14 @@ namespace AmazonClone.Application.Services
 
                 string token = CreateToken(user);
                 var newRefreshToken = GenerateRefreshToken();
-                SetRefreshToken(newRefreshToken,user);
+                SetRefreshToken(newRefreshToken,user,token);
 
-                
-                return token;
+                var obj = new
+                {
+                    accessToken = token,
+                    refreshToken = newRefreshToken,
+                };
+                return JsonConvert.SerializeObject(obj);
             }
             return null;
         }
