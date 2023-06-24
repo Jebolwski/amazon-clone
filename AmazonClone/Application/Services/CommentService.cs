@@ -10,16 +10,30 @@ namespace AmazonClone.Application.Services
     public class CommentService : ICommentService
     {
         private readonly ICommentRepository commentRepository;
+        private readonly IUserService userService;
 
-        public CommentService(ICommentRepository commentRepository)
+
+        public CommentService(ICommentRepository commentRepository, IUserService userService)
         {
             this.commentRepository = commentRepository;
+            this.userService = userService;
         }
 
         public CommentResponseModel postComment(PostCommentModel model)
         {
             if (model != null)
             {
+                string headerToken = context.Request.Headers["Autharization"];
+                User user = null;
+                if (headerToken != null)
+                {
+                    user = userService.getUserByToken(headerToken);
+                    if (user == null)
+                    {
+                        return null;
+                    }
+                }
+
                 ICollection<CommentPhoto> commentPhotos = new List<CommentPhoto>();
                 foreach (CreateCommentPhotoModel item in model.commentPhotos)
                 {
@@ -32,8 +46,8 @@ namespace AmazonClone.Application.Services
                 Comment comment = new Comment()
                 {
                     comment = model.comment,
+                    userId = user.id,
                     commentPhotos = commentPhotos,
-                    userId = model.userId,
                 };
 
                 comment = commentRepository.add(comment);

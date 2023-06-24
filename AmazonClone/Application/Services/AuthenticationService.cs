@@ -23,19 +23,17 @@ namespace AmazonClone.Application.Services
     public class AuthenticationService : IAuthenticationService
     {
         private readonly IConfiguration _configuration;
-        private readonly IUserRepository userRepository;
         private readonly IUserService userService;
 
-        public AuthenticationService(IConfiguration configuration, IUserService userService, IUserRepository userRepository)
+        public AuthenticationService(IConfiguration configuration, IUserService userService)
         {
             _configuration = configuration;
             this.userService = userService;
-            this.userRepository = userRepository;
         }
 
         public string Login(LoginModel request)
         {
-            User user = userRepository.getUserByUsername(request.username);
+            User user = userService.getUserByUsername(request.username);
             if (user == null)
             {
                 return "User not found";
@@ -47,10 +45,9 @@ namespace AmazonClone.Application.Services
             }
                 
             string token = CreateToken(user);
-            Console.WriteLine(token);
 
             var refreshToken = GenerateRefreshToken();
-            SetRefreshToken(refreshToken,user,token);
+            SetRefreshToken(refreshToken,user);
 
             var obj = new
             {
@@ -72,9 +69,8 @@ namespace AmazonClone.Application.Services
                 TokenExpires = DateTime.UtcNow.AddMinutes(4),
             };
 
-            user = userRepository.add(user);
+            user = userService.add(user);
 
-            Console.WriteLine(user.passwordHash);
 
             return user;
         }
@@ -121,13 +117,12 @@ namespace AmazonClone.Application.Services
             return jwt;
         }
 
-        private void SetRefreshToken(RefreshToken newRefreshToken,User user,string accessToken)
+        private void SetRefreshToken(RefreshToken newRefreshToken,User user)
         {
             user.RefreshToken = newRefreshToken.Token;
             user.TokenCreated = newRefreshToken.Created;
             user.TokenExpires = newRefreshToken.Expires;
-            user.AccessToken = accessToken;
-            userRepository.update(user);
+            userService.update(user);
         }
 
         private RefreshToken GenerateRefreshToken()
@@ -145,7 +140,7 @@ namespace AmazonClone.Application.Services
         public string RefreshToken(string reftoken)
         {
             if (reftoken != null) { 
-                User user = userRepository.getUserByToken(reftoken);
+                User user = userService.getUserByToken(reftoken);
                 if (user == null) {
                     return null;
                 }
@@ -160,7 +155,7 @@ namespace AmazonClone.Application.Services
 
                 string token = CreateToken(user);
                 var newRefreshToken = GenerateRefreshToken();
-                SetRefreshToken(newRefreshToken,user,token);
+                SetRefreshToken(newRefreshToken,user);
 
                 var obj = new
                 {

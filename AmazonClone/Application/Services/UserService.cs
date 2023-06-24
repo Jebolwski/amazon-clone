@@ -1,5 +1,6 @@
 ﻿using AmazonClone.Application.Interfaces;
 using AmazonClone.Application.ViewModels.AuthM;
+using AmazonClone.Data.Repositories;
 using AmazonClone.Domain.Entities;
 using AmazonClone.Domain.Interfaces;
 
@@ -9,6 +10,11 @@ namespace AmazonClone.Application.Services
     {
         private readonly IUserRepository userRepository;
 
+        public UserService(IUserRepository userRepository)
+        {
+            this.userRepository = userRepository;
+        }
+
         public User update(User user)
         {
             if (user != null) { 
@@ -16,5 +22,21 @@ namespace AmazonClone.Application.Services
             }
             return null;
         }
+
+        public User getUserByToken(string token)
+        {
+            return userRepository.getUserByToken(token);
+        }
+
+        public User getUserByUsername(string username)
+        {
+            return userRepository.getUserByUsername(username);
+        }
+
+        public User add(User user)
+        {
+            return userRepository.add(user);
+        }
     }
+    
 }

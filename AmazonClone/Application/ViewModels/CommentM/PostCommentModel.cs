@@ -5,7 +5,6 @@ namespace AmazonClone.Application.ViewModels.CommentM
 {
     public class PostCommentModel
     {
-        public Guid userId { get; set; }
         public string comment { get; set; }
         public ICollection<CreateCommentPhotoModel> commentPhotos { get; set; }
 
@@ -21,7 +20,6 @@ namespace AmazonClone.Application.ViewModels.CommentM
             return new PostCommentModel()
             {
                 comment = comment.comment,
-                userId = comment.userId,
                 commentPhotos = commentPhotos
             };
         }
@@ -39,7 +37,6 @@ namespace AmazonClone.Application.ViewModels.CommentM
             return new Comment()
             {
                 comment= comment.comment,
-                userId = comment.userId,
                 commentPhotos = commentPhotos
             };
 

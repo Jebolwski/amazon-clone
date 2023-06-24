@@ -11,12 +11,12 @@ namespace AmazonClone.Controllers
     public class CommentController : ControllerBase
     {
         private readonly ICommentService commentAppService;
-        private readonly ICommentRepository commentRepository;
+        private readonly IHttpContextAccessor accessor;
 
-        public CommentController(ICommentService commentAppService, ICommentRepository commentRepository)
+        public CommentController(ICommentService commentAppService, IHttpContextAccessor accessor)
         {
             this.commentAppService = commentAppService;
-            this.commentRepository = commentRepository;
+            this.accessor = accessor;
         }
 
         [HttpPost("post"), Authorize(Roles = "Admin,User")]

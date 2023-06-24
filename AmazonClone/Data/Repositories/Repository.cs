@@ -21,7 +21,6 @@ namespace AmazonClone.Data.Repositories
         public T add(T entity)
         {
             dbset.Add(entity);
-            Console.WriteLine(entity.id);
             db.SaveChanges();
             return entity;
         }
