@@ -221,10 +221,25 @@ namespace AmazonClone.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
-                    b.Property<string>("password")
+                    b.Property<string>("RefreshToken")
                         .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("password");
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("TokenCreated")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("TokenExpires")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<byte[]>("passwordHash")
+                        .IsRequired()
+                        .HasColumnType("bytea")
+                        .HasColumnName("passwordHash");
+
+                    b.Property<byte[]>("passwordSalt")
+                        .IsRequired()
+                        .HasColumnType("bytea")
+                        .HasColumnName("passwordSalt");
 
                     b.Property<Guid>("roleId")
                         .HasColumnType("uuid")

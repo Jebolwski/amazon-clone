@@ -11,7 +11,8 @@ namespace AmazonClone.Data.Mapping
             builder.ToTable("User");
             builder.Property(p => p.id).HasColumnName("id");
             builder.Property(p => p.username).HasColumnName("username");
-            builder.Property(p => p.password).HasColumnName("password");
+            builder.Property(p => p.passwordSalt).HasColumnName("passwordSalt");
+            builder.Property(p => p.passwordHash).HasColumnName("passwordHash");
             builder.Property(p => p.roleId).HasColumnName("role_id");
         }
     }
