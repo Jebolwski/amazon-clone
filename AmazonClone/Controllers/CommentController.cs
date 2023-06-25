@@ -1,6 +1,5 @@
 ﻿using AmazonClone.Application.Interfaces;
 using AmazonClone.Application.ViewModels.CommentM;
-using AmazonClone.Domain.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,36 +10,38 @@ namespace AmazonClone.Controllers
     public class CommentController : ControllerBase
     {
         private readonly ICommentService commentAppService;
-        private readonly IHttpContextAccessor accessor;
-
-        public CommentController(ICommentService commentAppService, IHttpContextAccessor accessor)
+        public CommentController(ICommentService commentAppService)
         {
             this.commentAppService = commentAppService;
-            this.accessor = accessor;
         }
 
-        [HttpPost("post"), Authorize(Roles = "Admin,User")]
+        [HttpPost("post"), Authorize(Roles = "Normal User,Admin")]
         public CommentResponseModel postComment(PostCommentModel model)
         {
-            return commentAppService.postComment(model);
+            string authToken = HttpContext.Request.Headers["Authorization"];
+
+            return commentAppService.postComment(model,authToken);
         }
 
-        [HttpPut("update")]
+        [HttpPut("update"), Authorize(Roles = "Normal User,Admin")]
         public CommentResponseModel updateComment(UpdateCommentModel model)
         {
-            return commentAppService.updateComment(model);
+            string authToken = HttpContext.Request.Headers["Authorization"];
+            return commentAppService.updateComment(model, authToken);
         }
 
-        [HttpDelete("{postId}/delete")]
-        public bool deleteComment(Guid postId)
+        [HttpDelete("{commentId}/delete"), Authorize(Roles = "Normal User,Admin")]
+        public bool deleteComment(Guid commentId)
         {
-            return commentAppService.deleteComment(postId);
+            string authToken = HttpContext.Request.Headers["Authorization"];
+
+            return commentAppService.deleteComment(commentId,authToken);
         }
 
-        [HttpGet("{postId}")]
-        public CommentResponseModel getComment(Guid postId)
+        [HttpGet("{commentId}"),AllowAnonymous]
+        public CommentResponseModel getComment(Guid commentId)
         {
-            return commentAppService.getComment(postId);
+            return commentAppService.getComment(commentId);
         }
     }
 }

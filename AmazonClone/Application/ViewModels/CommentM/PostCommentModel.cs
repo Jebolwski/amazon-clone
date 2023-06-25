@@ -6,6 +6,7 @@ namespace AmazonClone.Application.ViewModels.CommentM
     public class PostCommentModel
     {
         public string comment { get; set; }
+        public Guid productId { get; set; }
         public ICollection<CreateCommentPhotoModel> commentPhotos { get; set; }
 
         public static PostCommentModel convert(Comment comment)

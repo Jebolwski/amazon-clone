@@ -1,9 +1,10 @@
 ﻿using AmazonClone.Application.Interfaces;
 using AmazonClone.Application.ViewModels.CommentM;
 using AmazonClone.Application.ViewModels.CommentPhotoM;
-using AmazonClone.Data.Repositories;
 using AmazonClone.Domain.Entities;
 using AmazonClone.Domain.Interfaces;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace AmazonClone.Application.Services
 {
@@ -11,23 +12,32 @@ namespace AmazonClone.Application.Services
     {
         private readonly ICommentRepository commentRepository;
         private readonly IUserService userService;
+        private readonly IProductService productService;
 
-
-        public CommentService(ICommentRepository commentRepository, IUserService userService)
+        public CommentService(ICommentRepository commentRepository, IUserService userService, IProductService productService)
         {
             this.commentRepository = commentRepository;
             this.userService = userService;
+            this.productService = productService;
         }
 
-        public CommentResponseModel postComment(PostCommentModel model)
+        public CommentResponseModel postComment(PostCommentModel model,string authToken)
         {
             if (model != null)
             {
-                string headerToken = context.Request.Headers["Autharization"];
-                User user = null;
-                if (headerToken != null)
+                if (productService.get(model.productId) == null)
                 {
-                    user = userService.getUserByToken(headerToken);
+                    return null;    
+                }
+                
+                User user = null;
+                if (authToken != null)
+                {
+                    authToken = authToken.Replace("Bearer ", string.Empty);
+                    var stream = authToken;
+                    var handler = new JwtSecurityTokenHandler();
+                    JwtSecurityToken jsonToken = handler.ReadJwtToken(stream);
+                    user = userService.getUserByUsername(jsonToken.Claims.First().Value);
                     if (user == null)
                     {
                         return null;
@@ -48,6 +58,7 @@ namespace AmazonClone.Application.Services
                     comment = model.comment,
                     userId = user.id,
                     commentPhotos = commentPhotos,
+                    productId = model.productId,
                 };
 
                 comment = commentRepository.add(comment);
@@ -70,52 +81,94 @@ namespace AmazonClone.Application.Services
             return null;
         }
 
-        public CommentResponseModel updateComment(UpdateCommentModel model)
+        public CommentResponseModel updateComment(UpdateCommentModel model,string authToken)
         {
             if (model != null)
             {
-                if (commentRepository.get(model.id) != null)
+                Comment comment = commentRepository.get(model.id);
+                if (comment!=null)
                 {
-                    Comment comment = commentRepository.get(model.id);
-                    comment.comment = model.comment;
-                    ICollection<CommentPhoto> commentPhotos = new List<CommentPhoto>();
-                    foreach (CreateCommentPhotoModel item in model.commentPhotos)
+                    User user = null;
+                    if (authToken != null)
                     {
-                        commentPhotos.Add(new CommentPhoto()
+                        authToken = authToken.Replace("Bearer ", string.Empty);
+                        var stream = authToken;
+                        var handler = new JwtSecurityTokenHandler();
+                        JwtSecurityToken jsonToken = handler.ReadJwtToken(stream);
+                        user = userService.getUserByUsername(jsonToken.Claims.First().Value);
+                        if (user == null)
                         {
-                            photoUrl = item.photoUrl,
-                        });
+                            return null;
+                        }
                     }
-                    comment.commentPhotos = commentPhotos;
-
-                    comment = commentRepository.update(comment);
-
-                    ICollection<CommentPhotoResponseModel> commentPhotos1 = new List<CommentPhotoResponseModel>();
-                    foreach (CommentPhoto item in comment.commentPhotos)
+                    if (user.id == comment.userId)
                     {
-                        commentPhotos1.Add(new CommentPhotoResponseModel()
+                        comment.comment = model.comment;
+                        ICollection<CommentPhoto> commentPhotos = new List<CommentPhoto>();
+                        foreach (CreateCommentPhotoModel item in model.commentPhotos)
                         {
-                            photoUrl = item.photoUrl,
-                        });
+                            commentPhotos.Add(new CommentPhoto()
+                            {
+                                photoUrl = item.photoUrl,
+                            });
+                        }
+                        comment.commentPhotos = commentPhotos;
+
+                        comment = commentRepository.update(comment);
+
+                        ICollection<CommentPhotoResponseModel> commentPhotos1 = new List<CommentPhotoResponseModel>();
+                        foreach (CommentPhoto item in comment.commentPhotos)
+                        {
+                            commentPhotos1.Add(new CommentPhotoResponseModel()
+                            {
+                                photoUrl = item.photoUrl,
+                                id = item.id,
+                            });
+                        }
+                        return new CommentResponseModel()
+                        {
+                            comment = comment.comment,
+                            productId = comment.productId,
+                            userId = comment.userId,
+                            commentPhotos = commentPhotos1
+                        };
                     }
-                    return new CommentResponseModel()
+                    else
                     {
-                        commentPhotos = commentPhotos1
-                    };
+                        return null;
+                    }
                 }
                 return null;
             }
             return null;
         }
 
-        public bool deleteComment(Guid id)
+        public bool deleteComment(Guid id,string authToken)
         {
-             return commentRepository.delete(id);
+            User user = null;
+            if (authToken != null)
+            {
+                authToken = authToken.Replace("Bearer ", string.Empty);
+                var stream = authToken;
+                var handler = new JwtSecurityTokenHandler();
+                JwtSecurityToken jsonToken = handler.ReadJwtToken(stream);
+                user = userService.getUserByUsername(jsonToken.Claims.First().Value);
+                if (user == null)
+                {
+                    return false;
+                }
+            }
+            Comment comment = commentRepository.get(id);
+            if (comment != null && user.id == comment.userId)
+            {
+                return commentRepository.delete(id);
+            }
+            return false;
         }
 
         public CommentResponseModel getComment(Guid id)
         {
-            Comment comment = commentRepository.get(id);
+            Comment comment = commentRepository.getCommentWithPhotos(id);
             if (comment != null ) { 
                 ICollection<CommentPhotoResponseModel> commentPhotos = new List<CommentPhotoResponseModel>();
                 foreach (CommentPhoto item in comment.commentPhotos)
@@ -129,6 +182,7 @@ namespace AmazonClone.Application.Services
                     comment = comment.comment,
                     userId = comment.userId,
                     commentPhotos = commentPhotos,
+                    productId = comment.productId,
                 };
             }
             return null;

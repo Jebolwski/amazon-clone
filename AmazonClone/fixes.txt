@@ -1,0 +1,1 @@
+﻿HttpContext'i controllerdaki fonksiyonların dışında kullanamazsın.

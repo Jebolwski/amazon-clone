@@ -7,5 +7,6 @@ namespace AmazonClone.Application.ViewModels.CommentM
         public Guid userId { get; set; }
         public string comment { get; set; }
         public ICollection<CommentPhotoResponseModel> commentPhotos { get; set; }
+        public Guid productId { get; set; }
     }
 }
