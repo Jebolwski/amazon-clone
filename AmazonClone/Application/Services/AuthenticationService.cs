@@ -1,22 +1,11 @@
 ﻿using AmazonClone.Application.Interfaces;
 using AmazonClone.Application.ViewModels.AuthM;
 using AmazonClone.Domain.Entities;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
-using System.Net;
-using System.Web.Http;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Mvc;
-using AmazonClone.Domain.Interfaces;
-using AmazonClone.Migrations;
-using System.Web.Http.Description;
-using System.Net.Http;
-using System.Text.Json.Serialization;
 using Newtonsoft.Json;
-using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace AmazonClone.Application.Services
 {

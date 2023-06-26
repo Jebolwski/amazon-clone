@@ -1,4 +1,5 @@
 ﻿using AmazonClone.Application.ViewModels.CartM;
+using AmazonClone.Application.ViewModels.CartProductM;
 using AmazonClone.Application.ViewModels.CommentM;
 using AmazonClone.Application.ViewModels.CommentPhotoM;
 using AmazonClone.Domain.Entities;
@@ -10,5 +11,6 @@ namespace AmazonClone.Application.Interfaces
     {
         //create new cart for user
         public CartResponseModel addCartToUser(Guid id);
+        public CartResponseModel addToCart(CartProductCreateModel model, string authToken);
     }
 }

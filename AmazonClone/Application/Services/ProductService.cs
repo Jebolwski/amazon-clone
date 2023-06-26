@@ -16,20 +16,14 @@ namespace AmazonClone.Application.Services
     public class ProductService : IProductService
     {
         private readonly IProductRepository productRepository;
-        private readonly IProductCategoryService productCategoryService;
-        private readonly IProductPhotoService productPhotoService;
         private readonly IProductProductCategoryService productProductCategoryService;
 
         
 
         public ProductService(IProductRepository productRepository, 
-            IProductCategoryService productCategoryService, 
-            IProductPhotoService productPhotoService, 
             IProductProductCategoryService productProductCategoryService)
         {
             this.productRepository = productRepository;
-            this.productCategoryService = productCategoryService;
-            this.productPhotoService = productPhotoService;
             this.productProductCategoryService = productProductCategoryService;
         }
 
