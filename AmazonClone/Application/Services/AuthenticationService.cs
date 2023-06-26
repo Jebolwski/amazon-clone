@@ -22,13 +22,17 @@ namespace AmazonClone.Application.Services
 {
     public class AuthenticationService : IAuthenticationService
     {
-        private readonly IConfiguration _configuration;
+        private readonly IConfiguration configuration;
         private readonly IUserService userService;
+        private readonly ICartService cartService;
+        private readonly IRoleService roleService;
 
-        public AuthenticationService(IConfiguration configuration, IUserService userService)
+        public AuthenticationService(IConfiguration configuration, IUserService userService, ICartService cartService, IRoleService roleService)
         {
-            _configuration = configuration;
+            this.configuration = configuration;
             this.userService = userService;
+            this.cartService = cartService;
+            this.roleService = roleService;
         }
 
         public string Login(LoginModel request)
@@ -67,9 +71,12 @@ namespace AmazonClone.Application.Services
                 passwordSalt = passwordSalt,
                 TokenCreated = DateTime.UtcNow,
                 TokenExpires = DateTime.UtcNow.AddMinutes(4),
+                roleId = roleService.getRole("Normal User").id
             };
 
             user = userService.add(user);
+
+            cartService.addCartToUser(user.id);
 
 
             return user;
@@ -98,18 +105,19 @@ namespace AmazonClone.Application.Services
             List<Claim> claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, user.username),
-                new Claim(ClaimTypes.Role, "Normal User")
+                new Claim(ClaimTypes.Role, roleService.get(user.roleId).name),
             };
 
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
-                _configuration.GetSection("JwtSettings:Key").Value));
+                configuration.GetSection("JwtSettings:Key").Value));
 
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
 
             var token = new JwtSecurityToken(
                 claims: claims,
-                expires: DateTime.UtcNow.AddDays(1),
+                expires: DateTime.UtcNow.AddMinutes(4),
                 signingCredentials: creds
+                
             );
 
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);

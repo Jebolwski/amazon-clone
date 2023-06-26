@@ -1,33 +1,23 @@
-﻿using AmazonClone.Domain.Entities;
+﻿using AmazonClone.Data.Context;
+using AmazonClone.Domain.Entities;
 using AmazonClone.Domain.Interfaces;
 
 namespace AmazonClone.Data.Repositories
 {
-    public class RoleRepository : IRoleRepository
+    public class RoleRepository : Repository<Role>, IRoleRepository
     {
-        public Role add(Role entity)
+        public RoleRepository(BaseContext db) : base(db)
         {
-            throw new NotImplementedException();
         }
 
-        public bool delete(Guid id)
+        public Role getRole(string roleName)
         {
-            throw new NotImplementedException();
-        }
-
-        public Role get(Guid id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IQueryable<Role> getAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Role update(Role entity)
-        {
-            throw new NotImplementedException();
+            ICollection<Role> roles = dbset.Where(p=>p.name== roleName).ToList();
+            if (roles!=null && roles.Any())
+            {
+                return roles.First();
+            }
+            return null;
         }
     }
 }

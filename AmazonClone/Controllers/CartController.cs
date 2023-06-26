@@ -1,4 +1,6 @@
 ﻿using AmazonClone.Application.Interfaces;
+using AmazonClone.Application.ViewModels.CartM;
+using AmazonClone.Domain.Entities;
 using AmazonClone.Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,6 +17,12 @@ namespace AmazonClone.Controllers
         {
             this.cartAppService = cartAppService;
             this.cartRepository = cartRepository;
+        }
+
+        [HttpGet("addTouser")]
+        public CartResponseModel addCartToUser(Guid id)
+        {
+            return cartAppService.addCartToUser(id);
         }
 
     }
