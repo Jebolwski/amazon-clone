@@ -6,6 +6,6 @@ namespace AmazonClone.Domain.Interfaces
     {
         public User getUserByUsername(string username);
 
-        public User getUserByToken(string token);
+        public User getUserByRefreshToken(string token);
     }
 }

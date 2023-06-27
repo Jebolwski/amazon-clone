@@ -21,7 +21,7 @@ namespace AmazonClone.Data.Repositories
             return null;
         }
 
-        public User getUserByToken(string token)
+        public User getUserByRefreshToken(string token)
         {
             IQueryable<User> users = dbset.Where(p => p.RefreshToken == token);
             if (users != null && users.Any())

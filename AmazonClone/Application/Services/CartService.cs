@@ -39,7 +39,7 @@ namespace AmazonClone.Application.Services
     
         public CartResponseModel addToCart(CartProductCreateModel model,string authToken)
         {
-            return cartProductService.add(model);
+            return cartProductService.add(model,authToken);
         }
     }
 }

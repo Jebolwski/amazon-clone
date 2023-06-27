@@ -51,6 +51,7 @@ builder.Services.AddCors(options => options.AddPolicy(name: "NgOrigins",
 builder.Services.AddScoped<BaseContext>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped<ICartRepository, CartRepository>();
+builder.Services.AddScoped<ICartProductRepository, CartProductRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductCategoryRepository, ProductCategoryRepository>();
 builder.Services.AddScoped<IProductPhotoRepository, ProductPhotoRepository>();
@@ -61,6 +62,7 @@ builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 builder.Services.AddScoped<ICartService, CartService>();
+builder.Services.AddScoped<ICartProductService, CartProductService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IProductCategoryService, ProductCategoryService>();
 builder.Services.AddScoped<IProductProductCategoryService, ProductProductCategoryService>();

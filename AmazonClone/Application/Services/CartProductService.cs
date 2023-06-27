@@ -6,6 +6,7 @@ using AmazonClone.Domain.Entities;
 using AmazonClone.Application.ViewModels.ProductM;
 using AmazonClone.Application.ViewModels.CartM;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace AmazonClone.Application.Services
 {
@@ -13,20 +14,31 @@ namespace AmazonClone.Application.Services
     {
         private readonly ICartProductRepository cartProductRepository;
         private readonly IProductService productService;
+        private readonly IUserService userService;
 
-        public CartProductService(ICartProductRepository cartProductRepository, IProductService productService)
+        public CartProductService(ICartProductRepository cartProductRepository, IProductService productService, IUserService userService)
         {
             this.cartProductRepository = cartProductRepository;
             this.productService = productService;
+            this.userService = userService;
         }
 
-        public CartResponseModel add(CartProductCreateModel model)
+        public CartResponseModel add(CartProductCreateModel model, string authToken)
         {
             if (model != null)
             {
+                authToken = authToken.Replace("Bearer ", string.Empty);
+                var stream = authToken;
+                var handler = new JwtSecurityTokenHandler();
+                JwtSecurityToken jsonToken = handler.ReadJwtToken(stream);
+                User user = userService.getUserByUsername(jsonToken.Claims.First().Value);
+                if (user == null)
+                {
+                    return null;
+                }
                 CartProduct cartProduct = cartProductRepository.add(new CartProduct()
                 {
-                    cartId = model.cartId,
+                    cartId = user.cartId,
                     productId = model.productId
                 });
 
@@ -34,7 +46,8 @@ namespace AmazonClone.Application.Services
 
                 return new CartResponseModel()
                 {
-                    id = model.cartId,
+                    id = cartProduct.cartId,
+                    userId = user.id,
                     products = productResponses
                 };
             }

@@ -27,7 +27,7 @@ namespace AmazonClone.Controllers
             return cartAppService.addCartToUser(id);
         }
 
-        [HttpPost("add-to-cart"),Authorize("Normal User,Admin")]
+        [HttpPost("add-to-cart"),Authorize(Roles = "Normal User,Admin")]
         public CartResponseModel add(CartProductCreateModel model)
         {
             string authToken = HttpContext.Request.Headers["Authorization"];

@@ -17,7 +17,7 @@ namespace AmazonClone.Controllers
         }
 
         [HttpPost("register")]
-        public User Register(RegisterModel model)
+        public string Register(RegisterModel model)
         {
             return authenticationService.Register(model);
         }

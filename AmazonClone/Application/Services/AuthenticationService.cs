@@ -6,6 +6,9 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Microsoft.AspNetCore.Mvc;
+using AmazonClone.Application.ViewModels.CartM;
 
 namespace AmazonClone.Application.Services
 {
@@ -50,10 +53,20 @@ namespace AmazonClone.Application.Services
             return JsonConvert.SerializeObject(obj);
         }
 
-        public User Register(RegisterModel model)
+        public string Register(RegisterModel model)
         {
             CreatePasswordHash(model.password, out byte[] passwordHash, out byte[] passwordSalt);
-            User user = new User()
+            User user =  userService.getUserByUsername(model.username);
+            if (user != null)
+            {
+                var obje = new
+                {
+                    msg = "Username already in use.",
+                };
+                return JsonConvert.SerializeObject(obje);
+            }
+
+            user = new User()
             {
                 username = model.username,
                 passwordHash = passwordHash,
@@ -65,10 +78,16 @@ namespace AmazonClone.Application.Services
 
             user = userService.add(user);
 
-            cartService.addCartToUser(user.id);
+            CartResponseModel cartResponseModel = cartService.addCartToUser(user.id);
+            user.cartId = cartResponseModel.id;
+            userService.update(user);
 
-
-            return user;
+            var obj = new
+            {
+                msg = "Successfully registered.",
+                user = user
+            };
+            return JsonConvert.SerializeObject(obj);
         }
 
         private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
@@ -137,7 +156,7 @@ namespace AmazonClone.Application.Services
         public string RefreshToken(string reftoken)
         {
             if (reftoken != null) { 
-                User user = userService.getUserByToken(reftoken);
+                User user = userService.getUserByRefreshToken(reftoken);
                 if (user == null) {
                     return null;
                 }

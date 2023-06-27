@@ -23,9 +23,9 @@ namespace AmazonClone.Application.Services
             return null;
         }
 
-        public User getUserByToken(string token)
+        public User getUserByRefreshToken(string token)
         {
-            return userRepository.getUserByToken(token);
+            return userRepository.getUserByRefreshToken(token);
         }
 
         public User getUserByUsername(string username)

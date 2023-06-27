@@ -9,7 +9,7 @@ namespace AmazonClone.Application.Interfaces
 {
     public interface ICartProductService
     {
-        public CartResponseModel add(CartProductCreateModel model);
+        public CartResponseModel add(CartProductCreateModel model,string authToken);
         public ICollection<ProductResponseModel> getProductsByCartId(Guid id);
     }
 }
