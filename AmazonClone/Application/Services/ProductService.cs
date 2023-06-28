@@ -10,6 +10,8 @@ using AmazonClone.Application.ViewModels.ProductPhotoM;
 using AmazonClone.Application.ViewModels.GuidM;
 using AmazonClone.Application.ViewModels.ProductProductCategory;
 using AmazonClone.Application.ViewModels.CartM;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
 namespace AmazonClone.Application.Services
 {
@@ -27,7 +29,7 @@ namespace AmazonClone.Application.Services
             this.productProductCategoryService = productProductCategoryService;
         }
 
-        public ProductResponseModel add(ProductCreateModel model)
+        public string add(ProductCreateModel model)
         {
             
             if (model != null)
@@ -80,16 +82,21 @@ namespace AmazonClone.Application.Services
                         id = photo.id
                     });
                 }
-
-                return new ProductResponseModel()
+                
+                var obj = new
                 {
-                    id = product.id,
-                    description = product.description,
-                    name = product.name,
-                    price = product.price,
-                    photos = productPhotoModels,
-                    productCategories = productCategories
+                    msg = "Successfully added product.",
+                    data = new ProductResponseModel()
+                    {
+                        id = product.id,
+                        description = product.description,
+                        name = product.name,
+                        price = product.price,
+                        photos = productPhotoModels,
+                        productCategories = productCategories
+                    },
                 };
+                return JsonConvert.SerializeObject(obj);
             }
             return null;
         }
@@ -99,12 +106,17 @@ namespace AmazonClone.Application.Services
             throw new NotImplementedException();
         }
 
-        public bool delete(Guid id)
+        public string delete(Guid id)
         {
             //ilk ürün - ürün kategorisi listesinden silinmeli
             //sonra ürün silinmeli
             productProductCategoryService.deleteProductProductCategoriesByProductId(id);
-            return productRepository.delete(id);
+            productRepository.delete(id);
+            var obj = new
+            {
+                msg = "Successfully deleted product.",
+            };
+            return JsonConvert.SerializeObject(obj);
         }
 
         public ProductResponseModel get(Guid id)
@@ -136,7 +148,7 @@ namespace AmazonClone.Application.Services
             return null;
         }
 
-        public ProductResponseModel update(ProductUpdateModel model)
+        public string update(ProductUpdateModel model)
         {
 
             ICollection<ProductPhoto> photos = new HashSet<ProductPhoto>();
@@ -199,15 +211,21 @@ namespace AmazonClone.Application.Services
 
             }
 
-            return new ProductResponseModel()
+            var obj = new
             {
-                id = product.id,
-                description = product.description,
-                name = product.name,
-                price = product.price,
-                photos = productPhotoModels,
-                productCategories = productCategories
+                msg = "Successfully updated product.",
+                data = new ProductResponseModel()
+                {
+                    id = product.id,
+                    description = product.description,
+                    name = product.name,
+                    price = product.price,
+                    photos = productPhotoModels,
+                    productCategories = productCategories
+                }
             };
+            return JsonConvert.SerializeObject(obj);
+
         }
     }
 }

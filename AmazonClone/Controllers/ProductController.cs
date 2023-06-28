@@ -20,7 +20,7 @@ namespace AmazonClone.Controllers
         }
 
         [HttpPost("add"),Authorize(Roles = "Admin")]
-        public ProductResponseModel add(ProductCreateModel model)
+        public string add(ProductCreateModel model)
         {
             return productService.add(model);
         }

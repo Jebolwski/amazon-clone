@@ -7,9 +7,9 @@ namespace AmazonClone.Application.Interfaces
     public interface IProductService
     {
         public ProductResponseModel get(Guid id);
-        public bool delete(Guid id);
-        public ProductResponseModel update(ProductUpdateModel model);
-        public ProductResponseModel add(ProductCreateModel model);
+        public string delete(Guid id);
+        public string update(ProductUpdateModel model);
+        public string add(ProductCreateModel model);
 
         //add product to cart
         public CartResponseModel addProductToCart(ProductCreateModel model);

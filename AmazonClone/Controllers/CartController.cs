@@ -21,7 +21,7 @@ namespace AmazonClone.Controllers
             this.cartRepository = cartRepository;
         }
 
-        [HttpPost("addTouser")]
+        [HttpPost("add-to-user")]
         public CartResponseModel addCartToUser(Guid id)
         {
             return cartAppService.addCartToUser(id);
