@@ -7,10 +7,9 @@ namespace AmazonClone.Application.Interfaces
     public interface IAuthenticationService
     {
         public string Register(RegisterModel request);
-
         public string Login(LoginModel request);
-
         public string RefreshToken(string reftoken);
+        public User SearchByUsername(string name);
     }
 }
     

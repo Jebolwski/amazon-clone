@@ -34,13 +34,13 @@ namespace AmazonClone.Controllers
 
 
         [HttpDelete("{productId}"), Authorize(Roles = "Admin")]
-        public bool delete(Guid productId)
+        public string delete(Guid productId)
         {
             return productService.delete(productId);
         }
 
         [HttpPut("update"), Authorize(Roles = "Admin")]
-        public ProductResponseModel update(ProductUpdateModel model)
+        public string update(ProductUpdateModel model)
         {
             return productService.update(model);
         }

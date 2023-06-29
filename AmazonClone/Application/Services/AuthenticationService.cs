@@ -183,11 +183,26 @@ namespace AmazonClone.Application.Services
             return null;
         }
 
-        
+        public User SearchByUsername(string name)
+        {
+            if (name != null)
+            {
+                User user = userService.getUserByUsername(name);
+                if (user == null)
+                {
+                    return null;
+                }
+
+                return user;
+            }
+            return null;
+        }
+
+
     }
 
 
-        
+
 }
 
     

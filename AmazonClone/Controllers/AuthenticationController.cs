@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AmazonClone.Controllers
 {
-    [Route("api/auth/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class AuthenticationController : ControllerBase
     {
@@ -32,6 +32,12 @@ namespace AmazonClone.Controllers
         public string RefreshToken(string reftoken)
         {
             return authenticationService.RefreshToken(reftoken);
+        }
+
+        [HttpPost("search-by-username")]
+        public User SearchByUsername(string name)
+        {
+            return authenticationService.SearchByUsername(name);
         }
     }
 }
