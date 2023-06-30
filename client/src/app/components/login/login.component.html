@@ -1,0 +1,107 @@
+<div class="pt-4">
+  <div class="grid place-items-center">
+    <img
+      src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Amazon_logo.svg/2560px-Amazon_logo.svg.png"
+      class="w-32 mb-5"
+    />
+    <form
+      class="mt-10 rounded-lg p-4"
+      [formGroup]="loginForm"
+      (submit)="name?.errors ? null : auth.checkIfUserExists(loginForm.value)"
+    >
+      <div class="border border-stone-300 max-w-[24rem] p-7 rounded-lg">
+        <h4 class="text-3xl font-semibold">Giriş Yap</h4>
+        <div>
+          <p class="text-md font-semibold mt-5 mb-1">
+            E-posta adresi veya telefon numarası
+          </p>
+          <input
+            type="text"
+            formControlName="name"
+            class="border input-login border-black/80 rounded-[0.2rem] px-1 py-[0.18rem] outline-none w-full text-[#ffd814]"
+          />
+          <button
+            class="bg-[#ffd814] shadow-md rounded-lg w-full p-1 my-3 hover:bg-[#f7ca00]"
+          >
+            Devam Et
+          </button>
+          <p class="text-sm">
+            Oturum açarak, Amazon'un Kullanım ve Satış Koşulları'nı kabul etmiş
+            olursunuz. Kişisel verilerinizin Amazon tarafından nasıl işlendiğine
+            ilişkin detaylı bilgi için Gizlilik Bildirimi, Çerez Bildirimi ve
+            İlgi Alanına Dayalı Tanıtımları inceleyebilirsiniz.
+          </p>
+          <div class="flex items-start gap-2.5">
+            <i
+              [ngClass]="toggleHelp == true ? 'rotate-90' : ''"
+              class="fa-solid fa-caret-right cursor-pointer pt-1"
+              (click)="toggleHelpFunc()"
+            ></i>
+            <div>
+              <p
+                class="text-blue-800 hover:text-red-900 hover:underline cursor-pointer"
+                (click)="toggleHelpFunc()"
+              >
+                Yardıma mı ihtiyacınız var?
+              </p>
+              <p
+                *ngIf="toggleHelp"
+                class="text-blue-800 hover:text-red-900 hover:underline cursor-pointer"
+              >
+                Şifremi unuttum
+              </p>
+              <p
+                *ngIf="toggleHelp"
+                class="text-blue-800 hover:text-red-900 hover:underline cursor-pointer"
+              >
+                Oturum açma ile ilgili diğer sorunlar
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="flex items-center justify-between w-96 mt-4">
+        <div class="w-24 h-[1px] bg-gray-200"></div>
+        <div class="text-sm flex-nowrap">Amazon hesabınız yok mu?</div>
+        <div class="w-24 h-[1px] bg-gray-200"></div>
+      </div>
+      <button
+        class="border border-stone-300 rounded-md mt-3 text-sm w-96 p-1 shadow-md"
+      >
+        Amazon hesabınızı oluşturun
+      </button>
+    </form>
+  </div>
+  <div class="bg-[#fcfcfc] border-t border-stone-300 mt-5">
+    <div class="flex items-center justify-center gap-8 text-xs mt-6">
+      <div
+        class="text-blue-800 hover:text-red-900 hover:underline cursor-pointer"
+      >
+        Kullanım Koşulları
+      </div>
+      <div
+        class="text-blue-800 hover:text-red-900 hover:underline cursor-pointer"
+      >
+        Gizlilik Bildirimi
+      </div>
+      <div
+        class="text-blue-800 hover:text-red-900 hover:underline cursor-pointer"
+      >
+        Yardım
+      </div>
+      <div
+        class="text-blue-800 hover:text-red-900 hover:underline cursor-pointer"
+      >
+        Yasal Bildirim
+      </div>
+      <div
+        class="text-blue-800 hover:text-red-900 hover:underline cursor-pointer"
+      >
+        Çerezler Bildirimimiz
+      </div>
+    </div>
+    <div class="text-center text-xs mt-3">
+      © 1996-2023, Amazon.com, Inc. veya bağlı kuruluşları
+    </div>
+  </div>
+</div>

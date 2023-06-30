@@ -1,0 +1,120 @@
+<div class="pt-4">
+  <div class="grid place-items-center">
+    <img
+      src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Amazon_logo.svg/2560px-Amazon_logo.svg.png"
+      class="w-32 mb-5"
+    />
+    <form
+      class="mt-10 rounded-lg p-4"
+      [formGroup]="loginForm"
+      (submit)="auth.login({name,password})"
+    >
+      <div class="border border-stone-300 max-w-[24rem] lg:p-7 p-3 rounded-lg">
+        <h4 class="text-3xl font-semibold">Giriş Yap</h4>
+        <div class="flex items-center gap-1 mt-2">
+          <p class="text-sm">mertgkmeen@gmail.com</p>
+          <p
+            class="text-sm text-blue-800 hover:text-red-900 hover:underline cursor-pointer"
+          >
+            Değiştir
+          </p>
+        </div>
+        <div>
+          <div class="flex items-center justify-between">
+            <p class="text-sm font-semibold mt-5 mb-1">Şifre</p>
+            <p
+              class="text-sm font-semibold mt-5 mb-1 text-blue-800 hover:text-red-900 hover:underline cursor-pointer"
+            >
+              Şifremi unuttum
+            </p>
+          </div>
+          <input
+            type="password"
+            formControlName="password"
+            class="border input-login border-black/80 rounded-[0.2rem] px-1 py-[0.18rem] outline-none w-full"
+          />
+          <button
+            class="bg-[#ffd814] shadow-md rounded-lg w-full p-1 my-3 hover:bg-[#f7ca00]"
+          >
+            Giriş Yap
+          </button>
+          <div class="flex items-center justify-between flex-wrap">
+            <div class="flex items-center gap-1">
+              <input id="check" type="checkbox" />
+              <label for="check" class="text-sm">Oturumum açık kalsın.</label>
+            </div>
+            <div
+              class="flex flex-wrap whitespace-nowrap items-center gap-1 cursor-pointer relative"
+            >
+              <div
+                [ngClass]="toggleDetails == true ? '' : 'hidden'"
+                class="popup-details lg:text-sm text-sm max-w-[400px] lg:w-96 cursor-default border bottom-5 sm:left-0 min-w-[240px] lg:right-0 right-0 border-stone-300 rounded-md absolute shadow-md bg-white"
+              >
+                <div
+                  class="title p-3 rounded-t-md flex items-center justify-between border-b bg-[#f0f0f0] border-stone-300"
+                >
+                  <span>"Oturumum Açık Kalsın" Seçeneği</span>
+                  <i
+                    class="fa-solid fa-xmark p-1 cursor-pointer"
+                    (click)="toggleDetailsFunc()"
+                  ></i>
+                </div>
+                <div class="desc whitespace-normal p-2">
+                  "Oturumum açık kalsın" kutusunu işaretlediğinizde bu cihazı
+                  kullanırken giriş yapma ekranına daha az yönlendirilirsiniz.
+                  <br />
+                  <br />
+                  Hesabınızın güvende kalmasını sağlamak için bu seçeneği sadece
+                  kişisel cihazlarınızda kullanın.
+                </div>
+              </div>
+              <div
+                class="flex items-center gap-1"
+                (click)="toggleDetailsFunc()"
+              >
+                <p
+                  class="text-sm text-blue-800 hover:text-red-900 hover:underline"
+                >
+                  Ayrıntılar
+                </p>
+                <i class="fa-solid fa-caret-down text-xs"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="bg-[#fcfcfc] border-t border-stone-300 mt-5">
+    <div class="flex items-center flex-wrap justify-center gap-8 text-xs mt-6">
+      <div
+        class="text-blue-800 hover:text-red-900 hover:underline cursor-pointer"
+      >
+        Kullanım Koşulları
+      </div>
+      <div
+        class="text-blue-800 hover:text-red-900 hover:underline cursor-pointer"
+      >
+        Gizlilik Bildirimi
+      </div>
+      <div
+        class="text-blue-800 hover:text-red-900 hover:underline cursor-pointer"
+      >
+        Yardım
+      </div>
+      <div
+        class="text-blue-800 hover:text-red-900 hover:underline cursor-pointer"
+      >
+        Yasal Bildirim
+      </div>
+      <div
+        class="text-blue-800 hover:text-red-900 hover:underline cursor-pointer"
+      >
+        Çerezler Bildirimimiz
+      </div>
+    </div>
+    <div class="text-center text-xs mt-3">
+      © 1996-2023, Amazon.com, Inc. veya bağlı kuruluşları
+    </div>
+  </div>
+</div>
