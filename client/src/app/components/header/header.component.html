@@ -1,0 +1,72 @@
+<div class="bg-[#131921] p-2">
+  <div class="flex items-center flex-wrap justify-evenly gap-1">
+    <img
+      src="https://upload.wikimedia.org/wikipedia/donate/thumb/f/fd/Amazon-logo-white.svg/1024px-Amazon-logo-white.svg.png"
+      class="w-32"
+    />
+    <div class="text-white">
+      <p class="text-sm">Alıcı : {{ auth.user.username }}</p>
+      <div class="flex items-center gap-1">
+        <i class="fa-solid fa-location-dot"></i>
+        <label class="font-semibold">Bursa 16110</label>
+      </div>
+    </div>
+    <!-- Search -->
+    <div class="flex items-center">
+      <div
+        class="rounded-l-md whitespace-nowrap bg-stone-200 p-2 border-r border-stone-400"
+      >
+        Tüm kategoriler
+      </div>
+      <div>
+        <input
+          type="text"
+          placeholder="Ara Amazon.com.tr"
+          class="p-2 lg:w-80 md:w-64 sm:w-40 w-full"
+        />
+      </div>
+      <button class="rounded-r-md p-2 bg-[#febd69]">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </button>
+    </div>
+    <div class="text-white">
+      <p class="text-sm">{{ auth.user.username }}</p>
+      <label class="font-semibold">Hesap ve Listeler</label>
+    </div>
+    <div class="text-white">
+      <p class="text-sm">İadeler</p>
+      <label class="font-semibold">ve Siparişler</label>
+    </div>
+    <div class="flex items-center">
+      <div>
+        <img
+          src="https://simpleicon.com/wp-content/uploads/shopping-cart.png"
+          class="w-8 reverse-color"
+        />
+      </div>
+      <div class="text-white">
+        <p class="text-sm">Alışveriş</p>
+        <p class="font-semibold">Sepeti</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="bg-[#232f3e] flex justify-between flex-wrap text-white">
+  <div class="flex items-center flex-wrap gap-5 p-2">
+    <div class="flex items-center gap-1">
+      <i class="fa-solid fa-bars text-white"></i>
+      <p class="font-semibold">Tümü</p>
+    </div>
+    <div>Satış Yap</div>
+    <div>Yapı Market</div>
+    <div>Oyuncaklar ve Oyunlar</div>
+    <div>Günün Fırsatları</div>
+    <div>Moda</div>
+    <div>Spor ve Açık Hava Aktiviteleri</div>
+  </div>
+  <div>
+    <img
+      src="https://m.media-amazon.com/images/G/41/TR-hq/2022/Marketing_Email_Consent/TR22_Email_Marketing_SWM_400x39._CB612189500_.jpg"
+    />
+  </div>
+</div>

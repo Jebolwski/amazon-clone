@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "rjaZuPBMcSy8zd2bbq7hifZF/wUQ/3z1DBEulM3njJLXUiy8tkSS84OuTmZjyQlp38wabstG/FxlEqL1vRTz2w==",
+  "dgSpecHash": "E+SsA16/Vxa5lQ4K1ybGqUHMzFQ/RM5Yo9Z3xV3QMPuBtb9lUWZSQRQ4xWeOTB40WGvj4jx4jR6JkIxDZOFcQw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\mertg\\OneDrive\\Masaüstü\\Dosya\\Programming\\amazon-clone\\AmazonClone\\AmazonClone.csproj",
+  "projectFilePath": "C:\\Users\\mertg\\OneDrive\\Masaüstü\\Dosya\\Programming\\amazon-clone\\server\\AmazonClone\\AmazonClone.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\mertg\\.nuget\\packages\\azure.core\\1.33.0\\azure.core.1.33.0.nupkg.sha512",
     "C:\\Users\\mertg\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
@@ -153,7 +153,7 @@
       "code": "NU1701",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Package 'Microsoft.AspNet.WebApi.Core 5.2.9' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net7.0'. This package may not be fully compatible with your project.",
+      "message": "'Microsoft.AspNet.WebApi.Core 5.2.9' paketi, proje hedef çerçevesi 'net7.0' yerine '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' kullanılarak geri yüklendi. Bu paket projenizle tamamen uyumlu olmayabilir.",
       "libraryId": "Microsoft.AspNet.WebApi.Core",
       "targetGraphs": [
         "net7.0"
