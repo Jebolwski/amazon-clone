@@ -3,8 +3,8 @@
   <div *ngIf="product.products.length == 0">
     <p>bulunamadı</p>
   </div>
-  <div class="flex items-start justify-evenly flex-wrap">
-    <div class="w-1/3" *ngFor="let product of product.products">
+  <div class="flex gap-4 justify-evenly flex-wrap">
+    <div class="lg:w-64 w-48" *ngFor="let product of product.products">
       <app-product [product]="product"></app-product>
     </div>
   </div>

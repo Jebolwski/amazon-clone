@@ -1,5 +1,6 @@
 <div class="bg-[#131921] p-2">
   <div class="flex items-center flex-wrap justify-evenly gap-1">
+    <!-- Home Logo -->
     <a routerLink="/">
       <img
         src="https://upload.wikimedia.org/wikipedia/donate/thumb/f/fd/Amazon-logo-white.svg/1024px-Amazon-logo-white.svg.png"
@@ -37,14 +38,25 @@
         <i class="fa-solid fa-magnifying-glass"></i>
       </a>
     </div>
+    <!-- Hesap ve Listeler -->
     <div class="text-white">
-      <p class="text-sm">{{ auth.user.username }}</p>
-      <label class="font-semibold">Hesap ve Listeler</label>
+      <div *ngIf="auth.user.role == 'Admin'">
+        <a routerLink="/add-product" class="cursor-pointer">
+          <p class="text-sm">{{ auth.user.username }}</p>
+          <label class="font-semibold">Hesap ve Listeler</label>
+        </a>
+      </div>
+      <div *ngIf="auth.user.role != 'Admin'">
+        <p class="text-sm">{{ auth.user.username }}</p>
+        <label class="font-semibold">Hesap ve Listeler</label>
+      </div>
     </div>
+    <!-- İadeler -->
     <div class="text-white">
       <p class="text-sm">İadeler</p>
       <label class="font-semibold">ve Siparişler</label>
     </div>
+    <!-- Sepet -->
     <div class="flex items-center">
       <div>
         <img

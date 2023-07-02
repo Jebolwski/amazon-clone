@@ -6,6 +6,7 @@ import { NotLoggedService } from './services/notlogged.service';
 import { HomeComponent } from './components/home/home.component';
 import { LoggedService } from './services/logged.service';
 import { SearchProductsComponent } from './components/search-products/search-products.component';
+import { AddProductComponent } from './components/add-product/add-product.component';
 
 const routes: Routes = [
   {
@@ -30,6 +31,12 @@ const routes: Routes = [
     path: 'search-products/:string',
     component: SearchProductsComponent,
     title: 'Ürün Ara',
+    canActivate: [LoggedService],
+  },
+  {
+    path: 'add-product',
+    component: AddProductComponent,
+    title: 'Ürün Ekle',
     canActivate: [LoggedService],
   },
 ];
