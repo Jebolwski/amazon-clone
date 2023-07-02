@@ -227,5 +227,20 @@ namespace AmazonClone.Application.Services
             return JsonConvert.SerializeObject(obj);
 
         }
+
+        public ICollection<ProductResponseModel> filterProductsByName(string productName)
+        {
+            ICollection<ProductResponseModel> productResponseModels = new List<ProductResponseModel>();
+            List<Product> products = productRepository.filterProductsByName(productName);
+            if (products != null && products.Any())
+            {
+                foreach (Product item in products) 
+                {
+                    productResponseModels.Add(get(item.id));
+                }
+            }
+            return productResponseModels;
+        }
+
     }
 }

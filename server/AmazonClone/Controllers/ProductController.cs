@@ -45,6 +45,12 @@ namespace AmazonClone.Controllers
             return productService.update(model);
         }
 
+        [HttpGet("filter-by-name"),AllowAnonymous]
+        public ICollection<ProductResponseModel> filterProductsByName(string productName)
+        {
+            return productService.filterProductsByName(productName);
+        }
+
 
     }
 }

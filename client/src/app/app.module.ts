@@ -10,9 +10,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { HomeComponent } from './components/home/home.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { SearchProductsComponent } from './components/search-products/search-products.component';
+import { ProductComponent } from './components/product/product.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, Login2Component, HomeComponent, HeaderComponent, FooterComponent],
+  declarations: [AppComponent, LoginComponent, Login2Component, HomeComponent, HeaderComponent, FooterComponent, SearchProductsComponent, ProductComponent],
   imports: [
     BrowserModule,
     ReactiveFormsModule,

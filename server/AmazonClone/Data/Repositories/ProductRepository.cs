@@ -19,5 +19,15 @@ namespace AmazonClone.Data.Repositories
             }
             return null;
         }
+
+        public List<Product> filterProductsByName(string name)
+        {
+            List<Product> products = dbset.Where(p => p.name.Contains(name)).Include(x => x.photos).ToList(); ;
+            if (products != null && products.Any())
+            {
+                return products;
+            }
+            return null;
+        }
     }
 }

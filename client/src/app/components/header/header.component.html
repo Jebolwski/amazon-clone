@@ -1,9 +1,11 @@
 <div class="bg-[#131921] p-2">
   <div class="flex items-center flex-wrap justify-evenly gap-1">
-    <img
-      src="https://upload.wikimedia.org/wikipedia/donate/thumb/f/fd/Amazon-logo-white.svg/1024px-Amazon-logo-white.svg.png"
-      class="w-32"
-    />
+    <a routerLink="/">
+      <img
+        src="https://upload.wikimedia.org/wikipedia/donate/thumb/f/fd/Amazon-logo-white.svg/1024px-Amazon-logo-white.svg.png"
+        class="w-32"
+      />
+    </a>
     <div class="text-white">
       <p class="text-sm">Alıcı : {{ auth.user.username }}</p>
       <div class="flex items-center gap-1">
@@ -19,15 +21,21 @@
         Tüm kategoriler
       </div>
       <div>
-        <input
-          type="text"
-          placeholder="Ara Amazon.com.tr"
-          class="p-2 outline-none lg:w-80 md:w-64 sm:w-40 w-full"
-        />
+        <form [formGroup]="searchForm">
+          <input
+            type="text"
+            formControlName="text"
+            placeholder="Ara Amazon.com.tr"
+            class="p-2 outline-none lg:w-80 md:w-64 sm:w-40 w-full"
+          />
+        </form>
       </div>
-      <button class="rounded-r-md p-2 bg-[#febd69]">
+      <a
+        [routerLink]="['/search-products', text]"
+        class="rounded-r-md p-2 bg-[#febd69]"
+      >
         <i class="fa-solid fa-magnifying-glass"></i>
-      </button>
+      </a>
     </div>
     <div class="text-white">
       <p class="text-sm">{{ auth.user.username }}</p>

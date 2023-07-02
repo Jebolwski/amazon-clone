@@ -10,7 +10,7 @@ namespace AmazonClone.Application.Interfaces
         public string delete(Guid id);
         public string update(ProductUpdateModel model);
         public string add(ProductCreateModel model);
-
+        public ICollection<ProductResponseModel> filterProductsByName(string productName);
         //add product to cart
         public CartResponseModel addProductToCart(ProductCreateModel model);
 

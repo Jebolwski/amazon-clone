@@ -5,6 +5,7 @@ import { Login2Component } from './components/login2/login2.component';
 import { NotLoggedService } from './services/notlogged.service';
 import { HomeComponent } from './components/home/home.component';
 import { LoggedService } from './services/logged.service';
+import { SearchProductsComponent } from './components/search-products/search-products.component';
 
 const routes: Routes = [
   {
@@ -23,6 +24,12 @@ const routes: Routes = [
     path: '',
     component: HomeComponent,
     title: 'Ev',
+    canActivate: [LoggedService],
+  },
+  {
+    path: 'search-products/:string',
+    component: SearchProductsComponent,
+    title: 'Ürün Ara',
     canActivate: [LoggedService],
   },
 ];
