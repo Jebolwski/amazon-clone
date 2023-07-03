@@ -6,9 +6,7 @@ import { Router } from '@angular/router';
   providedIn: 'root',
 })
 export class LoggedService {
-  constructor(private auth: AuthService) {
-    console.log(this.auth.user);
-  }
+  constructor(private auth: AuthService) {}
 
   canActivate(): boolean {
     let flag: boolean = false;

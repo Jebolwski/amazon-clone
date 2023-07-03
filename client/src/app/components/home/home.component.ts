@@ -7,7 +7,5 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent {
-  constructor(public auth: AuthService) {
-    console.log(auth.user);
-  }
+  constructor(public auth: AuthService) {}
 }

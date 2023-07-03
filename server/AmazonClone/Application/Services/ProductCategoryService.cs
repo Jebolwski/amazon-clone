@@ -76,5 +76,18 @@ namespace AmazonClone.Application.Services
             }
             return null;
         }
+    
+        public ICollection<ProductCategoryResponseModel> GetProductCategories(){
+            ICollection<ProductCategory> productCategories = categoryRepository.GetProductCategories();
+            ICollection<ProductCategoryResponseModel> responseModel = new List<ProductCategoryResponseModel>();
+            foreach(ProductCategory product in productCategories){
+                responseModel.Add(new ProductCategoryResponseModel(){
+                    description = product.description,
+                    id = product.id,
+                    name = product.name
+                });
+            }
+            return responseModel;
+        }
     }
 }

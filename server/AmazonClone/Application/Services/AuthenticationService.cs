@@ -123,7 +123,7 @@ namespace AmazonClone.Application.Services
 
             var token = new JwtSecurityToken(
                 claims: claims,
-                expires: DateTime.UtcNow.AddMinutes(4),
+                expires: DateTime.UtcNow.AddMinutes(60),
                 signingCredentials: creds
                 
             );

@@ -1,1 +1,81 @@
-<app-header></app-header> <app-footer></app-footer>
+<app-header></app-header>
+<div class="p-6">
+  <div class="flex justify-center">
+    <form
+      [formGroup]="addProductForm"
+      class="border border-stone-300 shadow-md rounded-md lg:w-1/2 md:w-2/3 w-11/12 p-2"
+    >
+      <!-- Adı -->
+      <div>
+        <input
+          type="text"
+          formControlName="name"
+          placeholder="Ürünün adı"
+          class="p-2 outline-none border shadow-md border-stone-200 rounded-md my-1 flex-1 w-full"
+        />
+      </div>
+      <!-- Açıklama -->
+      <div>
+        <input
+          type="text"
+          formControlName="description"
+          placeholder="Açıklama"
+          class="p-2 outline-none border shadow-md border-stone-200 rounded-md my-1 flex-1 w-full"
+        />
+      </div>
+      <!-- Fiyat -->
+      <div>
+        <input
+          type="text"
+          formControlName="price"
+          placeholder="Fiyat"
+          class="p-2 outline-none border shadow-md border-stone-200 rounded-md mt-1 mb-3 flex-1 w-full"
+        />
+      </div>
+      <div class="flex items-center gap-2 mb-1">
+        <i class="fa-solid fa-photo-film pl-1 fa-lg"></i>
+        <p class="font-semibold">Fotoğraflar</p>
+      </div>
+      <!-- Fotoğraf linkleri -->
+      <div class="photo-links">
+        <input
+          type="text"
+          formControlName="price"
+          placeholder="Fotoğraf linki"
+          class="p-2 link link1 outline-none border shadow-md border-stone-200 rounded-md mt-1 flex-1 w-full"
+        />
+      </div>
+      <i
+        class="fa-solid fa-plus mb-3 mt-2 cursor-pointer bg-gray-200 hover:bg-gray-300 duration-200 w-6 h-6 grid place-content-center rounded-full"
+        (click)="addNewLink()"
+      ></i>
+      <!-- Kategoriler -->
+      <div>
+        <div class="flex items-center gap-2 mb-1">
+          <i class="fa-solid fa-box-archive pl-1 fa-lg"></i>
+          <p class="font-semibold">Ürün Kategorileri</p>
+        </div>
+        <div class="flex items-center flex-wrap gap-3 mb-4">
+          <div
+            *ngFor="let productCategory of product.productCategories"
+            [class]="
+              'bg-stone-200/80 ' +
+              productCategory.id +
+              ' border-stone-500 cursor-pointer text-sm rounded-md duration-200 inline-block p-1 font-semibold'
+            "
+            (click)="toggleCategoryToData(productCategory, $event)"
+          >
+            {{ productCategory.name }}
+          </div>
+        </div>
+      </div>
+      <button
+        class="bg-[#febd69] p-1 rounded-md font-semibold border border-[#dea466] shadow-md w-full"
+        (click)="constructData()"
+      >
+        Ürünü Ekle
+      </button>
+    </form>
+  </div>
+</div>
+<app-footer></app-footer>

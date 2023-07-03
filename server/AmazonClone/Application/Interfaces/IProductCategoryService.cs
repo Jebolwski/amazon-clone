@@ -9,5 +9,6 @@ namespace AmazonClone.Application.Interfaces
         public bool delete(Guid id);
         public ProductCategoryResponseModel update(ProductUpdateModel model);
         public ProductCategoryResponseModel get(Guid id);
+        public ICollection<ProductCategoryResponseModel> GetProductCategories();
     }
 }

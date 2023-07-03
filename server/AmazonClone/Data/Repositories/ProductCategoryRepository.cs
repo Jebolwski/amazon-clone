@@ -9,5 +9,9 @@ namespace AmazonClone.Data.Repositories
         public ProductCategoryRepository(BaseContext db) : base(db)
         {
         }
+
+        public ICollection<ProductCategory> GetProductCategories(){
+            return dbset.ToList();
+        }
     }
 }
