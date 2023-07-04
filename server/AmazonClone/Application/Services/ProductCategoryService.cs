@@ -26,7 +26,8 @@ namespace AmazonClone.Application.Services
                 ProductCategory product = categoryRepository.add(productCategory);
                 ProductCategoryResponseModel productCategoryResponse = new ProductCategoryResponseModel() {
                     description = product.description,
-                    name = product.name
+                    name = product.name,
+                    id = product.id
                 };
                 return productCategoryResponse;
             }

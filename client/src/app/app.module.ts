@@ -14,9 +14,11 @@ import { SearchProductsComponent } from './components/search-products/search-pro
 import { ProductComponent } from './components/product/product.component';
 import { AddProductComponent } from './components/add-product/add-product.component';
 import { RegisterComponent } from './components/register/register.component';
+import { AddCategoryComponent } from './components/add-category/add-category.component';
+import { AllCategoriesComponent } from './components/all-categories/all-categories.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, Login2Component, HomeComponent, HeaderComponent, FooterComponent, SearchProductsComponent, ProductComponent, AddProductComponent, RegisterComponent],
+  declarations: [AppComponent, LoginComponent, Login2Component, HomeComponent, HeaderComponent, FooterComponent, SearchProductsComponent, ProductComponent, AddProductComponent, RegisterComponent, AddCategoryComponent, AllCategoriesComponent],
   imports: [
     BrowserModule,
     ReactiveFormsModule,

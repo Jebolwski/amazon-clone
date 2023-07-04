@@ -22,5 +22,20 @@ namespace AmazonClone.Controllers
         public ICollection<ProductCategoryResponseModel> GetAllCategories(){
             return this.productCategoryService.GetProductCategories();
         }
+
+        [HttpPost("add"),Authorize(Roles = "Admin")]
+        public ProductCategoryResponseModel Add(ProductCategoryCreateModel model){
+            return this.productCategoryService.add(model);
+        }
+
+        [HttpDelete("delete"),Authorize(Roles = "Admin")]
+        public bool Delete(Guid id){
+            return this.productCategoryService.delete(id);
+        }
+
+        [HttpGet("get-all"),Authorize(Roles = "Admin")]
+        public ICollection<ProductCategoryResponseModel> GetAll(){
+            return this.productCategoryService.GetProductCategories();
+        }
     }
 }

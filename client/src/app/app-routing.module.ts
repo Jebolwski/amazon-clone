@@ -8,6 +8,8 @@ import { LoggedService } from './services/logged.service';
 import { SearchProductsComponent } from './components/search-products/search-products.component';
 import { AddProductComponent } from './components/add-product/add-product.component';
 import { RegisterComponent } from './components/register/register.component';
+import { AddCategoryComponent } from './components/add-category/add-category.component';
+import { AllCategoriesComponent } from './components/all-categories/all-categories.component';
 
 const routes: Routes = [
   {
@@ -44,6 +46,18 @@ const routes: Routes = [
     path: 'add-product',
     component: AddProductComponent,
     title: 'Ürün Ekle',
+    canActivate: [LoggedService],
+  },
+  {
+    path: 'add-category',
+    component: AddCategoryComponent,
+    title: 'Ürün Kategorisi Ekle',
+    canActivate: [LoggedService],
+  },
+  {
+    path: 'all-categories',
+    component: AllCategoriesComponent,
+    title: 'Bütün Ürün Kategorileri',
     canActivate: [LoggedService],
   },
 ];

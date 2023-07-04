@@ -21,22 +21,22 @@
       >
         Tüm kategoriler
       </div>
-      <div>
-        <form [formGroup]="searchForm">
+      <form [formGroup]="searchForm" class="flex items-center">
+        <div>
           <input
             type="text"
             formControlName="text"
             placeholder="Ara Amazon.com.tr"
             class="p-2 outline-none lg:w-80 md:w-64 sm:w-40 w-full"
           />
-        </form>
-      </div>
-      <a
-        [routerLink]="['/search-products', text]"
-        class="rounded-r-md p-2 bg-[#febd69]"
-      >
-        <i class="fa-solid fa-magnifying-glass"></i>
-      </a>
+        </div>
+        <button
+          [routerLink]="['/search-products', text]"
+          class="rounded-r-md p-2 bg-[#febd69] hover:bg-[#f7ca00] duration-200 inline-block"
+        >
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+      </form>
     </div>
     <!-- Hesap ve Listeler -->
     <div class="text-white">

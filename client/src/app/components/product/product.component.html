@@ -5,18 +5,20 @@
       class="w-full lg:h-48 md:h-32 h-24 border border-stone-200"
     />
   </div>
-  <p class="text-lg">{{ product.description }}</p>
-  <label>{{ product.price }} TL</label>
-  <div class="flex items-center gap-1">
-    <div
-      *ngFor="let productCategory of product.productCategories"
-      [class]="
-        'bg-stone-200/80 ' +
-        productCategory.id +
-        ' border-stone-500 text-sm rounded-md duration-200 inline-block p-1 font-semibold'
-      "
-    >
-      {{ productCategory.name }}
+  <div class="p-3">
+    <p class="text-lg font-semibold">{{ product.name }}</p>
+    <label>{{ product.price }}₺</label>
+    <div class="flex items-center mt-2 gap-1">
+      <div
+        *ngFor="let productCategory of product.productCategories"
+        [class]="
+          'bg-stone-200/80 ' +
+          productCategory.id +
+          ' border-stone-500 text-sm rounded-md duration-200 inline-block p-1 font-semibold'
+        "
+      >
+        {{ productCategory.name }}
+      </div>
     </div>
   </div>
 </div>

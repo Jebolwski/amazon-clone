@@ -1,0 +1,12 @@
+<app-header></app-header>
+<div class="bg-stone-200 p-3">
+  <div class="flex items-center gap-3">
+    <div
+      *ngFor="let category of category.allCategories"
+      class="bg-stone-100 border font-semibold border-stone-300 p-3 rounded-md"
+    >
+      {{ category.name }}
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>
