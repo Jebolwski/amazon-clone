@@ -1,0 +1,128 @@
+<div class="pt-4">
+  <div class="grid place-items-center">
+    <img
+      src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Amazon_logo.svg/2560px-Amazon_logo.svg.png"
+      class="w-32 mb-5"
+    />
+    <form
+      [formGroup]="registerForm"
+      (submit)="
+        password?.value == password1?.value &&
+        password?.errors == null &&
+        password1?.errors == null &&
+        username?.errors == null
+          ? auth.register(registerForm.value)
+          : logErrors()
+      "
+      class="mt-10 rounded-lg p-4"
+    >
+      <div class="border border-stone-300 max-w-[24rem] rounded-lg">
+        <h4 class="text-3xl font-semibold p-7 pb-0">Hesap Oluşturun</h4>
+        <div class="p-7">
+          <div>
+            <p class="font-semibold text-sm mt-5 mb-1">Ad - Soyad</p>
+            <input
+              type="text"
+              formControlName="username"
+              class="border input-login border-black/80 rounded-[0.2rem] px-1 py-[0.18rem] outline-none w-full"
+            />
+          </div>
+
+          <div>
+            <p class="font-semibold text-sm mt-5 mb-1">Şifre</p>
+            <input
+              type="password"
+              formControlName="password"
+              placeholder="En az 6 karakter"
+              class="border input-login border-black/80 rounded-[0.2rem] px-1 py-[0.18rem] outline-none w-full"
+            />
+            <div class="flex items-center gap-2 mt-2">
+              <i class="fa-solid fa-info fa-sm"></i>
+              <p class="text-xs">Şifreler en az 6 karakterden oluşmalıdır.</p>
+            </div>
+          </div>
+          <div>
+            <p class="font-semibold text-sm mt-5 mb-1">Şifreyi tekrar girin</p>
+            <input
+              type="password"
+              formControlName="password1"
+              class="border input-login border-black/80 rounded-[0.2rem] px-1 py-[0.18rem] outline-none w-full"
+            />
+          </div>
+          <div class="flex items-start gap-2 mt-4">
+            <input type="checkbox" class="mt-1" />
+            <p class="text-sm">
+              Amazon’dan teklif ve promosyonlar da dahil olmak üzere ticari
+              elektronik ileti (e-posta ve SMS gibi) almayı ve Amazon’un kişisel
+              verilerimi aynı amaçla işlemesini kabul ediyorum. * Yasalar gereği
+              e-posta adresinizi İleti Yönetim Sistemi A.Ş. (“İYS”) ile
+              paylaşacağız. İYS’nin veri güvenliği konusunda aldığı tedbirler
+              üzerinde herhangi bir kontrolümüz bulunmamaktadır.
+            </p>
+          </div>
+          <button
+            class="bg-[#ffd814] shadow-md rounded-lg w-full p-1 my-3 hover:bg-[#f7ca00]"
+          >
+            Devam Et
+          </button>
+          <p class="text-xs font-semibold">
+            Bir hesap oluşturduğunuzda, Amazon'un Kullanım ve Satış Koşulları'nı
+            kabul etmiş olursunuz. Daha fazla bilgi için Gizlilik Bildirimi,
+            Çerez Bildirimi ve İlgi Alanına Dayalı Tanıtımları
+            inceleyebilirsiniz.
+          </p>
+        </div>
+        <div class="bg-stone-100/75 p-6 border-t border-stone-200 text-sm">
+          Zaten bir hesabınız var mı?
+          <span
+            routerLink="/login"
+            class="text-blue-700 cursor-pointer hover:underline"
+            >Giriş Yap</span
+          >
+        </div>
+      </div>
+      <div class="flex items-center justify-between w-96 mt-4">
+        <div class="w-24 h-[1px] bg-gray-200"></div>
+        <div class="text-sm flex-nowrap">Amazon hesabınız yok mu?</div>
+        <div class="w-24 h-[1px] bg-gray-200"></div>
+      </div>
+      <input
+        type="submit"
+        class="border border-stone-300 rounded-md mt-3 text-sm w-96 p-1 shadow-md"
+        title="Devam Et"
+      />
+    </form>
+  </div>
+  <div class="bg-[#fcfcfc] border-t border-stone-300 mt-5">
+    <div class="flex items-center justify-center gap-8 text-xs mt-6">
+      <div
+        class="text-blue-800 hover:text-red-900 hover:underline cursor-pointer"
+      >
+        Kullanım Koşulları
+      </div>
+      <div
+        class="text-blue-800 hover:text-red-900 hover:underline cursor-pointer"
+      >
+        Gizlilik Bildirimi
+      </div>
+      <div
+        class="text-blue-800 hover:text-red-900 hover:underline cursor-pointer"
+      >
+        Yardım
+      </div>
+      <div
+        class="text-blue-800 hover:text-red-900 hover:underline cursor-pointer"
+      >
+        Yasal Bildirim
+      </div>
+      <div
+        class="text-blue-800 hover:text-red-900 hover:underline cursor-pointer"
+      >
+        Çerezler Bildirimimiz
+      </div>
+    </div>
+    <div class="text-center text-xs mt-3">
+      © 1996-2023, Amazon.com, Inc. veya bağlı kuruluşları
+    </div>
+  </div>
+</div>

@@ -42,6 +42,7 @@ export class AddProductComponent implements OnInit {
     photos: [],
     productCategories: [],
   };
+  numberOfPhoto: number = 0;
 
   constructor(public product: ProductService) {}
 
@@ -77,7 +78,13 @@ export class AddProductComponent implements OnInit {
     console.log(this.jsonData);
   }
 
-  constructData() {
+  constructData(): {
+    name: string;
+    price: number;
+    description: string;
+    photos: addProductPhoto[];
+    productCategories: addProductCategory[];
+  } {
     let photosArr: { photoUrl: string }[] = [];
     let photoItems = document.querySelectorAll('.link');
     photoItems.forEach((element) => {
@@ -90,24 +97,36 @@ export class AddProductComponent implements OnInit {
       photos: photosArr,
       productCategories: this.jsonData['productCategories'],
     };
-    console.log(this.jsonData);
+    return this.jsonData;
+  }
+
+  addIt() {
+    let json = this.constructData();
+    this.product.addProduct(json);
   }
 
   addNewLink() {
     let links_div = document.querySelector('.photo-links');
     let num = links_div?.children.length;
+    this.numberOfPhoto = num || 0;
     let newInput = document.createElement('div');
-    if (num != undefined && links_div != null) {
+    if (
+      num != undefined &&
+      links_div != null &&
+      links_div?.children.length < 5
+    ) {
       newInput.innerHTML =
         '<div class="flex items-center gap-2"><input type="text" formControlName="price" placeholder="Fotoğraf linki" class="p-2 link link' +
         String(num + 1) +
         ' outline-none border shadow-md border-stone-200 rounded-md mt-1 flex-1 w-full" /> <i class="fa-solid fa-trash fa-lg text-red-500 cursor-pointer"></i> </div>';
+      newInput.querySelector('.fa-trash')?.addEventListener('click', (e) => {
+        newInput.remove();
+        links_div = document.querySelector('.photo-links');
+        num = links_div?.children.length;
+        this.numberOfPhoto = num || 0;
+      });
+
+      links_div?.appendChild(newInput);
     }
-    newInput.querySelector('.fa-trash')?.addEventListener('click', (e) => {
-      let element: Element = e.target as HTMLElement;
-      element = element.parentNode as HTMLElement;
-      element.remove();
-    });
-    links_div?.appendChild(newInput);
   }
 }

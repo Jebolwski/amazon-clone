@@ -13,9 +13,10 @@ import { FooterComponent } from './components/footer/footer.component';
 import { SearchProductsComponent } from './components/search-products/search-products.component';
 import { ProductComponent } from './components/product/product.component';
 import { AddProductComponent } from './components/add-product/add-product.component';
+import { RegisterComponent } from './components/register/register.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, Login2Component, HomeComponent, HeaderComponent, FooterComponent, SearchProductsComponent, ProductComponent, AddProductComponent],
+  declarations: [AppComponent, LoginComponent, Login2Component, HomeComponent, HeaderComponent, FooterComponent, SearchProductsComponent, ProductComponent, AddProductComponent, RegisterComponent],
   imports: [
     BrowserModule,
     ReactiveFormsModule,

@@ -1,11 +1,20 @@
 <app-header></app-header>
-<div class="p-3">
+<div class="p-6 bg-stone-100">
   <div *ngIf="product.products.length == 0">
     <p>bulunamadı</p>
   </div>
-  <div class="flex gap-4 justify-evenly flex-wrap">
-    <div class="lg:w-64 w-48" *ngFor="let product of product.products">
-      <app-product [product]="product"></app-product>
+  <div *ngIf="product.products.length > 0">
+    <div class="mb-3">
+      <h2 class="font-semibold text-lg">Sonuçlar</h2>
+      <p>
+        Fiyat ve diğer ayrıntılar ürünün boyutu ve rengine göre farklılık
+        gösterebilir.
+      </p>
+    </div>
+    <div class="flex gap-4 flex-wrap">
+      <div class="lg:w-64 w-48" *ngFor="let product of product.products">
+        <app-product [product]="product"></app-product>
+      </div>
     </div>
   </div>
 </div>

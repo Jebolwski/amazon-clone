@@ -70,6 +70,21 @@ export class AuthService {
       });
   }
 
+  public register(data: {
+    username: string;
+    password: string;
+    password1: string;
+  }) {
+    this.http
+      .post(this.baseApiUrl + 'Authentication/register', {
+        username: data.username,
+        password: data.password,
+      })
+      .subscribe((res: any) => {
+        console.log(res);
+      });
+  }
+
   public logout() {
     localStorage.removeItem('refreshToken');
     localStorage.removeItem('accessToken');

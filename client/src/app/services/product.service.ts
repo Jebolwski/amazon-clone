@@ -39,4 +39,17 @@ export class ProductService {
         this.productCategories = res;
       });
   }
+
+  public addProduct(data: any): void {
+    this.http
+      .post(this.baseApiUrl + 'Product/add', data, {
+        headers: new HttpHeaders().append(
+          'Authorization',
+          `Bearer ${localStorage.getItem('accessToken')}`
+        ),
+      })
+      .subscribe((res: any) => {
+        console.log(res);
+      });
+  }
 }

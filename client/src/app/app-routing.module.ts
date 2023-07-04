@@ -7,12 +7,19 @@ import { HomeComponent } from './components/home/home.component';
 import { LoggedService } from './services/logged.service';
 import { SearchProductsComponent } from './components/search-products/search-products.component';
 import { AddProductComponent } from './components/add-product/add-product.component';
+import { RegisterComponent } from './components/register/register.component';
 
 const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
     title: 'Giriş Yap',
+    canActivate: [NotLoggedService],
+  },
+  {
+    path: 'register',
+    component: RegisterComponent,
+    title: 'Kayıt Ol',
     canActivate: [NotLoggedService],
   },
   {

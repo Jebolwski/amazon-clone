@@ -1,4 +1,4 @@
-<div class="border border-stone-200/75">
+<div class="border border-stone-200/75 bg-white items-stretch">
   <div *ngFor="let photo of product.photos">
     <img
       [src]="photo.photoUrl"
@@ -9,10 +9,14 @@
   <label>{{ product.price }} TL</label>
   <div class="flex items-center gap-1">
     <div
-      class="bg-stone-300 rounded-lg p-[4px] shadow-md"
       *ngFor="let productCategory of product.productCategories"
+      [class]="
+        'bg-stone-200/80 ' +
+        productCategory.id +
+        ' border-stone-500 text-sm rounded-md duration-200 inline-block p-1 font-semibold'
+      "
     >
-      {{ productCategory?.name }}
+      {{ productCategory.name }}
     </div>
   </div>
 </div>
