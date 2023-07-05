@@ -1,6 +1,6 @@
 ﻿using AmazonClone.Application.Interfaces;
 using AmazonClone.Application.ViewModels.AuthM;
-using AmazonClone.Domain.Entities;
+using AmazonClone.Application.ViewModels.ResponseM;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AmazonClone.Controllers
@@ -17,25 +17,25 @@ namespace AmazonClone.Controllers
         }
 
         [HttpPost("register")]
-        public string Register(RegisterModel model)
+        public ResponseViewModel Register(RegisterModel model)
         {
             return authenticationService.Register(model);
         }
 
         [HttpPost("login")]
-        public string Login(LoginModel model)
+        public ResponseViewModel Login(LoginModel model)
         {
             return authenticationService.Login(model);
         }
 
         [HttpPost("refresh-token")]
-        public string RefreshToken(string reftoken)
+        public ResponseViewModel RefreshToken(string reftoken)
         {
             return authenticationService.RefreshToken(reftoken);
         }
 
         [HttpPost("search-by-username")]
-        public UserResponseModel SearchByUsername(string name)
+        public ResponseViewModel SearchByUsername(string name)
         {
             return authenticationService.SearchByUsername(name);
         }

@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Microsoft.AspNetCore.Mvc;
 using AmazonClone.Application.ViewModels.CartM;
+using AmazonClone.Application.ViewModels.ResponseM;
 
 namespace AmazonClone.Application.Services
 {
@@ -27,17 +28,25 @@ namespace AmazonClone.Application.Services
             this.roleService = roleService;
         }
 
-        public string Login(LoginModel request)
+        public ResponseViewModel Login(LoginModel request)
         {
             User user = userService.getUserByUsername(request.username);
             if (user == null)
             {
-                return "User not found";
+                return new ResponseViewModel(){
+                    message = "User not found",
+                    responseModel = new Object(),
+                    statusCode = 400
+                };
             }
 
             if (!VerifyPasswordHash(request.password, user.passwordHash, user.passwordSalt))
             {
-                return "Wrong password.";
+                return new ResponseViewModel(){
+                    message = "Wrong username or password",
+                    responseModel = new Object(),
+                    statusCode = 400
+                };
             }
                 
             string token = CreateToken(user);
@@ -50,20 +59,24 @@ namespace AmazonClone.Application.Services
                 accessToken = token,
                 refreshToken = refreshToken,
             };
-            return JsonConvert.SerializeObject(obj);
+            return new ResponseViewModel(){
+                message = "Successfully logged in",
+                responseModel = obj,
+                statusCode = 200
+            };
         }
 
-        public string Register(RegisterModel model)
+        public ResponseViewModel Register(RegisterModel model)
         {
             CreatePasswordHash(model.password, out byte[] passwordHash, out byte[] passwordSalt);
             User user =  userService.getUserByUsername(model.username);
             if (user != null)
             {
-                var obje = new
-                {
-                    msg = "Username already in use.",
+                return new ResponseViewModel(){
+                    message = "Username already in use",
+                    responseModel = new Object(),
+                    statusCode = 400
                 };
-                return JsonConvert.SerializeObject(obje);
             }
 
             user = new User()
@@ -82,12 +95,11 @@ namespace AmazonClone.Application.Services
             user.cartId = cartResponseModel.id;
             userService.update(user);
 
-            var obj = new
-            {
-                msg = "Successfully registered.",
-                user = user
+            return new ResponseViewModel(){
+                message = "Successfully registered",
+                responseModel = user,
+                statusCode = 200
             };
-            return JsonConvert.SerializeObject(obj);
         }
 
         private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
@@ -153,20 +165,32 @@ namespace AmazonClone.Application.Services
             return refreshToken;
         }
         
-        public string RefreshToken(string reftoken)
+        public ResponseViewModel RefreshToken(string reftoken)
         {
             if (reftoken != null) { 
                 User user = userService.getUserByRefreshToken(reftoken);
                 if (user == null) {
-                    return null;
+                    return new ResponseViewModel(){
+                        message = "Invalid refresh token.",
+                        responseModel = new Object(),
+                        statusCode = 400
+                    };
                 }
                 if (!user.RefreshToken.Equals(reftoken))
                 {
-                    return "Invalid Refresh Token.";
+                    return new ResponseViewModel(){
+                        message = "Invalid refresh token.",
+                        responseModel = new Object(),
+                        statusCode = 400
+                    };
                 }
                 else if (user.TokenExpires < DateTime.UtcNow)
                 {
-                    return "Token expired.";
+                   return new ResponseViewModel(){
+                    message = "Token expired.",
+                    responseModel = new Object(),
+                    statusCode = 400
+                };
                 }
 
                 string token = CreateToken(user);
@@ -178,12 +202,20 @@ namespace AmazonClone.Application.Services
                     accessToken = token,
                     refreshToken = newRefreshToken,
                 };
-                return JsonConvert.SerializeObject(obj);
+                return new ResponseViewModel(){
+                    message = "Successfully refreshed token",
+                    responseModel = obj,
+                    statusCode = 200
+                };
             }
-            return null;
+            return new ResponseViewModel(){
+                    message = "Token wasnt entered.",
+                    responseModel = new Object(),
+                    statusCode = 400
+                };
         }
 
-        public UserResponseModel SearchByUsername(string username)
+        public ResponseViewModel SearchByUsername(string username)
         {
             Console.WriteLine(username);
             if (username != null)
@@ -191,10 +223,14 @@ namespace AmazonClone.Application.Services
                 User user = userService.getUserByUsername(username);
                 if (user == null)
                 {
-                    return null;
+                    return new ResponseViewModel(){
+                        message = "User does not exist.",
+                        responseModel = new Object(),
+                        statusCode = 400
+                    };
                 }
 
-                return new UserResponseModel()
+                UserResponseModel userResponseModel = new UserResponseModel()
                 {
                     TokenCreated = user.TokenCreated,
                     cartId = user.cartId,
@@ -202,8 +238,17 @@ namespace AmazonClone.Application.Services
                     roleId = user.roleId,
                     TokenExpires = user.TokenExpires
                 };
+                return new ResponseViewModel(){
+                    statusCode = 200,
+                    message = "User found.",
+                    responseModel = userResponseModel
+                };
             }
-            return null;
+            return new ResponseViewModel(){
+                        message = "You didnt enter username.",
+                        responseModel = new Object(),
+                        statusCode = 400
+                    };
         }
 
 

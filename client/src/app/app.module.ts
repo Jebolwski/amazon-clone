@@ -16,9 +16,23 @@ import { AddProductComponent } from './components/add-product/add-product.compon
 import { RegisterComponent } from './components/register/register.component';
 import { AddCategoryComponent } from './components/add-category/add-category.component';
 import { AllCategoriesComponent } from './components/all-categories/all-categories.component';
-
+import { DeleteCategoryComponent } from './components/delete-category/delete-category.component';
 @NgModule({
-  declarations: [AppComponent, LoginComponent, Login2Component, HomeComponent, HeaderComponent, FooterComponent, SearchProductsComponent, ProductComponent, AddProductComponent, RegisterComponent, AddCategoryComponent, AllCategoriesComponent],
+  declarations: [
+    AppComponent,
+    LoginComponent,
+    Login2Component,
+    HomeComponent,
+    HeaderComponent,
+    FooterComponent,
+    SearchProductsComponent,
+    ProductComponent,
+    AddProductComponent,
+    RegisterComponent,
+    AddCategoryComponent,
+    AllCategoriesComponent,
+    DeleteCategoryComponent,
+  ],
   imports: [
     BrowserModule,
     ReactiveFormsModule,

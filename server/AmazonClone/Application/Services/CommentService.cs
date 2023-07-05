@@ -1,6 +1,7 @@
 ﻿using AmazonClone.Application.Interfaces;
 using AmazonClone.Application.ViewModels.CommentM;
 using AmazonClone.Application.ViewModels.CommentPhotoM;
+using AmazonClone.Application.ViewModels.ResponseM;
 using AmazonClone.Domain.Entities;
 using AmazonClone.Domain.Interfaces;
 using Microsoft.IdentityModel.Tokens;
@@ -21,13 +22,18 @@ namespace AmazonClone.Application.Services
             this.productService = productService;
         }
 
-        public CommentResponseModel postComment(PostCommentModel model,string authToken)
+        public ResponseViewModel postComment(PostCommentModel model,string authToken)
         {
             if (model != null)
             {
                 if (productService.get(model.productId) == null)
                 {
-                    return null;    
+                    return new ResponseViewModel()
+                    {
+                        message = "Aradığınız ürün bulunamadı.",
+                        responseModel = null,
+                        statusCode = 400,
+                    };
                 }
                 
                 User user = null;
@@ -40,7 +46,12 @@ namespace AmazonClone.Application.Services
                     user = userService.getUserByUsername(jsonToken.Claims.First().Value);
                     if (user == null)
                     {
-                        return null;
+                        return new ResponseViewModel()
+                        {
+                            message = "Yanlış kullanıcı.",
+                            responseModel = null,
+                            statusCode = 400,
+                        };
                     }
                 }
 
@@ -71,10 +82,17 @@ namespace AmazonClone.Application.Services
                         photoUrl = item.photoUrl,
                     });
                 }
-                return new CommentResponseModel() { 
+                CommentResponseModel commentResponseModel = new CommentResponseModel() { 
                     commentPhotos = commentPhotos1,
                     comment = comment.comment,
                     userId = comment.userId,
+                    productId = comment.productId,
+                };
+                return new ResponseViewModel()
+                {
+                    responseModel = commentResponseModel,
+                    message = "Mesajınız başarıyla oluşturuldu.",
+                    statusCode = 200
                 };
             }
 

@@ -6,12 +6,11 @@ using AmazonClone.Application.ViewModels.ProductPhotoM;
 using AmazonClone.Data.Repositories;
 using AmazonClone.Domain.Entities;
 using AmazonClone.Domain.Interfaces;
-using AmazonClone.Application.ViewModels.ProductPhotoM;
 using AmazonClone.Application.ViewModels.GuidM;
 using AmazonClone.Application.ViewModels.ProductProductCategory;
 using AmazonClone.Application.ViewModels.CartM;
-using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using AmazonClone.Application.ViewModels.ResponseM;
 
 namespace AmazonClone.Application.Services
 {
@@ -29,9 +28,8 @@ namespace AmazonClone.Application.Services
             this.productProductCategoryService = productProductCategoryService;
         }
 
-        public string add(ProductCreateModel model)
+        public ResponseViewModel add(ProductCreateModel model)
         {
-            
             if (model != null)
             {
                 //fotoğraflar
@@ -82,23 +80,29 @@ namespace AmazonClone.Application.Services
                         id = photo.id
                     });
                 }
-                
-                var obj = new
+
+                ProductResponseModel productResponseModel = new ProductResponseModel()
                 {
-                    msg = "Successfully added product.",
-                    data = new ProductResponseModel()
-                    {
-                        id = product.id,
-                        description = product.description,
-                        name = product.name,
-                        price = product.price,
-                        photos = productPhotoModels,
-                        productCategories = productCategories
-                    },
+                    id = product.id,
+                    description = product.description,
+                    name = product.name,
+                    price = product.price,
+                    photos = productPhotoModels,
+                    productCategories = productCategories
                 };
-                return JsonConvert.SerializeObject(obj);
+
+                return new ResponseViewModel() {
+                    message = "Ürün başarıyla eklendi. 🚀",
+                    responseModel = productResponseModel,
+                    statusCode = 200,
+                };
             }
-            return null;
+            return new ResponseViewModel()
+            {
+                responseModel = new Object(),
+                statusCode = 400,
+                message = "Model girilmedi. 😞"
+            };
         }
 
         public CartResponseModel addProductToCart(ProductCreateModel model)
@@ -106,22 +110,34 @@ namespace AmazonClone.Application.Services
             throw new NotImplementedException();
         }
 
-        public string delete(Guid id)
+        public ResponseViewModel delete(Guid id)
         {
             //ilk ürün - ürün kategorisi listesinden silinmeli
             //sonra ürün silinmeli
+            Product product = productRepository.get(id);
+            if (product == null) {
+                return new ResponseViewModel()
+                {
+                    message = "Ürün bulunamadı. 😢",
+                    statusCode = 400,
+                    responseModel = new Object()
+                };
+            }
             productProductCategoryService.deleteProductProductCategoriesByProductId(id);
             productRepository.delete(id);
-            var obj = new
+            return new ResponseViewModel()
             {
-                msg = "Successfully deleted product.",
+                message = "Başarıyla ürün silindi. 🥰",
+                statusCode = 200,   
+                responseModel = new Object()
             };
-            return JsonConvert.SerializeObject(obj);
         }
 
-        public ProductResponseModel get(Guid id)
+        public ResponseViewModel get(Guid id)
         {
             Product product = productRepository.getProductWithPhotos(id);
+            if (product != null)
+            {
             List<ProductPhotoResponseModel> productPhotoModels = new List<ProductPhotoResponseModel>();
             if (product.photos != null) { 
                 foreach (ProductPhoto photo in product.photos)
@@ -133,22 +149,29 @@ namespace AmazonClone.Application.Services
                     });
                 }
             }
-            if (product != null)
-            {
-                return new ProductResponseModel()
+                return new ResponseViewModel()
                 {
-                    description = product.description,
-                    name = product.name,
-                    id = product.id,
-                    price = product.price,
-                    productCategories = productProductCategoryService.getProductCategoriesByProductId(id),
-                    photos = productPhotoModels
+                    message = "Ürün başarıyla getirildi. ✨",
+                    statusCode = 200,
+                    responseModel = new ProductResponseModel() {
+                        description = product.description,
+                        name = product.name,
+                        id = product.id,
+                        price = product.price,
+                        productCategories = productProductCategoryService.getProductCategoriesByProductId(id),
+                        photos = productPhotoModels
+                    }
                 };
             }
-            return null;
+            return new ResponseViewModel()
+            {
+                message = "Ürün bulunamadı. 😐",
+                statusCode = 400,
+                responseModel = new Object()
+            };
         }
 
-        public string update(ProductUpdateModel model)
+        public ResponseViewModel update(ProductUpdateModel model)
         {
 
             ICollection<ProductPhoto> photos = new HashSet<ProductPhoto>();
@@ -211,10 +234,10 @@ namespace AmazonClone.Application.Services
 
             }
 
-            var obj = new
+            return new ResponseViewModel()
             {
-                msg = "Successfully updated product.",
-                data = new ProductResponseModel()
+                message = "Ürün başarıyla güncellendi. ⚡",
+                responseModel = new ProductResponseModel()
                 {
                     id = product.id,
                     description = product.description,
@@ -222,9 +245,9 @@ namespace AmazonClone.Application.Services
                     price = product.price,
                     photos = productPhotoModels,
                     productCategories = productCategories
-                }
+                },
+                statusCode = 200
             };
-            return JsonConvert.SerializeObject(obj);
 
         }
 
@@ -236,7 +259,7 @@ namespace AmazonClone.Application.Services
             {
                 foreach (Product item in products) 
                 {
-                    productResponseModels.Add(get(item.id));
+                    productResponseModels.Add((ProductResponseModel) get(item.id).responseModel);
                 }
             }
             return productResponseModels;

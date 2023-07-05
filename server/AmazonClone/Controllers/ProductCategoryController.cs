@@ -28,14 +28,14 @@ namespace AmazonClone.Controllers
             return this.productCategoryService.add(model);
         }
 
-        [HttpDelete("delete"),Authorize(Roles = "Admin")]
-        public bool Delete(Guid id){
-            return this.productCategoryService.delete(id);
+        [HttpDelete("{categoryId}/delete"),Authorize(Roles = "Admin")]
+        public bool Delete(Guid categoryId){
+            return this.productCategoryService.delete(categoryId);
         }
 
-        [HttpGet("get-all"),Authorize(Roles = "Admin")]
-        public ICollection<ProductCategoryResponseModel> GetAll(){
-            return this.productCategoryService.GetProductCategories();
+        [HttpGet("{categoryId}"),Authorize(Roles = "Admin")]
+        public ProductCategoryResponseModel GetAll(Guid categoryId){
+            return this.productCategoryService.get(categoryId);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using AmazonClone.Application.Interfaces;
 using AmazonClone.Application.ViewModels.CommentM;
+using AmazonClone.Application.ViewModels.ResponseM;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,11 +17,12 @@ namespace AmazonClone.Controllers
         }
 
         [HttpPost("post"), Authorize(Roles = "Normal User,Admin")]
-        public CommentResponseModel postComment(PostCommentModel model)
+        public ResponseViewModel postComment(PostCommentModel model)
         {
             string authToken = HttpContext.Request.Headers["Authorization"];
 
             return commentAppService.postComment(model,authToken);
+            
         }
 
         [HttpPut("update"), Authorize(Roles = "Normal User,Admin")]

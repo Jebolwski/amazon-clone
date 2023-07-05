@@ -1,5 +1,6 @@
 ﻿using AmazonClone.Application.Interfaces;
 using AmazonClone.Application.ViewModels.ProductM;
+using AmazonClone.Application.ViewModels.ResponseM;
 using AmazonClone.Domain.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -20,27 +21,27 @@ namespace AmazonClone.Controllers
         }
 
         [HttpPost("add"),Authorize(Roles = "Admin")]
-        public string add(ProductCreateModel model)
+        public ResponseViewModel add(ProductCreateModel model)
         {
             return productService.add(model);
         }
 
 
         [HttpGet("{productId}"), AllowAnonymous]
-        public ProductResponseModel get(Guid productId)
+        public ResponseViewModel get(Guid productId)
         {
             return productService.get(productId);
         }
 
 
         [HttpDelete("{productId}"), Authorize(Roles = "Admin")]
-        public string delete(Guid productId)
+        public ResponseViewModel delete(Guid productId)
         {
             return productService.delete(productId);
         }
 
         [HttpPut("update"), Authorize(Roles = "Admin")]
-        public string update(ProductUpdateModel model)
+        public ResponseViewModel update(ProductUpdateModel model)
         {
             return productService.update(model);
         }

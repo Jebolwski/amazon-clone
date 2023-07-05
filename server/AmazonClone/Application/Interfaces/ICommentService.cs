@@ -1,4 +1,5 @@
 ﻿using AmazonClone.Application.ViewModels.CommentM;
+using AmazonClone.Application.ViewModels.ResponseM;
 
 namespace AmazonClone.Application.Interfaces
 {
@@ -7,6 +8,6 @@ namespace AmazonClone.Application.Interfaces
         public CommentResponseModel updateComment(UpdateCommentModel model,string authToken);
         public bool deleteComment(Guid id, string authToken);
         public CommentResponseModel getComment(Guid id);
-        public CommentResponseModel postComment(PostCommentModel model, string authToken);
+        public ResponseViewModel postComment(PostCommentModel model, string authToken);
     }
 }

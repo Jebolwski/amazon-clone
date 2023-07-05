@@ -1,11 +1,37 @@
 <app-header></app-header>
-<div class="bg-stone-200 p-3">
-  <div class="flex items-center gap-3">
+<div class="bg-stone-100 p-7">
+  <h2 class="text-2xl font-semibold mb-3">Bütün Ürün Kategorileri</h2>
+  <div
+    routerLink="/add-category"
+    class="font-light inline-block mb-6 hover:text-yellow-500 text-yellow-700 cursor-pointer"
+  >
+    <i class="fa-solid fa-certificate fa-sm"></i>
+    Yeni ürün kategorisi ekle
+  </div>
+  <div class="flex flex-wrap items-center gap-3">
     <div
       *ngFor="let category of category.allCategories"
-      class="bg-stone-100 border font-semibold border-stone-300 p-3 rounded-md"
+      class="bg-gradient-to-br category relative cursor-pointer from-white to-stone-300 border hover:shadow-lg duration-200 border-stone-300 shadow-md p-3 rounded-md"
     >
-      {{ category.name }}
+      <p class="font-semibold text-lg">
+        {{ category.name }}
+      </p>
+      <p class="font-light">
+        {{
+          category.description.length > 40
+            ? category.description.substring(0, 40) + "..."
+            : category.description
+        }}
+      </p>
+      <div class="absolute right-5 -top-3">
+        <i class="fa-solid fa-file-pen text-green-400"></i>
+      </div>
+      <div
+        [routerLink]="'/category/' + category.id + '/delete'"
+        class="absolute -right-2 -top-3"
+      >
+        <i class="fa-solid fa-trash text-red-500"></i>
+      </div>
     </div>
   </div>
 </div>

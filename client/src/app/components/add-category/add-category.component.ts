@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { CategoryService } from 'src/app/services/category.service';
 
 @Component({
@@ -8,7 +9,7 @@ import { CategoryService } from 'src/app/services/category.service';
   styleUrls: ['./add-category.component.scss'],
 })
 export class AddCategoryComponent {
-  constructor(public category: CategoryService) {}
+  constructor(public category: CategoryService, private router: Router) {}
 
   public addCategoryForm: FormGroup = new FormGroup({
     name: new FormControl('', [
@@ -44,7 +45,9 @@ export class AddCategoryComponent {
 
   addIt() {
     let jsonData = this.constructData();
-    this.category.addCategory(jsonData);
-    console.log(jsonData);
+    let res = this.category.addCategory(jsonData);
+    if (res == true) {
+      this.router.navigate(['/']);
+    }
   }
 }

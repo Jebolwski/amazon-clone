@@ -3,13 +3,15 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import * as jwt_decode from 'jwt-decode';
 import { User } from '../interfaces/user';
+import { Response } from '../interfaces/response';
+import { Notyf } from 'notyf';
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   public user!: User;
   private baseApiUrl: string = 'http://localhost:5044/api/';
-
+  notyf = new Notyf();
   constructor(private http: HttpClient, private router: Router) {
     if (
       localStorage.getItem('accessToken') &&
@@ -35,10 +37,19 @@ export class AuthService {
         password: data.password,
       })
       .subscribe((res: any) => {
-        if (res.accessToken) {
-          localStorage.setItem('accessToken', res.accessToken);
-          localStorage.setItem('refreshToken', res.refreshToken.Token);
-          let jwtData: any = jwt_decode.default(res.accessToken);
+        let response: Response = res;
+        if (response.statusCode === 200) {
+          localStorage.setItem(
+            'accessToken',
+            response.responseModel.accessToken
+          );
+          localStorage.setItem(
+            'refreshToken',
+            response.responseModel.refreshToken
+          );
+          let jwtData: any = jwt_decode.default(
+            response.responseModel.accessToken
+          );
           this.user = {
             username:
               jwtData[
@@ -48,7 +59,10 @@ export class AuthService {
               'http://schemas.microsoft.com/ws/2008/06/identity/claims/role'
             ],
           };
+          this.notyf.success(response.message);
           this.router.navigate(['/']);
+        } else {
+          this.notyf.error(response.message);
         }
       });
   }

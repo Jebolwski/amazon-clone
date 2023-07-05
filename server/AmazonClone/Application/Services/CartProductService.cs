@@ -62,7 +62,7 @@ namespace AmazonClone.Application.Services
 
             foreach (CartProduct item in cartProducts)
             {
-                productResponseModels.Add(productService.get(item.productId));
+                productResponseModels.Add((ProductResponseModel) productService.get(item.productId).responseModel);
             }
 
             return productResponseModels;

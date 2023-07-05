@@ -10,6 +10,8 @@ import { AddProductComponent } from './components/add-product/add-product.compon
 import { RegisterComponent } from './components/register/register.component';
 import { AddCategoryComponent } from './components/add-category/add-category.component';
 import { AllCategoriesComponent } from './components/all-categories/all-categories.component';
+import { AdminuserService } from './services/adminuser.service';
+import { DeleteCategoryComponent } from './components/delete-category/delete-category.component';
 
 const routes: Routes = [
   {
@@ -46,19 +48,25 @@ const routes: Routes = [
     path: 'add-product',
     component: AddProductComponent,
     title: 'Ürün Ekle',
-    canActivate: [LoggedService],
+    canActivate: [AdminuserService],
   },
   {
     path: 'add-category',
     component: AddCategoryComponent,
     title: 'Ürün Kategorisi Ekle',
-    canActivate: [LoggedService],
+    canActivate: [AdminuserService],
   },
   {
     path: 'all-categories',
     component: AllCategoriesComponent,
     title: 'Bütün Ürün Kategorileri',
-    canActivate: [LoggedService],
+    canActivate: [AdminuserService],
+  },
+  {
+    path: 'category/:id/delete',
+    component: DeleteCategoryComponent,
+    title: 'Ürün Kategorisi Sil',
+    canActivate: [AdminuserService],
   },
 ];
 
