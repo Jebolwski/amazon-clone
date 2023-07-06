@@ -37,7 +37,7 @@ export class AddProductComponent implements OnInit {
     productCategories: addProductCategory[];
   } = {
     name: '',
-    price: 0,
+    price: 0.0,
     description: '',
     photos: [],
     productCategories: [],

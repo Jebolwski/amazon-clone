@@ -3,6 +3,7 @@ using AmazonClone.Application.ViewModels.ProductM;
 using AmazonClone.Application.ViewModels.ProductCategoryM;
 using AmazonClone.Domain.Entities;
 using AmazonClone.Domain.Interfaces;
+using AmazonClone.Application.ViewModels.ResponseM;
 
 namespace AmazonClone.Application.Services
 {
@@ -15,7 +16,7 @@ namespace AmazonClone.Application.Services
             this.categoryRepository = categoryRepository;
         }
 
-        public ProductCategoryResponseModel add(ProductCategoryCreateModel model)
+        public ResponseViewModel add(ProductCategoryCreateModel model)
         {
             if (model != null)
             {
@@ -29,23 +30,39 @@ namespace AmazonClone.Application.Services
                     name = product.name,
                     id = product.id
                 };
-                return productCategoryResponse;
+                return new ResponseViewModel(){
+                    responseModel = productCategoryResponse,
+                    message = "Ürün başarıyla eklendi. ✨",
+                    statusCode = 200
+                };
             }
-            return null;
+            return new ResponseViewModel(){
+                message = "Veri eklenmedi. 😥",
+                responseModel = new Object(),
+                statusCode = 400
+            };
         }
 
-        public bool delete(Guid id)
+        public ResponseViewModel delete(Guid id)
         {
             ProductCategory productCategory = categoryRepository.get(id);
             if (productCategory != null)
             {
                 categoryRepository.delete(id);
-                return true;
+                return new ResponseViewModel(){
+                    message = "Ürün başarıyla silindi. 😍",
+                    responseModel = new Object(),
+                    statusCode = 200
+                };
             }
-            return false;
+            return new ResponseViewModel(){
+                message = "Verdiğiniz id ile ürün bulunamadı. 😐",
+                responseModel = new Object(),
+                statusCode = 400
+            };
         }
 
-        public ProductCategoryResponseModel get(Guid id)
+        public ResponseViewModel get(Guid id)
         {
             ProductCategory productCategory = categoryRepository.get(id);
             if (productCategory != null) {
@@ -55,12 +72,20 @@ namespace AmazonClone.Application.Services
                     name = productCategory.name,
                     id = productCategory.id
                 };
-                return categoryResponseModel;
+                return new ResponseViewModel(){
+                    message = "Ürün getirildi. 🚀",
+                    responseModel = categoryResponseModel,
+                    statusCode = 200
+                };
             }
-            return null;
+            return new ResponseViewModel(){
+                    message = "Ürün bulunamadı. 😒",
+                    responseModel = new Object(),
+                    statusCode = 400
+                };
         }
 
-        public ProductCategoryResponseModel update(ProductUpdateModel model)
+        public ResponseViewModel update(ProductUpdateModel model)
         {
             ProductCategory productCategory = categoryRepository.get(model.id);
             if (productCategory != null)
@@ -73,12 +98,20 @@ namespace AmazonClone.Application.Services
                     description= productCategory1.description,
                     name = productCategory1.name
                 };
-                return responseModel;
+                return new ResponseViewModel(){
+                    message = "Ürün başarıyla güncellendi. ⚡",
+                    responseModel = responseModel,
+                    statusCode = 200
+                };
             }
-            return null;
+            return new ResponseViewModel(){
+                    message = "Ürün bulunamadı. 😶",
+                    responseModel = new Object(),
+                    statusCode = 400
+                };
         }
     
-        public ICollection<ProductCategoryResponseModel> GetProductCategories(){
+        public ResponseViewModel GetProductCategories(){
             ICollection<ProductCategory> productCategories = categoryRepository.GetProductCategories();
             ICollection<ProductCategoryResponseModel> responseModel = new List<ProductCategoryResponseModel>();
             foreach(ProductCategory product in productCategories){
@@ -88,7 +121,11 @@ namespace AmazonClone.Application.Services
                     name = product.name
                 });
             }
-            return responseModel;
+            return new ResponseViewModel(){
+                message = "Ürün kategorileri getirildi. ⚡",
+                responseModel = responseModel,
+                statusCode = 200
+            };
         }
     }
 }

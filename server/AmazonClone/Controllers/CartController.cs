@@ -1,6 +1,7 @@
 ﻿using AmazonClone.Application.Interfaces;
 using AmazonClone.Application.ViewModels.CartM;
 using AmazonClone.Application.ViewModels.CartProductM;
+using AmazonClone.Application.ViewModels.ResponseM;
 using AmazonClone.Domain.Entities;
 using AmazonClone.Domain.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -22,13 +23,13 @@ namespace AmazonClone.Controllers
         }
 
         [HttpPost("add-to-user")]
-        public CartResponseModel addCartToUser(Guid id)
+        public ResponseViewModel addCartToUser(Guid id)
         {
             return cartAppService.addCartToUser(id);
         }
 
-        [HttpPost("add-to-cart"),Authorize(Roles = "Normal User,Admin")]
-        public CartResponseModel add(CartProductCreateModel model)
+        [HttpPost("add-to-cart"), Authorize(Roles = "Normal User,Admin")]
+        public ResponseViewModel add(CartProductCreateModel model)
         {
             string authToken = HttpContext.Request.Headers["Authorization"];
 

@@ -1,6 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Product, ProductCategory } from '../interfaces/product';
+import { Response } from '../interfaces/response';
+import { Notyf } from 'notyf';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -9,8 +12,9 @@ export class CategoryService {
   private baseApiUrl: string = 'http://localhost:5044/api/';
   allCategories: ProductCategory[] = [];
   category!: ProductCategory;
+  notyf = new Notyf();
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private router: Router) {
     this.getAllCategories();
   }
 
@@ -24,9 +28,12 @@ export class CategoryService {
         ),
       })
       .subscribe((res: any) => {
-        console.log(res);
-        if (res['id'] != null) {
-          bool = true;
+        let response: Response = res;
+        if (response.statusCode === 200) {
+          this.router.navigate(['/all-categories']);
+          this.notyf.success(response.message);
+        } else {
+          this.notyf.error(response.message);
         }
       });
     return bool;
@@ -41,12 +48,12 @@ export class CategoryService {
         ),
       })
       .subscribe((res: any) => {
-        this.allCategories = res;
+        let response: Response = res;
+        this.allCategories = response.responseModel;
       });
   }
 
-  public deleteCategory(id: string): boolean {
-    let result: boolean = false;
+  public deleteCategory(id: string) {
     this.http
       .delete(this.baseApiUrl + 'ProductCategory/' + id + '/delete', {
         headers: new HttpHeaders().append(
@@ -55,9 +62,14 @@ export class CategoryService {
         ),
       })
       .subscribe((res: any) => {
-        result = res;
+        let response: Response = res;
+        if (response.statusCode === 200) {
+          this.router.navigate(['/all-categories']);
+          this.notyf.success(response.message);
+        } else {
+          this.notyf.error(response.message);
+        }
       });
-    return result;
   }
 
   public getCategoryById(id: string) {
@@ -69,8 +81,11 @@ export class CategoryService {
         ),
       })
       .subscribe((res: any) => {
-        if (res['id'] != null) {
-          this.category = res;
+        let response: Response = res;
+        if (response.statusCode === 200) {
+          this.category = response.responseModel;
+        } else {
+          this.notyf.error(response.message);
         }
       });
   }

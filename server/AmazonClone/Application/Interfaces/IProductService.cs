@@ -11,7 +11,7 @@ namespace AmazonClone.Application.Interfaces
         public ResponseViewModel delete(Guid id);
         public ResponseViewModel update(ProductUpdateModel model);
         public ResponseViewModel add(ProductCreateModel model);
-        public ICollection<ProductResponseModel> filterProductsByName(string productName);
+        public ResponseViewModel filterProductsByName(string productName);
         //add product to cart
         public CartResponseModel addProductToCart(ProductCreateModel model);
 

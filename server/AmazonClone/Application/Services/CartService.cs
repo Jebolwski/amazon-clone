@@ -4,6 +4,7 @@ using AmazonClone.Application.ViewModels.ProductM;
 using AmazonClone.Application.ViewModels.CartProductM;
 using AmazonClone.Domain.Entities;
 using AmazonClone.Domain.Interfaces;
+using AmazonClone.Application.ViewModels.ResponseM;
 
 namespace AmazonClone.Application.Services
 {
@@ -18,7 +19,7 @@ namespace AmazonClone.Application.Services
             this.cartProductService = cartProductService;
         }
 
-        public CartResponseModel addCartToUser(Guid id)
+        public ResponseViewModel addCartToUser(Guid id)
         {
             if (id != null)
             {
@@ -26,20 +27,29 @@ namespace AmazonClone.Application.Services
                 {
                     userId = id,
                 });
-
-                return new CartResponseModel()
+                return new ResponseViewModel()
                 {
-                    id = cart.id,
-                    userId = id,
-                    products = new HashSet<ProductResponseModel>()
+                    message = "Kart eklendi. 😍",
+                    responseModel = new CartResponseModel()
+                    {
+                        id = cart.id,
+                        userId = id,
+                        products = new HashSet<ProductResponseModel>()
+                    },
+                    statusCode = 200
                 };
             }
-            return null;
+            return new ResponseViewModel()
+            {
+                message = "Veri verilmedi. 😒",
+                responseModel = new Object(),
+                statusCode = 400
+            };
         }
-    
-        public CartResponseModel addToCart(CartProductCreateModel model,string authToken)
+
+        public ResponseViewModel addToCart(CartProductCreateModel model, string authToken)
         {
-            return cartProductService.add(model,authToken);
+            return cartProductService.add(model, authToken);
         }
     }
 }

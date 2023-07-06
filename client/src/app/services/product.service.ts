@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Product, ProductCategory } from '../interfaces/product';
 import { AuthService } from './auth.service';
+import { Response } from '../interfaces/response';
+import { Notyf } from 'notyf';
 
 @Injectable({
   providedIn: 'root',
@@ -16,6 +18,7 @@ export class ProductService {
     private router: Router,
     private auth: AuthService
   ) {}
+  notyf = new Notyf();
 
   public getProductsByName(name: string) {
     this.http
@@ -36,7 +39,12 @@ export class ProductService {
         ),
       })
       .subscribe((res: any) => {
-        this.productCategories = res;
+        let response: Response = res;
+        if (response.statusCode === 200) {
+          this.productCategories = response.responseModel;
+        } else {
+          this.notyf.error(response.message);
+        }
       });
   }
 

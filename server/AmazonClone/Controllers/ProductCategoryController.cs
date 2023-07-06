@@ -1,6 +1,7 @@
 using AmazonClone.Application.Interfaces;
 using AmazonClone.Application.ViewModels.ProductCategoryM;
 using AmazonClone.Application.ViewModels.ProductM;
+using AmazonClone.Application.ViewModels.ResponseM;
 using AmazonClone.Domain.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -19,22 +20,22 @@ namespace AmazonClone.Controllers
         }
 
         [HttpGet("get-all-categories"),Authorize(Roles = "Admin")]
-        public ICollection<ProductCategoryResponseModel> GetAllCategories(){
+        public ResponseViewModel GetAllCategories(){
             return this.productCategoryService.GetProductCategories();
         }
 
         [HttpPost("add"),Authorize(Roles = "Admin")]
-        public ProductCategoryResponseModel Add(ProductCategoryCreateModel model){
+        public ResponseViewModel Add(ProductCategoryCreateModel model){
             return this.productCategoryService.add(model);
         }
 
         [HttpDelete("{categoryId}/delete"),Authorize(Roles = "Admin")]
-        public bool Delete(Guid categoryId){
+        public ResponseViewModel Delete(Guid categoryId){
             return this.productCategoryService.delete(categoryId);
         }
 
         [HttpGet("{categoryId}"),Authorize(Roles = "Admin")]
-        public ProductCategoryResponseModel GetAll(Guid categoryId){
+        public ResponseViewModel GetAll(Guid categoryId){
             return this.productCategoryService.get(categoryId);
         }
     }

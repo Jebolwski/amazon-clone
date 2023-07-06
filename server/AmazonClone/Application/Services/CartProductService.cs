@@ -7,6 +7,7 @@ using AmazonClone.Application.ViewModels.ProductM;
 using AmazonClone.Application.ViewModels.CartM;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using AmazonClone.Application.ViewModels.ResponseM;
 
 namespace AmazonClone.Application.Services
 {
@@ -23,7 +24,7 @@ namespace AmazonClone.Application.Services
             this.userService = userService;
         }
 
-        public CartResponseModel add(CartProductCreateModel model, string authToken)
+        public ResponseViewModel add(CartProductCreateModel model, string authToken)
         {
             if (model != null)
             {
@@ -34,7 +35,12 @@ namespace AmazonClone.Application.Services
                 User user = userService.getUserByUsername(jsonToken.Claims.First().Value);
                 if (user == null)
                 {
-                    return null;
+                    return new ResponseViewModel()
+                    {
+                        message = "Kullanıcı doğrulanamadı. 😞",
+                        responseModel = new Object(),
+                        statusCode = 400
+                    };
                 }
                 CartProduct cartProduct = cartProductRepository.add(new CartProduct()
                 {
@@ -42,30 +48,44 @@ namespace AmazonClone.Application.Services
                     productId = model.productId
                 });
 
-                ICollection<ProductResponseModel> productResponses = getProductsByCartId(cartProduct.cartId);
-
-                return new CartResponseModel()
+                ICollection<ProductResponseModel> productResponses = (ICollection<ProductResponseModel>)getProductsByCartId(cartProduct.cartId).responseModel;
+                return new ResponseViewModel()
                 {
-                    id = cartProduct.cartId,
-                    userId = user.id,
-                    products = productResponses
+                    message = "Karta ürün eklendi. 🌝",
+                    responseModel = new CartResponseModel()
+                    {
+                        id = cartProduct.cartId,
+                        userId = user.id,
+                        products = productResponses
+                    },
+                    statusCode = 200
                 };
             }
-            return null;
+            return new ResponseViewModel()
+            {
+                message = "Veri verilmedi. 😒",
+                responseModel = new Object(),
+                statusCode = 400
+            };
         }
 
-        public ICollection<ProductResponseModel> getProductsByCartId(Guid id)
+        public ResponseViewModel getProductsByCartId(Guid id)
         {
-            ICollection<CartProduct> cartProducts = 
+            ICollection<CartProduct> cartProducts =
                 cartProductRepository.getByCartId(id);
             ICollection<ProductResponseModel> productResponseModels = new HashSet<ProductResponseModel>();
 
             foreach (CartProduct item in cartProducts)
             {
-                productResponseModels.Add((ProductResponseModel) productService.get(item.productId).responseModel);
+                productResponseModels.Add((ProductResponseModel)productService.get(item.productId).responseModel);
             }
 
-            return productResponseModels;
+            return new ResponseViewModel()
+            {
+                message = "Veri getirildi. 🌝",
+                responseModel = productResponseModels,
+                statusCode = 200
+            };
         }
     }
 }

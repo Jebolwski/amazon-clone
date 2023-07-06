@@ -22,7 +22,7 @@ namespace AmazonClone.Application.Services
             this.productService = productService;
         }
 
-        public ResponseViewModel postComment(PostCommentModel model,string authToken)
+        public ResponseViewModel postComment(PostCommentModel model, string authToken)
         {
             if (model != null)
             {
@@ -31,12 +31,12 @@ namespace AmazonClone.Application.Services
                     return new ResponseViewModel()
                     {
                         message = "Aradığınız ürün bulunamadı.",
-                        responseModel = null,
+                        responseModel = new Object(),
                         statusCode = 400,
                     };
                 }
-                
-                User user = null;
+
+                User user = new User();
                 if (authToken != null)
                 {
                     authToken = authToken.Replace("Bearer ", string.Empty);
@@ -48,8 +48,8 @@ namespace AmazonClone.Application.Services
                     {
                         return new ResponseViewModel()
                         {
-                            message = "Yanlış kullanıcı.",
-                            responseModel = null,
+                            message = "Yanlış kullanıcı. 😐",
+                            responseModel = new Object(),
                             statusCode = 400,
                         };
                     }
@@ -82,7 +82,8 @@ namespace AmazonClone.Application.Services
                         photoUrl = item.photoUrl,
                     });
                 }
-                CommentResponseModel commentResponseModel = new CommentResponseModel() { 
+                CommentResponseModel commentResponseModel = new CommentResponseModel()
+                {
                     commentPhotos = commentPhotos1,
                     comment = comment.comment,
                     userId = comment.userId,
@@ -91,22 +92,26 @@ namespace AmazonClone.Application.Services
                 return new ResponseViewModel()
                 {
                     responseModel = commentResponseModel,
-                    message = "Mesajınız başarıyla oluşturuldu.",
+                    message = "Mesajınız başarıyla oluşturuldu. 🥰",
                     statusCode = 200
                 };
             }
-
-            return null;
+            return new ResponseViewModel()
+            {
+                message = "Veri verilmedi. 😶",
+                responseModel = new Object(),
+                statusCode = 400
+            };
         }
 
-        public CommentResponseModel updateComment(UpdateCommentModel model,string authToken)
+        public ResponseViewModel updateComment(UpdateCommentModel model, string authToken)
         {
             if (model != null)
             {
                 Comment comment = commentRepository.get(model.id);
-                if (comment!=null)
+                if (comment != null)
                 {
-                    User user = null;
+                    User user = new User();
                     if (authToken != null)
                     {
                         authToken = authToken.Replace("Bearer ", string.Empty);
@@ -116,7 +121,12 @@ namespace AmazonClone.Application.Services
                         user = userService.getUserByUsername(jsonToken.Claims.First().Value);
                         if (user == null)
                         {
-                            return null;
+                            return new ResponseViewModel()
+                            {
+                                message = "Kullanıcı bulunamadı. 😥",
+                                responseModel = new Object(),
+                                statusCode = 400
+                            };
                         }
                     }
                     if (user.id == comment.userId)
@@ -143,27 +153,47 @@ namespace AmazonClone.Application.Services
                                 id = item.id,
                             });
                         }
-                        return new CommentResponseModel()
+                        return new ResponseViewModel()
                         {
-                            comment = comment.comment,
-                            productId = comment.productId,
-                            userId = comment.userId,
-                            commentPhotos = commentPhotos1
+                            message = "Yorum başarıyla güncellendi.",
+                            responseModel = new CommentResponseModel()
+                            {
+                                comment = comment.comment,
+                                productId = comment.productId,
+                                userId = comment.userId,
+                                commentPhotos = commentPhotos1
+                            },
+                            statusCode = 200
                         };
                     }
                     else
                     {
-                        return null;
+                        return new ResponseViewModel()
+                        {
+                            message = "Yorum kullanıcıya ait değil. 😞",
+                            responseModel = new Object(),
+                            statusCode = 400
+                        };
                     }
                 }
-                return null;
+                return new ResponseViewModel()
+                {
+                    message = "Yorum kullanıcıya ait değil. 😞",
+                    responseModel = new Object(),
+                    statusCode = 400
+                };
             }
-            return null;
+            return new ResponseViewModel()
+            {
+                message = "Veri verilmedi. 😞",
+                responseModel = new Object(),
+                statusCode = 400
+            };
         }
 
-        public bool deleteComment(Guid id,string authToken)
+        public ResponseViewModel deleteComment(Guid id, string authToken)
         {
-            User user = null;
+            User user = new User();
             if (authToken != null)
             {
                 authToken = authToken.Replace("Bearer ", string.Empty);
@@ -173,37 +203,75 @@ namespace AmazonClone.Application.Services
                 user = userService.getUserByUsername(jsonToken.Claims.First().Value);
                 if (user == null)
                 {
-                    return false;
+                    return new ResponseViewModel()
+                    {
+                        message = "Kullanıcı doğru değil. 😞",
+                        responseModel = new Object(),
+                        statusCode = 400
+                    };
                 }
             }
             Comment comment = commentRepository.get(id);
-            if (comment != null && user.id == comment.userId)
+            if (comment == null)
             {
-                return commentRepository.delete(id);
+                return new ResponseViewModel()
+                {
+                    message = "Yorum bulunamadı. 😞",
+                    responseModel = new Object(),
+                    statusCode = 400
+                };
             }
-            return false;
+            if (user.id == comment.userId)
+            {
+                commentRepository.delete(id);
+                return new ResponseViewModel()
+                {
+                    message = "Ürün başarıyla silindi. 🚀",
+                    responseModel = new Object(),
+                    statusCode = 200
+                };
+            }
+            return new ResponseViewModel()
+            {
+                message = "Yorum kullanıcıya ait değil.",
+                responseModel = new Object(),
+                statusCode = 400
+            };
         }
 
-        public CommentResponseModel getComment(Guid id)
+        public ResponseViewModel getComment(Guid id)
         {
             Comment comment = commentRepository.getCommentWithPhotos(id);
-            if (comment != null ) { 
+            if (comment != null)
+            {
                 ICollection<CommentPhotoResponseModel> commentPhotos = new List<CommentPhotoResponseModel>();
                 foreach (CommentPhoto item in comment.commentPhotos)
                 {
-                    commentPhotos.Add(new CommentPhotoResponseModel() { 
-                        photoUrl = item.photoUrl, id=item.id
+                    commentPhotos.Add(new CommentPhotoResponseModel()
+                    {
+                        photoUrl = item.photoUrl,
+                        id = item.id
                     });
                 }
-                return new CommentResponseModel()
+                return new ResponseViewModel()
                 {
-                    comment = comment.comment,
-                    userId = comment.userId,
-                    commentPhotos = commentPhotos,
-                    productId = comment.productId,
+                    message = "Yorum getirildi. 😍",
+                    responseModel = new CommentResponseModel()
+                    {
+                        comment = comment.comment,
+                        userId = comment.userId,
+                        commentPhotos = commentPhotos,
+                        productId = comment.productId,
+                    },
+                    statusCode = 200
                 };
             }
-            return null;
+            return new ResponseViewModel()
+            {
+                message = "Yorum bulunamadı.",
+                responseModel = new Object(),
+                statusCode = 400
+            };
         }
 
     }

@@ -21,27 +21,27 @@ namespace AmazonClone.Controllers
         {
             string authToken = HttpContext.Request.Headers["Authorization"];
 
-            return commentAppService.postComment(model,authToken);
-            
+            return commentAppService.postComment(model, authToken);
+
         }
 
         [HttpPut("update"), Authorize(Roles = "Normal User,Admin")]
-        public CommentResponseModel updateComment(UpdateCommentModel model)
+        public ResponseViewModel updateComment(UpdateCommentModel model)
         {
             string authToken = HttpContext.Request.Headers["Authorization"];
             return commentAppService.updateComment(model, authToken);
         }
 
         [HttpDelete("{commentId}/delete"), Authorize(Roles = "Normal User,Admin")]
-        public bool deleteComment(Guid commentId)
+        public ResponseViewModel deleteComment(Guid commentId)
         {
             string authToken = HttpContext.Request.Headers["Authorization"];
 
-            return commentAppService.deleteComment(commentId,authToken);
+            return commentAppService.deleteComment(commentId, authToken);
         }
 
-        [HttpGet("{commentId}"),AllowAnonymous]
-        public CommentResponseModel getComment(Guid commentId)
+        [HttpGet("{commentId}"), AllowAnonymous]
+        public ResponseViewModel getComment(Guid commentId)
         {
             return commentAppService.getComment(commentId);
         }

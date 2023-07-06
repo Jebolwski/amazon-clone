@@ -20,7 +20,7 @@ namespace AmazonClone.Controllers
             this.productRepository = productRepository;
         }
 
-        [HttpPost("add"),Authorize(Roles = "Admin")]
+        [HttpPost("add"), Authorize(Roles = "Admin")]
         public ResponseViewModel add(ProductCreateModel model)
         {
             return productService.add(model);
@@ -46,8 +46,8 @@ namespace AmazonClone.Controllers
             return productService.update(model);
         }
 
-        [HttpGet("filter-by-name"),AllowAnonymous]
-        public ICollection<ProductResponseModel> filterProductsByName(string productName)
+        [HttpGet("filter-by-name/{productName}"), AllowAnonymous]
+        public ResponseViewModel filterProductsByName(string productName)
         {
             return productService.filterProductsByName(productName);
         }

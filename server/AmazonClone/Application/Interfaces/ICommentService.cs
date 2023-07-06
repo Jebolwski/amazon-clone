@@ -5,9 +5,9 @@ namespace AmazonClone.Application.Interfaces
 {
     public interface ICommentService
     {
-        public CommentResponseModel updateComment(UpdateCommentModel model,string authToken);
-        public bool deleteComment(Guid id, string authToken);
-        public CommentResponseModel getComment(Guid id);
+        public ResponseViewModel updateComment(UpdateCommentModel model, string authToken);
+        public ResponseViewModel deleteComment(Guid id, string authToken);
+        public ResponseViewModel getComment(Guid id);
         public ResponseViewModel postComment(PostCommentModel model, string authToken);
     }
 }

@@ -21,7 +21,6 @@ export class DeleteCategoryComponent implements OnInit {
 
   delete() {
     let result = this.category.deleteCategory(this.id || '');
-    this.router.navigate(['/all-categories']);
   }
 
   back(): void {

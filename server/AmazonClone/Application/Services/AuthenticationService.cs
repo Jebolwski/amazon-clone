@@ -33,7 +33,8 @@ namespace AmazonClone.Application.Services
             User user = userService.getUserByUsername(request.username);
             if (user == null)
             {
-                return new ResponseViewModel(){
+                return new ResponseViewModel()
+                {
                     message = "User not found",
                     responseModel = new Object(),
                     statusCode = 400
@@ -42,25 +43,27 @@ namespace AmazonClone.Application.Services
 
             if (!VerifyPasswordHash(request.password, user.passwordHash, user.passwordSalt))
             {
-                return new ResponseViewModel(){
+                return new ResponseViewModel()
+                {
                     message = "Wrong username or password",
                     responseModel = new Object(),
                     statusCode = 400
                 };
             }
-                
+
             string token = CreateToken(user);
 
             var refreshToken = GenerateRefreshToken();
-            SetRefreshToken(refreshToken,user);
+            SetRefreshToken(refreshToken, user);
 
             var obj = new
             {
                 accessToken = token,
                 refreshToken = refreshToken,
             };
-            return new ResponseViewModel(){
-                message = "Successfully logged in",
+            return new ResponseViewModel()
+            {
+                message = "Başarıyla giriş yapıldı. 🚀",
                 responseModel = obj,
                 statusCode = 200
             };
@@ -69,11 +72,12 @@ namespace AmazonClone.Application.Services
         public ResponseViewModel Register(RegisterModel model)
         {
             CreatePasswordHash(model.password, out byte[] passwordHash, out byte[] passwordSalt);
-            User user =  userService.getUserByUsername(model.username);
+            User user = userService.getUserByUsername(model.username);
             if (user != null)
             {
-                return new ResponseViewModel(){
-                    message = "Username already in use",
+                return new ResponseViewModel()
+                {
+                    message = "Kullanıcı adı kullanımda. 😒",
                     responseModel = new Object(),
                     statusCode = 400
                 };
@@ -91,12 +95,13 @@ namespace AmazonClone.Application.Services
 
             user = userService.add(user);
 
-            CartResponseModel cartResponseModel = cartService.addCartToUser(user.id);
+            CartResponseModel cartResponseModel = (CartResponseModel)cartService.addCartToUser(user.id).responseModel;
             user.cartId = cartResponseModel.id;
             userService.update(user);
 
-            return new ResponseViewModel(){
-                message = "Successfully registered",
+            return new ResponseViewModel()
+            {
+                message = "Başarıyla kayıt olundu. 😍",
                 responseModel = user,
                 statusCode = 200
             };
@@ -137,7 +142,7 @@ namespace AmazonClone.Application.Services
                 claims: claims,
                 expires: DateTime.UtcNow.AddMinutes(60),
                 signingCredentials: creds
-                
+
             );
 
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);
@@ -145,7 +150,7 @@ namespace AmazonClone.Application.Services
             return jwt;
         }
 
-        private void SetRefreshToken(RefreshToken newRefreshToken,User user)
+        private void SetRefreshToken(RefreshToken newRefreshToken, User user)
         {
             user.RefreshToken = newRefreshToken.Token;
             user.TokenCreated = newRefreshToken.Created;
@@ -164,55 +169,62 @@ namespace AmazonClone.Application.Services
 
             return refreshToken;
         }
-        
+
         public ResponseViewModel RefreshToken(string reftoken)
         {
-            if (reftoken != null) { 
+            if (reftoken != null)
+            {
                 User user = userService.getUserByRefreshToken(reftoken);
-                if (user == null) {
-                    return new ResponseViewModel(){
-                        message = "Invalid refresh token.",
+                if (user == null)
+                {
+                    return new ResponseViewModel()
+                    {
+                        message = "Uygun olmayan yenileme tokeni. 😞",
                         responseModel = new Object(),
                         statusCode = 400
                     };
                 }
                 if (!user.RefreshToken.Equals(reftoken))
                 {
-                    return new ResponseViewModel(){
-                        message = "Invalid refresh token.",
+                    return new ResponseViewModel()
+                    {
+                        message = "Uygun olmayan yenileme tokeni. 😞",
                         responseModel = new Object(),
                         statusCode = 400
                     };
                 }
                 else if (user.TokenExpires < DateTime.UtcNow)
                 {
-                   return new ResponseViewModel(){
-                    message = "Token expired.",
-                    responseModel = new Object(),
-                    statusCode = 400
-                };
+                    return new ResponseViewModel()
+                    {
+                        message = "Tokenin süresi geçmiş. 😐",
+                        responseModel = new Object(),
+                        statusCode = 400
+                    };
                 }
 
                 string token = CreateToken(user);
                 var newRefreshToken = GenerateRefreshToken();
-                SetRefreshToken(newRefreshToken,user);
+                SetRefreshToken(newRefreshToken, user);
 
                 var obj = new
                 {
                     accessToken = token,
                     refreshToken = newRefreshToken,
                 };
-                return new ResponseViewModel(){
-                    message = "Successfully refreshed token",
+                return new ResponseViewModel()
+                {
+                    message = "Token başarıyla yenilendi. 🥰",
                     responseModel = obj,
                     statusCode = 200
                 };
             }
-            return new ResponseViewModel(){
-                    message = "Token wasnt entered.",
-                    responseModel = new Object(),
-                    statusCode = 400
-                };
+            return new ResponseViewModel()
+            {
+                message = "Veri verilmedi. 😥",
+                responseModel = new Object(),
+                statusCode = 400
+            };
         }
 
         public ResponseViewModel SearchByUsername(string username)
@@ -223,8 +235,9 @@ namespace AmazonClone.Application.Services
                 User user = userService.getUserByUsername(username);
                 if (user == null)
                 {
-                    return new ResponseViewModel(){
-                        message = "User does not exist.",
+                    return new ResponseViewModel()
+                    {
+                        message = "Kullanıcı bulunmadı. 😶",
                         responseModel = new Object(),
                         statusCode = 400
                     };
@@ -238,17 +251,19 @@ namespace AmazonClone.Application.Services
                     roleId = user.roleId,
                     TokenExpires = user.TokenExpires
                 };
-                return new ResponseViewModel(){
+                return new ResponseViewModel()
+                {
                     statusCode = 200,
-                    message = "User found.",
+                    message = "Kullanıcı getirildi. 🥰",
                     responseModel = userResponseModel
                 };
             }
-            return new ResponseViewModel(){
-                        message = "You didnt enter username.",
-                        responseModel = new Object(),
-                        statusCode = 400
-                    };
+            return new ResponseViewModel()
+            {
+                message = "Veri girilmedi.",
+                responseModel = new Object(),
+                statusCode = 400
+            };
         }
 
 
@@ -258,5 +273,5 @@ namespace AmazonClone.Application.Services
 
 }
 
-    
+
 

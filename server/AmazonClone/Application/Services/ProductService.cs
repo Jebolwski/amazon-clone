@@ -19,9 +19,9 @@ namespace AmazonClone.Application.Services
         private readonly IProductRepository productRepository;
         private readonly IProductProductCategoryService productProductCategoryService;
 
-        
 
-        public ProductService(IProductRepository productRepository, 
+
+        public ProductService(IProductRepository productRepository,
             IProductProductCategoryService productProductCategoryService)
         {
             this.productRepository = productRepository;
@@ -50,7 +50,7 @@ namespace AmazonClone.Application.Services
                     price = model.price,
                     photos = photos,
                 };
-                
+
                 //eklendi
                 product = productRepository.add(product);
 
@@ -61,12 +61,12 @@ namespace AmazonClone.Application.Services
                 {
                     ProductProductCategoryCreateModel productProductCategoryCreateModel = new ProductProductCategoryCreateModel()
                     {
-                      productCategoryId = guidCreateModel.id,
-                      productId = product.id
+                        productCategoryId = guidCreateModel.id,
+                        productId = product.id
                     };
 
-                    productCategories.Add(productProductCategoryService.add(productProductCategoryCreateModel));
-                    
+                    productCategories.Add((ProductCategoryResponseModel)productProductCategoryService.add(productProductCategoryCreateModel).responseModel);
+
                 }
 
 
@@ -91,7 +91,8 @@ namespace AmazonClone.Application.Services
                     productCategories = productCategories
                 };
 
-                return new ResponseViewModel() {
+                return new ResponseViewModel()
+                {
                     message = "Ürün başarıyla eklendi. 🚀",
                     responseModel = productResponseModel,
                     statusCode = 200,
@@ -115,7 +116,8 @@ namespace AmazonClone.Application.Services
             //ilk ürün - ürün kategorisi listesinden silinmeli
             //sonra ürün silinmeli
             Product product = productRepository.get(id);
-            if (product == null) {
+            if (product == null)
+            {
                 return new ResponseViewModel()
                 {
                     message = "Ürün bulunamadı. 😢",
@@ -128,7 +130,7 @@ namespace AmazonClone.Application.Services
             return new ResponseViewModel()
             {
                 message = "Başarıyla ürün silindi. 🥰",
-                statusCode = 200,   
+                statusCode = 200,
                 responseModel = new Object()
             };
         }
@@ -138,27 +140,32 @@ namespace AmazonClone.Application.Services
             Product product = productRepository.getProductWithPhotos(id);
             if (product != null)
             {
-            List<ProductPhotoResponseModel> productPhotoModels = new List<ProductPhotoResponseModel>();
-            if (product.photos != null) { 
-                foreach (ProductPhoto photo in product.photos)
+                List<ProductPhotoResponseModel> productPhotoModels = new List<ProductPhotoResponseModel>();
+                if (product.photos != null)
                 {
-                    productPhotoModels.Add(new ProductPhotoResponseModel()
+                    foreach (ProductPhoto photo in product.photos)
                     {
-                        photoUrl = photo.photoUrl,
-                        id = photo.id
-                    });
+                        productPhotoModels.Add(new ProductPhotoResponseModel()
+                        {
+                            photoUrl = photo.photoUrl,
+                            id = photo.id
+                        });
+                    }
                 }
-            }
+
+                ICollection<ProductCategoryResponseModel> productCategories = (HashSet<ProductCategoryResponseModel>)productProductCategoryService
+                        .getProductCategoriesByProductId(id).responseModel;
                 return new ResponseViewModel()
                 {
                     message = "Ürün başarıyla getirildi. ✨",
                     statusCode = 200,
-                    responseModel = new ProductResponseModel() {
+                    responseModel = new ProductResponseModel()
+                    {
                         description = product.description,
                         name = product.name,
                         id = product.id,
                         price = product.price,
-                        productCategories = productProductCategoryService.getProductCategoriesByProductId(id),
+                        productCategories = productCategories,
                         photos = productPhotoModels
                     }
                 };
@@ -194,7 +201,7 @@ namespace AmazonClone.Application.Services
             product = productRepository.update(product);
 
             //ilk olan productproductcategoryleri siliyoruz 
-            foreach (ProductCategoryResponseModel item in productProductCategoryService.getProductCategoriesByProductId(product.id))
+            foreach (ProductCategoryResponseModel item in (ICollection<ProductCategoryResponseModel>)productProductCategoryService.getProductCategoriesByProductId(product.id).responseModel)
             {
                 productProductCategoryService.deleteProductProductCategoriesByProductCategoryId(item.id);
             }
@@ -230,7 +237,7 @@ namespace AmazonClone.Application.Services
                     productId = product.id
                 };
 
-                productCategories.Add(productProductCategoryService.add(productProductCategoryCreateModel));
+                productCategories.Add((ProductCategoryResponseModel)productProductCategoryService.add(productProductCategoryCreateModel).responseModel);
 
             }
 
@@ -251,18 +258,46 @@ namespace AmazonClone.Application.Services
 
         }
 
-        public ICollection<ProductResponseModel> filterProductsByName(string productName)
+        public ResponseViewModel filterProductsByName(string productName)
         {
             ICollection<ProductResponseModel> productResponseModels = new List<ProductResponseModel>();
             List<Product> products = productRepository.filterProductsByName(productName);
             if (products != null && products.Any())
             {
-                foreach (Product item in products) 
+                foreach (Product item in products)
                 {
-                    productResponseModels.Add((ProductResponseModel) get(item.id).responseModel);
+                    List<ProductPhotoResponseModel> productPhotoModels = new List<ProductPhotoResponseModel>();
+                    if (item.photos != null)
+                    {
+                        foreach (ProductPhoto photo in item.photos)
+                        {
+                            productPhotoModels.Add(new ProductPhotoResponseModel()
+                            {
+                                photoUrl = photo.photoUrl,
+                                id = photo.id
+                            });
+                        }
+                    }
+                    ICollection<ProductCategoryResponseModel> productCategories = (HashSet<ProductCategoryResponseModel>)productProductCategoryService
+                            .getProductCategoriesByProductId(item.id).responseModel;
+                    ProductResponseModel responseModel = new ProductResponseModel()
+                    {
+                        description = item.description,
+                        name = item.name,
+                        id = item.id,
+                        price = item.price,
+                        productCategories = productCategories,
+                        photos = productPhotoModels
+                    };
+                    productResponseModels.Add(responseModel);
                 }
             }
-            return productResponseModels;
+            return new ResponseViewModel()
+            {
+                message = "Veri getirildi. 😍",
+                responseModel = productResponseModels,
+                statusCode = 200
+            };
         }
 
     }

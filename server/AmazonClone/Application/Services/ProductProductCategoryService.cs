@@ -1,8 +1,10 @@
 ﻿using AmazonClone.Application.Interfaces;
 using AmazonClone.Application.ViewModels.ProductCategoryM;
 using AmazonClone.Application.ViewModels.ProductProductCategory;
+using AmazonClone.Application.ViewModels.ResponseM;
 using AmazonClone.Domain.Entities;
 using AmazonClone.Domain.Interfaces;
+using System.Text.Json;
 
 namespace AmazonClone.Application.Services
 {
@@ -18,59 +20,102 @@ namespace AmazonClone.Application.Services
             this.productCategoryService = productCategoryService;
         }
 
-        public ProductCategoryResponseModel add(ProductProductCategoryCreateModel model)
+        public ResponseViewModel add(ProductProductCategoryCreateModel model)
         {
-            ProductCategoryResponseModel productCategoryResponseModel = productCategoryService.get(model.productCategoryId);
+            ProductCategoryResponseModel productCategoryResponseModel = (ProductCategoryResponseModel)productCategoryService.get(model.productCategoryId).responseModel;
             if (productCategoryResponseModel == null)
             {
-                return null;
+                return new ResponseViewModel()
+                {
+                    message = "Veri bulunamadı. 😢",
+                    responseModel = new Object(),
+                    statusCode = 400
+                };
             }
             ProductProductCategory productProductCtg = productProductCategoryRepository.add(new ProductProductCategory()
             {
                 productCategoryId = model.productCategoryId,
                 productId = model.productId,
-                
+
             });
-            return productCategoryResponseModel;
+            return new ResponseViewModel()
+            {
+                message = "Eklendi. 🥰",
+                responseModel = productCategoryResponseModel,
+                statusCode = 200
+            };
         }
-    
+
         public bool delete(Guid id)
         {
             return productProductCategoryRepository.delete(id);
         }
-
-        public ProductProductCategory get(Guid id)
+        public ResponseViewModel get(Guid id)
         {
-            ProductProductCategory productProductCategory  = productProductCategoryRepository.get(id);
-            if (productProductCategory == null) {
-                return productProductCategory;
+            ProductProductCategory productProductCategory = productProductCategoryRepository.get(id);
+            if (productProductCategory != null)
+            {
+                return new ResponseViewModel()
+                {
+                    message = "Veri getirildi. 🥰",
+                    responseModel = productProductCategory,
+                    statusCode = 200
+                };
             }
-            return null;
+            return new ResponseViewModel()
+            {
+                message = "Bulunamadı. 😒",
+                responseModel = new Object(),
+                statusCode = 400
+            };
 
         }
 
-        public ICollection<ProductCategoryResponseModel> getProductCategoriesByProductId(Guid productId) {
+        public ResponseViewModel getProductCategoriesByProductId(Guid productId)
+        {
             ICollection<ProductProductCategory> productProductCategories = productProductCategoryRepository.FindByProductId(productId);
             ICollection<ProductCategoryResponseModel> productCategoryResponseModels = new HashSet<ProductCategoryResponseModel>();
-            
+
             foreach (ProductProductCategory item in productProductCategories)
             {
-                productCategoryResponseModels.Add(productCategoryService.get(item.productCategoryId));
+                //productCategoryResponseModels.Add((ProductCategoryResponseModel)productCategoryService
+                //    .get(item.productCategoryId).responseModel);
+                string json = JsonSerializer
+                    .Serialize(productCategoryService.get(item.productCategoryId).responseModel);
+                if (json.Equals("{}")==false) {
+                    ProductCategoryResponseModel productCategoryResponseModel = JsonSerializer.Deserialize<ProductCategoryResponseModel>(json);
+                    productCategoryResponseModels.Add(productCategoryResponseModel);
+                }
             }
-            
-            return productCategoryResponseModels;
+
+            return new ResponseViewModel()
+            {
+                message = "Veriler getirildi. 🥰",
+                responseModel = productCategoryResponseModels,
+                statusCode = 200
+            };
         }
 
-        public bool deleteProductProductCategoriesByProductId(Guid productId)
+        public ResponseViewModel deleteProductProductCategoriesByProductId(Guid productId)
         {
             List<ProductProductCategory> productProductCategories = productProductCategoryRepository
                 .FindByProductId(productId).ToList();
             if (productProductCategories == null)
             {
-                return false;
+                return new ResponseViewModel()
+                {
+                    message = "Veri bulunamadı. 😐",
+                    responseModel = new Object(),
+                    statusCode = 400
+                };
             }
             productProductCategoryRepository.DeleteItems(productProductCategories);
-            return true;
+            return new ResponseViewModel()
+            {
+                message = "Başarıyla silindi. 🥰",
+                responseModel = new Object(),
+                statusCode = 200
+            };
         }
 
         public bool deleteProductProductCategoriesByProductCategoryId(Guid productCategoryId)

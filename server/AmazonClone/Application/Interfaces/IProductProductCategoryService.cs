@@ -1,16 +1,17 @@
 ﻿using AmazonClone.Application.ViewModels.ProductCategoryM;
 using AmazonClone.Application.ViewModels.ProductProductCategory;
+using AmazonClone.Application.ViewModels.ResponseM;
 using AmazonClone.Domain.Entities;
 
 namespace AmazonClone.Application.Interfaces
 {
     public interface IProductProductCategoryService
     {
-        public ProductCategoryResponseModel add(ProductProductCategoryCreateModel model);
+        public ResponseViewModel add(ProductProductCategoryCreateModel model);
 
-        public ICollection<ProductCategoryResponseModel> getProductCategoriesByProductId(Guid productId);
+        public ResponseViewModel getProductCategoriesByProductId(Guid productId);
 
-        public bool deleteProductProductCategoriesByProductId(Guid productId);
+        public ResponseViewModel deleteProductProductCategoriesByProductId(Guid productId);
 
         public bool deleteProductProductCategoriesByProductCategoryId(Guid productCategoryId);
     }
