@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Product } from 'src/app/interfaces/product';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-product',
@@ -7,5 +8,6 @@ import { Product } from 'src/app/interfaces/product';
   styleUrls: ['./product.component.scss'],
 })
 export class ProductComponent {
+  constructor(public auth: AuthService) {}
   @Input() product!: Product;
 }

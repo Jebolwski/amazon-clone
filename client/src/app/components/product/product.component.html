@@ -1,4 +1,43 @@
-<div class="border border-stone-200/75 bg-white items-stretch">
+<div
+  *ngIf="auth.user.role == 'Admin'"
+  class="border border-stone-200/75 bg-white items-stretch relative"
+>
+  <div
+    [routerLink]="'/product/' + product.id + '/update'"
+    class="absolute right-8 -top-3 cursor-pointer"
+  >
+    <i class="fa-solid fa-pen-to-square text-yellow-400"></i>
+  </div>
+  <div class="absolute -right-1 -top-3">
+    <i class="fa-solid fa-trash text-red-500"></i>
+  </div>
+  <div *ngFor="let photo of product.photos">
+    <img
+      [src]="photo.photoUrl"
+      class="w-full lg:h-48 md:h-32 h-24 border border-stone-200"
+    />
+  </div>
+  <div class="p-3">
+    <p class="text-lg font-semibold">{{ product.name }}</p>
+    <label>{{ product.price }}₺</label>
+    <div class="flex items-center mt-2 gap-1">
+      <div
+        *ngFor="let productCategory of product.productCategories"
+        [class]="
+          'bg-stone-200/80 ' +
+          productCategory.id +
+          ' border-stone-500 text-sm rounded-md duration-200 inline-block p-1 font-semibold'
+        "
+      >
+        {{ productCategory.name }}
+      </div>
+    </div>
+  </div>
+</div>
+<div
+  *ngIf="auth.user.role != 'Admin'"
+  class="border border-stone-200/75 bg-white items-stretch"
+>
   <div *ngFor="let photo of product.photos">
     <img
       [src]="photo.photoUrl"

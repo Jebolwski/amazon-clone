@@ -50,6 +50,7 @@ namespace AmazonClone.Application.Services
         {
             return productProductCategoryRepository.delete(id);
         }
+
         public ResponseViewModel get(Guid id)
         {
             ProductProductCategory productProductCategory = productProductCategoryRepository.get(id);
@@ -82,7 +83,8 @@ namespace AmazonClone.Application.Services
                 //    .get(item.productCategoryId).responseModel);
                 string json = JsonSerializer
                     .Serialize(productCategoryService.get(item.productCategoryId).responseModel);
-                if (json.Equals("{}")==false) {
+                if (json.Equals("{}") == false)
+                {
                     ProductCategoryResponseModel productCategoryResponseModel = JsonSerializer.Deserialize<ProductCategoryResponseModel>(json);
                     productCategoryResponseModels.Add(productCategoryResponseModel);
                 }

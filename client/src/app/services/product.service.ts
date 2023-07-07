@@ -12,6 +12,7 @@ import { Notyf } from 'notyf';
 export class ProductService {
   private baseApiUrl: string = 'http://localhost:5044/api/';
   products: Product[] = [];
+  product!: Product;
   productCategories: ProductCategory[] = [];
   constructor(
     private http: HttpClient,
@@ -22,10 +23,15 @@ export class ProductService {
 
   public getProductsByName(name: string) {
     this.http
-      .get(this.baseApiUrl + 'Product/filter-by-name?productName=' + name)
+      .get(this.baseApiUrl + 'Product/filter-by-name/' + name)
       .subscribe((res: any) => {
-        if (res != null) {
-          this.products = res;
+        let response: Response = res;
+        if (response.statusCode === 200) {
+          this.products = response.responseModel;
+        } else {
+          this.notyf.error(
+            'Aradığınız ürünler bulunurken bir sorunla karşılaşıldı. 🤨'
+          );
         }
       });
   }
@@ -57,7 +63,24 @@ export class ProductService {
         ),
       })
       .subscribe((res: any) => {
-        console.log(res);
+        let response: Response = res;
+        if (response.statusCode === 200) {
+          this.notyf.success(response.message);
+        } else {
+          this.notyf.error(response.message);
+        }
+        this.router.navigate(['/']);
       });
+  }
+
+  public getProduct(id: string): void {
+    this.http.get(this.baseApiUrl + 'Product/' + id).subscribe((res: any) => {
+      let response: Response = res;
+      if (response.statusCode === 200) {
+        this.product = response.responseModel;
+      } else {
+        this.notyf.error(response.message);
+      }
+    });
   }
 }
