@@ -41,7 +41,6 @@
           type="text"
           formControlName="price"
           placeholder="999.99₺"
-          [defaultValue]="productService.product.price"
           class="p-2 outline-none border shadow-md border-stone-200 rounded-md mt-1 mb-3 flex-1 w-full"
         />
       </div>
@@ -51,7 +50,7 @@
         <p class="font-semibold">Fotoğraflar</p>
       </div>
       <div class="photo-links">
-        <div *ngFor="let photo of productService.product.photos">
+        <div *ngFor="let photo of product?.photos">
           <div class="flex items-center gap-2">
             <input
               type="text"
@@ -81,12 +80,9 @@
         </div>
         <div class="flex items-center flex-wrap gap-3 mb-4">
           <div
-            *ngFor="let productCategory of productService.productCategories"
+            *ngFor="let productCategory of productCategories"
             [ngClass]="
-              includes(
-                productService.product.productCategories,
-                productCategory
-              )
+              includes(product?.productCategories, productCategory)
                 ? 'bg-stone-600 text-white'
                 : ''
             "

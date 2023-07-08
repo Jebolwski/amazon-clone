@@ -13,8 +13,9 @@ namespace AmazonClone.Data.Repositories
 
         public Product getProductWithPhotos(Guid id)
         {
-            IQueryable<Product> product = dbset.Where(p => p.id == id).Include(x=>x.photos);
-            if (product != null && product.Any()) {
+            IQueryable<Product> product = dbset.Where(p => p.id == id).Include(x => x.photos);
+            if (product != null && product.Any())
+            {
                 return product.First();
             }
             return null;
@@ -22,7 +23,7 @@ namespace AmazonClone.Data.Repositories
 
         public List<Product> filterProductsByName(string name)
         {
-            List<Product> products = dbset.Where(p => p.name.Contains(name)).Include(x => x.photos).ToList(); ;
+            List<Product> products = dbset.Where(p => p.name.ToLower().Contains(name.ToLower())).Include(x => x.photos).ToList(); ;
             if (products != null && products.Any())
             {
                 return products;

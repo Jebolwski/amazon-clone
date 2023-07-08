@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
+import { CategoryService } from 'src/app/services/category.service';
 
 @Component({
   selector: 'app-header',
@@ -8,7 +9,10 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent {
-  constructor(public auth: AuthService) {}
+  constructor(
+    public auth: AuthService,
+    public categoryService: CategoryService
+  ) {}
 
   public searchForm: FormGroup = new FormGroup({
     text: new FormControl('', [

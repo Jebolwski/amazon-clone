@@ -17,15 +17,18 @@ namespace AmazonClone.Application.Services
     public class ProductService : IProductService
     {
         private readonly IProductRepository productRepository;
+        private readonly IProductPhotoService productPhotoService;
         private readonly IProductProductCategoryService productProductCategoryService;
 
 
 
         public ProductService(IProductRepository productRepository,
-            IProductProductCategoryService productProductCategoryService)
+            IProductProductCategoryService productProductCategoryService,
+            IProductPhotoService productPhotoService)
         {
             this.productRepository = productRepository;
             this.productProductCategoryService = productProductCategoryService;
+            this.productPhotoService = productPhotoService;
         }
 
         public ResponseViewModel add(ProductCreateModel model)
@@ -180,6 +183,11 @@ namespace AmazonClone.Application.Services
 
         public ResponseViewModel update(ProductUpdateModel model)
         {
+            ProductResponseModel responsemodel = (ProductResponseModel)this.get(model.id).responseModel;
+            foreach (ProductPhotoResponseModel photo in responsemodel.photos)
+            {
+                productPhotoService.delete(photo.id);
+            }
 
             ICollection<ProductPhoto> photos = new HashSet<ProductPhoto>();
             foreach (ProductPhotoCreateProduct item in model.photos)
@@ -188,7 +196,10 @@ namespace AmazonClone.Application.Services
                 {
                     photoUrl = item.photoUrl,
                 });
-            }
+            };
+
+
+
 
             Product product = new Product()
             {
@@ -198,6 +209,7 @@ namespace AmazonClone.Application.Services
                 price = model.price,
                 photos = photos
             };
+
             product = productRepository.update(product);
 
             //ilk olan productproductcategoryleri siliyoruz 

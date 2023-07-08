@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 export class CategoryService {
   private baseApiUrl: string = 'http://localhost:5044/api/';
   allCategories: ProductCategory[] = [];
+  headerAllCategories: ProductCategory[] = [];
   category!: ProductCategory;
   notyf = new Notyf();
 
@@ -19,6 +20,27 @@ export class CategoryService {
   }
 
   public addCategory(data: { name: string; description: string }): boolean {
+    let bool: boolean = false;
+    this.http
+      .post(this.baseApiUrl + 'ProductCategory/add', data, {
+        headers: new HttpHeaders().append(
+          'Authorization',
+          `Bearer ${localStorage.getItem('accessToken')}`
+        ),
+      })
+      .subscribe((res: any) => {
+        let response: Response = res;
+        if (response.statusCode === 200) {
+          this.router.navigate(['/all-categories']);
+          this.notyf.success(response.message);
+        } else {
+          this.notyf.error(response.message);
+        }
+      });
+    return bool;
+  }
+
+  public updateCategory(data: { name: string; description: string }): boolean {
     let bool: boolean = false;
     this.http
       .post(this.baseApiUrl + 'ProductCategory/add', data, {
@@ -50,6 +72,7 @@ export class CategoryService {
       .subscribe((res: any) => {
         let response: Response = res;
         this.allCategories = response.responseModel;
+        this.headerAllCategories = response.responseModel;
       });
   }
 

@@ -1,13 +1,17 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Notyf } from 'notyf';
+import { firstValueFrom } from 'rxjs';
 import {
   addProductCategory,
   addProductCategoryClass,
 } from 'src/app/interfaces/addProductCategory';
 import { addProductPhoto } from 'src/app/interfaces/addProductPhoto';
-import { ProductCategory } from 'src/app/interfaces/product';
+import { Product, ProductCategory } from 'src/app/interfaces/product';
+import { Response } from 'src/app/interfaces/response';
+import { UpdateProduct } from 'src/app/interfaces/updateProduct';
 import { ProductService } from 'src/app/services/product.service';
 
 @Component({
@@ -15,21 +19,11 @@ import { ProductService } from 'src/app/services/product.service';
   templateUrl: './update-product.component.html',
   styleUrls: ['./update-product.component.scss'],
 })
-export class UpdateProductComponent {
+export class UpdateProductComponent implements OnInit {
+  private baseApiUrl: string = 'http://localhost:5044/api/';
   id: string | null;
-
-  constructor(
-    public productService: ProductService,
-    private route: ActivatedRoute
-  ) {
-    this.id = this.route.snapshot.paramMap.get('id');
-    this.productService.getProduct(this.id || '0');
-    this.productService.getAllProductCategories();
-    this.productService?.product?.productCategories?.map((productCategory) => {
-      return { id: productCategory.id };
-    });
-  }
-
+  numberOfPhoto: number = 0;
+  notyf = new Notyf();
   public updateProductForm: FormGroup = new FormGroup({
     name: new FormControl(this.productService?.product?.name, [
       Validators.required,
@@ -47,24 +41,67 @@ export class UpdateProductComponent {
       Validators.maxLength(200),
     ]),
   });
-
-  numberOfPhoto: number = 0;
-
-  notyf = new Notyf();
-
-  jsonData: {
-    name: string;
-    price: number;
-    description: string;
-    photos: addProductPhoto[];
-    productCategories: addProductCategory[];
-  } = {
+  jsonData: UpdateProduct = {
+    id: '',
     name: '',
     price: 0.0,
     description: '',
     photos: [],
     productCategories: [],
   };
+
+  constructor(
+    public productService: ProductService,
+    private route: ActivatedRoute,
+    private http: HttpClient
+  ) {
+    this.id = this.route.snapshot.paramMap.get('id');
+  }
+  products: Product[] = [];
+  product!: Product | undefined;
+  productCategories: ProductCategory[] = [];
+
+  async ngOnInit(): Promise<void> {
+    firstValueFrom(this.http.get(this.baseApiUrl + 'Product/' + this.id)).then(
+      (res: any) => {
+        let response: Response = res;
+        if (response.statusCode === 200) {
+          this.product = response.responseModel;
+        } else {
+          this.notyf.error(response.message);
+        }
+        firstValueFrom(
+          this.http.get(
+            this.baseApiUrl + 'ProductCategory/get-all-categories',
+            {
+              headers: new HttpHeaders().append(
+                'Authorization',
+                `Bearer ${localStorage.getItem('accessToken')}`
+              ),
+            }
+          )
+        ).then((res: any) => {
+          let response: Response = res;
+          if (response.statusCode === 200) {
+            this.productCategories = response.responseModel;
+          } else {
+            this.notyf.error(response.message);
+          }
+          this.jsonData.productCategories =
+            this.product?.productCategories.map((productCategory) => {
+              let prod: addProductCategory = { id: productCategory.id };
+              return prod;
+            }) || [];
+
+          this.updateProductForm.get('name')?.setValue(this.product?.name);
+          this.updateProductForm
+            .get('description')
+            ?.setValue(this.product?.description);
+          this.updateProductForm.get('price')?.setValue(this.product?.price);
+        });
+      }
+    );
+  }
 
   addNewLink() {
     let links_div = document.querySelector('.photo-links');
@@ -114,28 +151,25 @@ export class UpdateProductComponent {
   }
 
   updateIt() {
-    let json = this.constructData();
-    console.log(json);
+    console.log(this.constructData());
+    this.productService.updateProduct(this.constructData());
   }
 
   addToData(category: ProductCategory) {
-    if (
-      !this.includes1(this.jsonData['productCategories'], { id: category.id })
-    ) {
-      this.jsonData['productCategories'] = [
-        ...this.jsonData['productCategories'],
+    if (!this.includes1(this.jsonData.productCategories, { id: category.id })) {
+      this.jsonData.productCategories = [
+        ...this.jsonData.productCategories,
         { id: category.id },
       ];
     }
-    console.log(this.jsonData);
   }
 
   includes(
-    array: ProductCategory[],
+    array: ProductCategory[] | undefined,
     productCategory: ProductCategory
   ): boolean {
     let flag: boolean = false;
-    array.forEach((element) => {
+    array?.forEach((element) => {
       if (
         element.description == productCategory.description &&
         element.id == productCategory.id &&
@@ -162,37 +196,48 @@ export class UpdateProductComponent {
     return flag;
   }
 
-  constructData(): {
-    name: string;
-    price: number;
-    description: string;
-    photos: addProductPhoto[];
-    productCategories: addProductCategory[];
-  } {
+  indexOf(
+    category: { id: string },
+    productCategories: { id: string }[]
+  ): number {
+    for (let i = 0; i < productCategories.length; i++) {
+      if (productCategories[i].id == category.id) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
+  constructData(): UpdateProduct {
     let photosArr: { photoUrl: string }[] = [];
     let photoItems = document.querySelectorAll('.link');
     photoItems.forEach((element) => {
       photosArr.push({ photoUrl: (element as HTMLInputElement).value });
     });
     this.jsonData = {
+      id: this.id || '',
       name: this.updateProductForm.get('name')?.value,
       price: this.updateProductForm.get('price')?.value,
       description: this.updateProductForm.get('description')?.value,
       photos: photosArr,
-      productCategories: this.jsonData['productCategories'],
+      productCategories: this.jsonData.productCategories,
     };
     return this.jsonData;
   }
 
   removeFromData(category: ProductCategory) {
-    let index: number = this.jsonData['productCategories'].indexOf({
-      id: category.id,
-    });
-    this.jsonData['productCategories'].splice(index, 1);
-    console.log(this.jsonData);
+    let index: number | undefined = this.indexOf(
+      category,
+      this.jsonData.productCategories
+    );
+    console.log(index, this.jsonData.productCategories[index]);
+
+    this.jsonData.productCategories?.splice(index, 1);
   }
 
   toggleCategoryToData(category: ProductCategory, e: Event) {
+    console.log('önce == ', ...this.jsonData.productCategories);
+
     if ((e.target as HTMLElement).classList.contains('bg-stone-600')) {
       (e.target as HTMLElement).classList.remove('bg-stone-600');
       (e.target as HTMLElement).classList.remove('text-white');
@@ -202,5 +247,6 @@ export class UpdateProductComponent {
       (e.target as HTMLElement).classList.add('text-white');
       this.addToData(category);
     }
+    console.log('sonra == ', ...this.jsonData.productCategories);
   }
 }

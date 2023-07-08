@@ -13,6 +13,8 @@ import { AllCategoriesComponent } from './components/all-categories/all-categori
 import { AdminuserService } from './services/adminuser.service';
 import { DeleteCategoryComponent } from './components/delete-category/delete-category.component';
 import { UpdateProductComponent } from './components/update-product/update-product.component';
+import { DeleteProductComponent } from './components/delete-product/delete-product.component';
+import { UpdateCategoryComponent } from './components/update-category/update-category.component';
 
 const routes: Routes = [
   {
@@ -64,6 +66,12 @@ const routes: Routes = [
     canActivate: [AdminuserService],
   },
   {
+    path: 'category/:id/update',
+    component: UpdateCategoryComponent,
+    title: 'Ürün Kategorisi Düzenle',
+    canActivate: [AdminuserService],
+  },
+  {
     path: 'category/:id/delete',
     component: DeleteCategoryComponent,
     title: 'Ürün Kategorisi Sil',
@@ -73,6 +81,12 @@ const routes: Routes = [
     path: 'product/:id/update',
     component: UpdateProductComponent,
     title: 'Ürünü Düzenle',
+    canActivate: [AdminuserService],
+  },
+  {
+    path: 'product/:id/delete',
+    component: DeleteProductComponent,
+    title: 'Ürünü Sil',
     canActivate: [AdminuserService],
   },
 ];

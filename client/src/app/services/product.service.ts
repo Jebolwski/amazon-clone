@@ -5,6 +5,8 @@ import { Product, ProductCategory } from '../interfaces/product';
 import { AuthService } from './auth.service';
 import { Response } from '../interfaces/response';
 import { Notyf } from 'notyf';
+import { async, map } from 'rxjs';
+import { UpdateProduct } from '../interfaces/updateProduct';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +14,7 @@ import { Notyf } from 'notyf';
 export class ProductService {
   private baseApiUrl: string = 'http://localhost:5044/api/';
   products: Product[] = [];
-  product!: Product;
+  product!: Product | undefined;
   productCategories: ProductCategory[] = [];
   constructor(
     private http: HttpClient,
@@ -36,7 +38,7 @@ export class ProductService {
       });
   }
 
-  public getAllProductCategories(): void {
+  public async getAllProductCategories(): Promise<void> {
     this.http
       .get(this.baseApiUrl + 'ProductCategory/get-all-categories', {
         headers: new HttpHeaders().append(
@@ -44,7 +46,7 @@ export class ProductService {
           `Bearer ${localStorage.getItem('accessToken')}`
         ),
       })
-      .subscribe((res: any) => {
+      .subscribe(async (res: any) => {
         let response: Response = res;
         if (response.statusCode === 200) {
           this.productCategories = response.responseModel;
@@ -82,5 +84,43 @@ export class ProductService {
         this.notyf.error(response.message);
       }
     });
+  }
+
+  public updateProduct(body: UpdateProduct): void {
+    this.http
+      .put(this.baseApiUrl + 'Product/update', body, {
+        headers: new HttpHeaders().append(
+          'Authorization',
+          `Bearer ${localStorage.getItem('accessToken')}`
+        ),
+      })
+      .subscribe((res: any) => {
+        let response: Response = res;
+        if (response.statusCode === 200) {
+          this.notyf.success(response.message);
+        } else {
+          this.notyf.error(response.message);
+        }
+        console.log(res);
+      });
+  }
+
+  public deleteProduct(id: string): void {
+    this.http
+      .delete(this.baseApiUrl + 'Product/' + id, {
+        headers: new HttpHeaders().append(
+          'Authorization',
+          `Bearer ${localStorage.getItem('accessToken')}`
+        ),
+      })
+      .subscribe((res: any) => {
+        let response: Response = res;
+        if (response.statusCode === 200) {
+          this.notyf.success(response.message);
+        } else {
+          this.notyf.error(response.message);
+        }
+        console.log(res);
+      });
   }
 }

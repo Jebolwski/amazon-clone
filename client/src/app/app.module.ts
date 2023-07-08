@@ -18,6 +18,8 @@ import { AddCategoryComponent } from './components/add-category/add-category.com
 import { AllCategoriesComponent } from './components/all-categories/all-categories.component';
 import { DeleteCategoryComponent } from './components/delete-category/delete-category.component';
 import { UpdateProductComponent } from './components/update-product/update-product.component';
+import { DeleteProductComponent } from './components/delete-product/delete-product.component';
+import { UpdateCategoryComponent } from './components/update-category/update-category.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -34,6 +36,8 @@ import { UpdateProductComponent } from './components/update-product/update-produ
     AllCategoriesComponent,
     DeleteCategoryComponent,
     UpdateProductComponent,
+    DeleteProductComponent,
+    UpdateCategoryComponent,
   ],
   imports: [
     BrowserModule,

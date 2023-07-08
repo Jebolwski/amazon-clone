@@ -1,5 +1,5 @@
 <div class="bg-[#131921] p-2">
-  <div class="flex items-center flex-wrap justify-evenly gap-1">
+  <div class="flex items-center flex-wrap justify-evenly gap-4">
     <!-- Home Logo -->
     <a routerLink="/">
       <img
@@ -16,11 +16,18 @@
     </div>
     <!-- Search -->
     <div class="flex items-center">
-      <div
-        class="rounded-l-md whitespace-nowrap bg-stone-200 p-2 border-r border-stone-400"
+      <select
+        class="rounded-l-md outline-none whitespace-nowrap h-[40px] bg-stone-200 p-2 border-r border-stone-400"
       >
         Tüm kategoriler
-      </div>
+        <option value="">Tüm Kategoriler</option>
+        <option
+          [value]="category.id"
+          *ngFor="let category of categoryService.headerAllCategories"
+        >
+          {{ category.name }}
+        </option>
+      </select>
       <form [formGroup]="searchForm" class="flex items-center">
         <div>
           <input

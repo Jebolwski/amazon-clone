@@ -1,0 +1,44 @@
+<app-header></app-header>
+<div class="p-6 bg-stone-100">
+  <div class="flex justify-center">
+    <form
+      [formGroup]="updateCategoryForm"
+      class="border bg-white border-stone-300 shadow-md rounded-md lg:w-1/2 md:w-2/3 w-11/12 p-2"
+    >
+      <!-- Adı -->
+      <div>
+        <div class="flex items-center gap-2 my-1">
+          <i class="fa-solid fa-heading fa-lg pl-1"></i>
+          <p class="font-semibold">Adı</p>
+        </div>
+        <input
+          type="text"
+          formControlName="name"
+          placeholder="2008 model Fiat"
+          class="p-2 outline-none border shadow-md border-stone-200 rounded-md my-1 flex-1 w-full"
+        />
+      </div>
+      <!-- Açıklama -->
+      <div>
+        <div class="flex items-center gap-2 my-1">
+          <i class="fa-solid fa-book fa-lg pl-1"></i>
+          <p class="font-semibold">Açıklama</p>
+        </div>
+        <input
+          type="text"
+          formControlName="description"
+          placeholder="Lorem Ipsum, adı bilinmeyen bir matbaacının bir hurufat alarak karıştırdığı 1500'lerden beri endüstri...."
+          class="p-2 mb-3 outline-none border shadow-md border-stone-200 rounded-md my-1 flex-1 w-full"
+        />
+      </div>
+
+      <button
+        (click)="updateIt()"
+        class="bg-[#febd69] p-1 rounded-md font-semibold border border-[#dea466] shadow-md w-full"
+      >
+        Ürün Kategorisini Ekle
+      </button>
+    </form>
+  </div>
+</div>
+<app-footer></app-footer>
