@@ -123,4 +123,29 @@ export class ProductService {
         console.log(res);
       });
   }
+
+  public getByNameAndCategory(name: string, category: string) {
+    this.http
+      .get(
+        this.baseApiUrl +
+          'Product/filter-by-name-and-category/' +
+          name +
+          '/' +
+          category,
+        {
+          headers: new HttpHeaders().append(
+            'Authorization',
+            `Bearer ${localStorage.getItem('accessToken')}`
+          ),
+        }
+      )
+      .subscribe((res: any) => {
+        let response: Response = res;
+        if (response.statusCode === 200) {
+          this.products = response.responseModel;
+        } else {
+          this.notyf.error(response.message);
+        }
+      });
+  }
 }

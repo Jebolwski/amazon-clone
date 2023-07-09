@@ -31,7 +31,8 @@ namespace AmazonClone.Data.Repositories
 
         public ICollection<ProductProductCategory> FindByProductId(Guid id)
         {
-            return dbset.Where(p=>p.productId == id).ToList();
+            return dbset.Where(p => p.productId == id).ToList();
         }
+
     }
 }

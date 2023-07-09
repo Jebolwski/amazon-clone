@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { CategoryService } from 'src/app/services/category.service';
+import { ProductService } from 'src/app/services/product.service';
 
 @Component({
   selector: 'app-header',
@@ -11,7 +13,9 @@ import { CategoryService } from 'src/app/services/category.service';
 export class HeaderComponent {
   constructor(
     public auth: AuthService,
-    public categoryService: CategoryService
+    public categoryService: CategoryService,
+    public productService: ProductService,
+    public router: Router
   ) {}
 
   public searchForm: FormGroup = new FormGroup({
@@ -20,9 +24,22 @@ export class HeaderComponent {
       Validators.minLength(2),
       Validators.maxLength(60),
     ]),
+    category: new FormControl('', [Validators.required]),
   });
 
   get text(): string {
     return this.searchForm.get('text')?.value;
+  }
+
+  get category(): string {
+    return this.searchForm.get('category')?.value;
+  }
+
+  public searchIt(name: string, category: string): void {
+    if (name == '') {
+      name = '+';
+    }
+    this.productService.getByNameAndCategory(name, category);
+    this.router.navigate(['/search-products/' + name]);
   }
 }

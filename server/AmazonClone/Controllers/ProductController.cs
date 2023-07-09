@@ -52,6 +52,10 @@ namespace AmazonClone.Controllers
             return productService.filterProductsByName(productName);
         }
 
-
+        [HttpGet("filter-by-name-and-category/{productName}/{categoryId}"), AllowAnonymous]
+        public ResponseViewModel filterProductsByNameAndCategory(Guid categoryId, string productName)
+        {
+            return productService.filterProductsByNameAndCategory(categoryId, productName);
+        }
     }
 }

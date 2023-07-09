@@ -30,6 +30,10 @@ export class RegisterComponent {
     console.log(this.registerForm);
   }
 
+  printData() {
+    console.log(this.registerForm.value);
+  }
+
   constructor(public auth: AuthService) {}
 
   get username() {

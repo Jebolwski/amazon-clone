@@ -16,19 +16,20 @@
     </div>
     <!-- Search -->
     <div class="flex items-center">
-      <select
-        class="rounded-l-md outline-none whitespace-nowrap h-[40px] bg-stone-200 p-2 border-r border-stone-400"
-      >
-        Tüm kategoriler
-        <option value="">Tüm Kategoriler</option>
-        <option
-          [value]="category.id"
-          *ngFor="let category of categoryService.headerAllCategories"
-        >
-          {{ category.name }}
-        </option>
-      </select>
       <form [formGroup]="searchForm" class="flex items-center">
+        <select
+          class="rounded-l-md outline-none whitespace-nowrap h-[40px] bg-stone-200 p-2 border-r border-stone-400"
+          formControlName="category"
+        >
+          Tüm kategoriler
+          <option value="">Tüm Kategoriler</option>
+          <option
+            [value]="category.id"
+            *ngFor="let category of categoryService.headerAllCategories"
+          >
+            {{ category.name }}
+          </option>
+        </select>
         <div>
           <input
             type="text"
@@ -38,7 +39,7 @@
           />
         </div>
         <button
-          [routerLink]="['/search-products', text]"
+          (click)="searchIt(text, category)"
           class="rounded-r-md p-2 bg-[#febd69] hover:bg-[#f7ca00] duration-200 inline-block"
         >
           <i class="fa-solid fa-magnifying-glass"></i>

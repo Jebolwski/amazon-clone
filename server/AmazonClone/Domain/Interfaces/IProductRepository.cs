@@ -6,5 +6,6 @@ namespace AmazonClone.Domain.Interfaces
     {
         Product getProductWithPhotos(Guid id);
         List<Product> filterProductsByName(string name);
+        List<Product> filterProductsByNameAndCategory(Guid categoryId, string productName);
     }
 }

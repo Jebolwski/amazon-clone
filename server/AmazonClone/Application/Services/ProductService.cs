@@ -312,5 +312,47 @@ namespace AmazonClone.Application.Services
             };
         }
 
+        public ResponseViewModel filterProductsByNameAndCategory(Guid categoryId, string productName)
+        {
+            ICollection<ProductResponseModel> productResponseModels = new List<ProductResponseModel>();
+            List<Product> products = productRepository.filterProductsByNameAndCategory(categoryId, productName);
+            if (products != null && products.Any())
+            {
+                foreach (Product item in products)
+                {
+                    List<ProductPhotoResponseModel> productPhotoModels = new List<ProductPhotoResponseModel>();
+                    if (item.photos != null)
+                    {
+                        foreach (ProductPhoto photo in item.photos)
+                        {
+                            productPhotoModels.Add(new ProductPhotoResponseModel()
+                            {
+                                photoUrl = photo.photoUrl,
+                                id = photo.id
+                            });
+                        }
+                    }
+                    ICollection<ProductCategoryResponseModel> productCategories = (HashSet<ProductCategoryResponseModel>)productProductCategoryService
+                            .getProductCategoriesByProductId(item.id).responseModel;
+                    ProductResponseModel responseModel = new ProductResponseModel()
+                    {
+                        description = item.description,
+                        name = item.name,
+                        id = item.id,
+                        price = item.price,
+                        productCategories = productCategories,
+                        photos = productPhotoModels
+                    };
+                    productResponseModels.Add(responseModel);
+                }
+            }
+            return new ResponseViewModel()
+            {
+                message = "Veri getirildi. 😍",
+                responseModel = productResponseModels,
+                statusCode = 200
+            };
+        }
+
     }
 }

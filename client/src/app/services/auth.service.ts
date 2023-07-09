@@ -95,7 +95,13 @@ export class AuthService {
         password: data.password,
       })
       .subscribe((res: any) => {
-        console.log(res);
+        let response: Response = res;
+        if (response.statusCode == 200) {
+          this.notyf.success(response.message);
+          this.router.navigate(['/login']);
+        } else {
+          this.notyf.error(response.message);
+        }
       });
   }
 
