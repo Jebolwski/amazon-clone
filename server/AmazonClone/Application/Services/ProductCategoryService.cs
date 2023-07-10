@@ -20,23 +20,27 @@ namespace AmazonClone.Application.Services
         {
             if (model != null)
             {
-                ProductCategory productCategory = new ProductCategory() { 
+                ProductCategory productCategory = new ProductCategory()
+                {
                     description = model.description,
                     name = model.name,
                 };
                 ProductCategory product = categoryRepository.add(productCategory);
-                ProductCategoryResponseModel productCategoryResponse = new ProductCategoryResponseModel() {
+                ProductCategoryResponseModel productCategoryResponse = new ProductCategoryResponseModel()
+                {
                     description = product.description,
                     name = product.name,
                     id = product.id
                 };
-                return new ResponseViewModel(){
+                return new ResponseViewModel()
+                {
                     responseModel = productCategoryResponse,
-                    message = "Ürün başarıyla eklendi. ✨",
+                    message = "Ürün kategorisi başarıyla eklendi. ✨",
                     statusCode = 200
                 };
             }
-            return new ResponseViewModel(){
+            return new ResponseViewModel()
+            {
                 message = "Veri eklenmedi. 😥",
                 responseModel = new Object(),
                 statusCode = 400
@@ -49,13 +53,15 @@ namespace AmazonClone.Application.Services
             if (productCategory != null)
             {
                 categoryRepository.delete(id);
-                return new ResponseViewModel(){
-                    message = "Ürün başarıyla silindi. 😍",
+                return new ResponseViewModel()
+                {
+                    message = "Ürün kategorisi başarıyla silindi. 😍",
                     responseModel = new Object(),
                     statusCode = 200
                 };
             }
-            return new ResponseViewModel(){
+            return new ResponseViewModel()
+            {
                 message = "Verdiğiniz id ile ürün bulunamadı. 😐",
                 responseModel = new Object(),
                 statusCode = 400
@@ -65,24 +71,27 @@ namespace AmazonClone.Application.Services
         public ResponseViewModel get(Guid id)
         {
             ProductCategory productCategory = categoryRepository.get(id);
-            if (productCategory != null) {
+            if (productCategory != null)
+            {
                 ProductCategoryResponseModel categoryResponseModel = new ProductCategoryResponseModel()
                 {
                     description = productCategory.description,
                     name = productCategory.name,
                     id = productCategory.id
                 };
-                return new ResponseViewModel(){
-                    message = "Ürün getirildi. 🚀",
+                return new ResponseViewModel()
+                {
+                    message = "Ürün kategorisi getirildi. 🚀",
                     responseModel = categoryResponseModel,
                     statusCode = 200
                 };
             }
-            return new ResponseViewModel(){
-                    message = "Ürün bulunamadı. 😒",
-                    responseModel = new Object(),
-                    statusCode = 400
-                };
+            return new ResponseViewModel()
+            {
+                message = "Ürün kategorisi bulunamadı. 😒",
+                responseModel = new Object(),
+                statusCode = 400
+            };
         }
 
         public ResponseViewModel update(ProductUpdateModel model)
@@ -95,33 +104,40 @@ namespace AmazonClone.Application.Services
                 ProductCategory productCategory1 = categoryRepository.update(productCategory);
                 ProductCategoryResponseModel responseModel = new ProductCategoryResponseModel()
                 {
-                    description= productCategory1.description,
+                    id = productCategory1.id,
+                    description = productCategory1.description,
                     name = productCategory1.name
                 };
-                return new ResponseViewModel(){
-                    message = "Ürün başarıyla güncellendi. ⚡",
+                return new ResponseViewModel()
+                {
+                    message = "Ürün kategorisi başarıyla güncellendi. ⚡",
                     responseModel = responseModel,
                     statusCode = 200
                 };
             }
-            return new ResponseViewModel(){
-                    message = "Ürün bulunamadı. 😶",
-                    responseModel = new Object(),
-                    statusCode = 400
-                };
+            return new ResponseViewModel()
+            {
+                message = "Ürün kategorisi bulunamadı. 😶",
+                responseModel = new Object(),
+                statusCode = 400
+            };
         }
-    
-        public ResponseViewModel GetProductCategories(){
+
+        public ResponseViewModel GetProductCategories()
+        {
             ICollection<ProductCategory> productCategories = categoryRepository.GetProductCategories();
             ICollection<ProductCategoryResponseModel> responseModel = new List<ProductCategoryResponseModel>();
-            foreach(ProductCategory product in productCategories){
-                responseModel.Add(new ProductCategoryResponseModel(){
+            foreach (ProductCategory product in productCategories)
+            {
+                responseModel.Add(new ProductCategoryResponseModel()
+                {
                     description = product.description,
                     id = product.id,
                     name = product.name
                 });
             }
-            return new ResponseViewModel(){
+            return new ResponseViewModel()
+            {
                 message = "Ürün kategorileri getirildi. ⚡",
                 responseModel = responseModel,
                 statusCode = 200

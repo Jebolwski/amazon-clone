@@ -151,7 +151,6 @@ export class UpdateProductComponent implements OnInit {
   }
 
   updateIt() {
-    console.log(this.constructData());
     this.productService.updateProduct(this.constructData());
   }
 

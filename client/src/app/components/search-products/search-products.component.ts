@@ -8,14 +8,16 @@ import { ProductService } from 'src/app/services/product.service';
   styleUrls: ['./search-products.component.scss'],
 })
 export class SearchProductsComponent implements OnInit {
-  public parametre!: string | null;
+  public name!: string | null;
+  public category!: string | null;
 
   constructor(private route: ActivatedRoute, public product: ProductService) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params: ParamMap) => {
-      this.parametre = params.get('string');
-      this.product.getProductsByName(this.parametre!);
+      this.name = params.get('name');
+      this.category = params.get('category');
+      // this.product.getByNameAndCategory(this.name!, this.category!);
     });
   }
 }

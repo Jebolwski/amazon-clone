@@ -15,6 +15,8 @@ import { DeleteCategoryComponent } from './components/delete-category/delete-cat
 import { UpdateProductComponent } from './components/update-product/update-product.component';
 import { DeleteProductComponent } from './components/delete-product/delete-product.component';
 import { UpdateCategoryComponent } from './components/update-category/update-category.component';
+import { ProductDetailComponent } from './components/product-detail/product-detail.component';
+import { CommentComponent } from './components/comment/comment.component';
 
 const routes: Routes = [
   {
@@ -42,7 +44,7 @@ const routes: Routes = [
     canActivate: [LoggedService],
   },
   {
-    path: 'search-products/:string',
+    path: 'search-products/:name/:category',
     component: SearchProductsComponent,
     title: 'Ürün Ara',
     canActivate: [LoggedService],
@@ -88,6 +90,16 @@ const routes: Routes = [
     component: DeleteProductComponent,
     title: 'Ürünü Sil',
     canActivate: [AdminuserService],
+  },
+  {
+    path: 'product/:id',
+    component: ProductDetailComponent,
+    title: 'Ürün Detayı',
+  },
+  {
+    path: 'comment/:id',
+    component: CommentComponent,
+    title: 'Ürün Detayı',
   },
 ];
 

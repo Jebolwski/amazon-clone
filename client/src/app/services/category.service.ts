@@ -95,7 +95,7 @@ export class CategoryService {
       });
   }
 
-  public getCategoryById(id: string) {
+  public async getCategoryById(id: string) {
     this.http
       .get(this.baseApiUrl + 'ProductCategory/' + id, {
         headers: new HttpHeaders().append(

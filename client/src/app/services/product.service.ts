@@ -125,6 +125,9 @@ export class ProductService {
   }
 
   public getByNameAndCategory(name: string, category: string) {
+    if (name == "''") {
+      name = '+';
+    }
     this.http
       .get(
         this.baseApiUrl +

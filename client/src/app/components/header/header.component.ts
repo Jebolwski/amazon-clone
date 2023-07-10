@@ -37,9 +37,9 @@ export class HeaderComponent {
 
   public searchIt(name: string, category: string): void {
     if (name == '') {
-      name = '+';
+      name = "''";
     }
     this.productService.getByNameAndCategory(name, category);
-    this.router.navigate(['/search-products/' + name]);
+    this.router.navigate(['/search-products/' + name + '/' + category]);
   }
 }

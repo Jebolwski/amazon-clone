@@ -1,0 +1,61 @@
+<app-header></app-header>
+<div class="flex items-start flex-wrap justify-evenly p-3 py-6">
+  <div>
+    <img
+      src="https://m.media-amazon.com/images/I/61Or0FdfVsL._AC_SL1500_.jpg"
+      class="lg:w-72 w-64"
+    />
+  </div>
+  <div>
+    <h4 class="text-xl font-medium">
+      {{ productService.product?.name }}
+    </h4>
+    <p class="font-light">{{ productService.product?.description }}</p>
+    <p class="text-green-800">Marka : Genel</p>
+    <hr class="my-1" />
+    <p class="text-xl">{{ productService.product?.price }} TL</p>
+    <p>Fiyatlara KDV dahildir.</p>
+  </div>
+  <div class="rounded-md border border-black/20 p-3 w-64">
+    <p class="font-semibold text-lg my-1">
+      {{ productService.product?.price }} TL
+    </p>
+    <p class="text-base my-1">ÜCRETSİZ teslimat 14 - 19 Temmuz. Ayrıntılar</p>
+    <div class="flex items-center text-sm gap-1">
+      <div><i class="fa-solid fa-location-dot"></i></div>
+      <p class="text-green-900">Teslimat adresini seçin</p>
+    </div>
+    <p class="text-red-700 font-semibold">
+      Genellikle 2–3 gün içinde kargoya verilir
+    </p>
+    <div class="flex items-center gap-1">
+      <p>Miktar :</p>
+      <select class="border rounded-md p-1">
+        <option value="">1</option>
+        <option value="">2</option>
+        <option value="">3</option>
+      </select>
+    </div>
+    <div class="flex flex-1 flex-col gap-2 place-content-center mt-3">
+      <button class="bg-[#ffd814] block rounded-2xl shadow-md p-1 w-100">
+        Sepete Ekle
+      </button>
+      <button class="bg-[#ffa41c] block rounded-2xl shadow-md p-1 w-100">
+        Şimdi Al
+      </button>
+    </div>
+    <div class="flex items-center gap-1 my-3">
+      <i class="fa-solid fa-lock"></i>
+      <p class="text-green-900">Güvenli işlem</p>
+    </div>
+    <p>
+      Daha fazla bilgi, hüküm ve koşullar, firma künyesi ve cayma hakkı için
+      lütfen satıcının adına tıklayın.
+    </p>
+    <hr class="my-2" />
+    <button class="border border-black/20 w-full rounded-lg">
+      Listeye Ekle
+    </button>
+  </div>
+</div>
+<app-footer></app-footer>

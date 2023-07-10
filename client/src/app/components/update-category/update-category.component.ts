@@ -1,6 +1,10 @@
-import { Component } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { Notyf } from 'notyf';
+import { ProductCategory } from 'src/app/interfaces/product';
+import { Response } from 'src/app/interfaces/response';
 import { CategoryService } from 'src/app/services/category.service';
 
 @Component({
@@ -8,21 +12,61 @@ import { CategoryService } from 'src/app/services/category.service';
   templateUrl: './update-category.component.html',
   styleUrls: ['./update-category.component.scss'],
 })
-export class UpdateCategoryComponent {
-  constructor(public category: CategoryService, private router: Router) {}
+export class UpdateCategoryComponent implements OnInit {
+  id!: string | null;
+  updateCategoryForm!: FormGroup;
+  private baseApiUrl: string = 'http://localhost:5044/api/';
+  notyf = new Notyf();
+  category!: ProductCategory;
 
-  public updateCategoryForm: FormGroup = new FormGroup({
-    name: new FormControl('', [
-      Validators.required,
-      Validators.minLength(3),
-      Validators.maxLength(40),
-    ]),
-    description: new FormControl('', [
-      Validators.required,
-      Validators.minLength(10),
-      Validators.maxLength(200),
-    ]),
-  });
+  constructor(
+    public categoryService: CategoryService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private http: HttpClient
+  ) {}
+
+  ngOnInit(): void {
+    this.id = this.route.snapshot.paramMap.get('id') || '0';
+
+    this.http
+      .get(this.baseApiUrl + 'ProductCategory/' + this.id, {
+        headers: new HttpHeaders().append(
+          'Authorization',
+          `Bearer ${localStorage.getItem('accessToken')}`
+        ),
+      })
+      .subscribe((res: any) => {
+        let response: Response = res;
+        if (response.statusCode === 200) {
+          this.category = response.responseModel;
+          console.log(this.category?.name);
+          this.updateCategoryForm = new FormGroup({
+            name: new FormControl(this.category?.name, [
+              Validators.required,
+              Validators.minLength(3),
+              Validators.maxLength(40),
+            ]),
+            description: new FormControl(this.category?.description, [
+              Validators.required,
+              Validators.minLength(10),
+              Validators.maxLength(200),
+            ]),
+          });
+        } else {
+          this.notyf.error(response.message);
+        }
+      });
+  }
+
+  get name() {
+    return this.updateCategoryForm.get('name');
+  }
+
+  get description() {
+    return this.updateCategoryForm.get('description');
+  }
+
   jsonData: {
     name: string;
     description: string;
@@ -44,7 +88,7 @@ export class UpdateCategoryComponent {
 
   updateIt() {
     let jsonData = this.constructData();
-    let res = this.category.updateCategory(jsonData);
+    let res = this.categoryService.updateCategory(jsonData);
     if (res == true) {
       this.router.navigate(['/']);
     }

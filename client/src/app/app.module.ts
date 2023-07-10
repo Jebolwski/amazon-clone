@@ -20,6 +20,8 @@ import { DeleteCategoryComponent } from './components/delete-category/delete-cat
 import { UpdateProductComponent } from './components/update-product/update-product.component';
 import { DeleteProductComponent } from './components/delete-product/delete-product.component';
 import { UpdateCategoryComponent } from './components/update-category/update-category.component';
+import { ProductDetailComponent } from './components/product-detail/product-detail.component';
+import { CommentComponent } from './components/comment/comment.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -38,6 +40,8 @@ import { UpdateCategoryComponent } from './components/update-category/update-cat
     UpdateProductComponent,
     DeleteProductComponent,
     UpdateCategoryComponent,
+    ProductDetailComponent,
+    CommentComponent,
   ],
   imports: [
     BrowserModule,
