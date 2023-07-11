@@ -7,12 +7,15 @@ namespace AmazonClone.Application.ViewModels.CommentM
     {
         public string comment { get; set; }
         public Guid productId { get; set; }
+        public string title { get; set; }
+        public int stars { get; set; }
         public ICollection<CreateCommentPhotoModel> commentPhotos { get; set; }
 
         public static PostCommentModel convert(Comment comment)
         {
             ICollection<CreateCommentPhotoModel> commentPhotos = new HashSet<CreateCommentPhotoModel>();
-            foreach (CommentPhoto commentPhoto in comment.commentPhotos) {
+            foreach (CommentPhoto commentPhoto in comment.commentPhotos)
+            {
                 commentPhotos.Add(new CreateCommentPhotoModel()
                 {
                     photoUrl = commentPhoto.photoUrl,
@@ -37,7 +40,7 @@ namespace AmazonClone.Application.ViewModels.CommentM
             }
             return new Comment()
             {
-                comment= comment.comment,
+                comment = comment.comment,
                 commentPhotos = commentPhotos
             };
 

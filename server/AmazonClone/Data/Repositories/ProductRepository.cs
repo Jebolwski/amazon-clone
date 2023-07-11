@@ -16,7 +16,7 @@ namespace AmazonClone.Data.Repositories
 
         public Product getProductWithPhotos(Guid id)
         {
-            IQueryable<Product> product = dbset.Where(p => p.id == id).Include(x => x.photos);
+            IQueryable<Product> product = dbset.AsNoTracking().Where(p => p.id == id).Include(x => x.photos);
             if (product != null && product.Any())
             {
                 return product.First();
@@ -34,32 +34,22 @@ namespace AmazonClone.Data.Repositories
             return null;
         }
 
-        public List<Product> filterProductsByNameAndCategory(Guid categoryId, string productName)
+        public List<Product> filterProductsByNameAndCategory(List<Guid> productIds, string productName)
         {
             List<Product> products = new List<Product>();
+
             if (productName == "+")
             {
-                products = dbset.Include(x => x.photos).ToList();
+                products = dbset.Where(p=>productIds.Contains(p.id)).Include(x => x.photos).ToList();
             }
             else
             {
-                products = dbset.Where(p => p.name.ToLower().Contains(productName.ToLower())).Include(x => x.photos).ToList();
+                products = dbset.Where(p => p.name.ToLower().Contains(productName.ToLower()) && productIds.Contains(p.id)).Include(x => x.photos).ToList();
             }
-            List<Product> products1 = new List<Product>();
-            foreach (Product product in products)
+            
+            if (products != null && products.Any())
             {
-                ICollection<ProductProductCategory> productProductCategories = productProductCategoryRepository.FindByProductId(product.id);
-                foreach (ProductProductCategory category in productProductCategories)
-                {
-                    if (category.productCategoryId == categoryId)
-                    {
-                        products1.Add(product);
-                    }
-                }
-            }
-            if (products1 != null && products1.Any())
-            {
-                return products1;
+                return products;
             }
             return null;
         }

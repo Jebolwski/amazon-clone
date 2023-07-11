@@ -19,16 +19,18 @@ namespace AmazonClone.Application.Services
         private readonly IProductRepository productRepository;
         private readonly IProductPhotoService productPhotoService;
         private readonly IProductProductCategoryService productProductCategoryService;
-
+        private readonly IProductProductCategoryRepository productProductCategoryRespository;
 
 
         public ProductService(IProductRepository productRepository,
             IProductProductCategoryService productProductCategoryService,
-            IProductPhotoService productPhotoService)
+            IProductPhotoService productPhotoService,
+            IProductProductCategoryRepository productProductCategoryRespository)
         {
             this.productRepository = productRepository;
             this.productProductCategoryService = productProductCategoryService;
             this.productPhotoService = productPhotoService;
+            this.productProductCategoryRespository = productProductCategoryRespository;
         }
 
         public ResponseViewModel add(ProductCreateModel model)
@@ -213,20 +215,22 @@ namespace AmazonClone.Application.Services
             product = productRepository.update(product);
 
             //ilk olan productproductcategoryleri siliyoruz 
-            foreach (ProductCategoryResponseModel item in (ICollection<ProductCategoryResponseModel>)productProductCategoryService.getProductCategoriesByProductId(product.id).responseModel)
-            {
-                productProductCategoryService.deleteProductProductCategoriesByProductCategoryId(item.id);
-            }
+            productProductCategoryService.deleteProductProductCategoriesByProductId(product.id);
+
             //şimdi yenileri ekleyeceğiz
+            ICollection<ProductCategoryResponseModel> productCategories = new HashSet<ProductCategoryResponseModel>();
             foreach (GuidCreateModel item in model.productCategories)
             {
-                productProductCategoryService.add(new ProductProductCategoryCreateModel()
+                ResponseViewModel responseViewModel = productProductCategoryService.add(new ProductProductCategoryCreateModel()
                 {
                     productCategoryId = item.id,
                     productId = product.id,
                 });
+                if (responseViewModel != null && responseViewModel.responseModel != null)
+                {
+                    productCategories.Add((ProductCategoryResponseModel)responseViewModel.responseModel);
+                }
             }
-
             //artık eklemeler bitti şimdi response oluşturuluyor
             HashSet<ProductCategoryResponseModel> productModels = new HashSet<ProductCategoryResponseModel>();
             HashSet<ProductPhotoResponseModel> productPhotoModels = new HashSet<ProductPhotoResponseModel>();
@@ -238,19 +242,6 @@ namespace AmazonClone.Application.Services
                     photoUrl = photo.photoUrl,
                     id = photo.id
                 });
-            }
-
-            ICollection<ProductCategoryResponseModel> productCategories = new HashSet<ProductCategoryResponseModel>();
-            foreach (GuidCreateModel guidCreateModel in model.productCategories)
-            {
-                ProductProductCategoryCreateModel productProductCategoryCreateModel = new ProductProductCategoryCreateModel()
-                {
-                    productCategoryId = guidCreateModel.id,
-                    productId = product.id
-                };
-
-                productCategories.Add((ProductCategoryResponseModel)productProductCategoryService.add(productProductCategoryCreateModel).responseModel);
-
             }
 
             return new ResponseViewModel()
@@ -315,37 +306,42 @@ namespace AmazonClone.Application.Services
         public ResponseViewModel filterProductsByNameAndCategory(Guid categoryId, string productName)
         {
             ICollection<ProductResponseModel> productResponseModels = new List<ProductResponseModel>();
-            List<Product> products = productRepository.filterProductsByNameAndCategory(categoryId, productName);
-            if (products != null && products.Any())
-            {
-                foreach (Product item in products)
+            ICollection <ProductProductCategory> categories  = productProductCategoryRespository.filterByCategoryId(categoryId); 
+            if (categories != null && categories.Any()) {
+                ICollection<Guid> prodcutsIds = categories.Select(p => p.productId).ToList();
+                List<Product> products = productRepository.filterProductsByNameAndCategory(prodcutsIds.ToList(), productName);
+                if (products != null && products.Any())
                 {
-                    List<ProductPhotoResponseModel> productPhotoModels = new List<ProductPhotoResponseModel>();
-                    if (item.photos != null)
+                    foreach (Product item in products)
                     {
-                        foreach (ProductPhoto photo in item.photos)
+                        List<ProductPhotoResponseModel> productPhotoModels = new List<ProductPhotoResponseModel>();
+                        if (item.photos != null)
                         {
-                            productPhotoModels.Add(new ProductPhotoResponseModel()
+                            foreach (ProductPhoto photo in item.photos)
                             {
-                                photoUrl = photo.photoUrl,
-                                id = photo.id
-                            });
+                                productPhotoModels.Add(new ProductPhotoResponseModel()
+                                {
+                                    photoUrl = photo.photoUrl,
+                                    id = photo.id
+                                });
+                            }
                         }
+                        ICollection<ProductCategoryResponseModel> productCategories = (HashSet<ProductCategoryResponseModel>)productProductCategoryService
+                                .getProductCategoriesByProductId(item.id).responseModel;
+                        ProductResponseModel responseModel = new ProductResponseModel()
+                        {
+                            description = item.description,
+                            name = item.name,
+                            id = item.id,
+                            price = item.price,
+                            productCategories = productCategories,
+                            photos = productPhotoModels
+                        };
+                        productResponseModels.Add(responseModel);
                     }
-                    ICollection<ProductCategoryResponseModel> productCategories = (HashSet<ProductCategoryResponseModel>)productProductCategoryService
-                            .getProductCategoriesByProductId(item.id).responseModel;
-                    ProductResponseModel responseModel = new ProductResponseModel()
-                    {
-                        description = item.description,
-                        name = item.name,
-                        id = item.id,
-                        price = item.price,
-                        productCategories = productCategories,
-                        photos = productPhotoModels
-                    };
-                    productResponseModels.Add(responseModel);
                 }
             }
+
             return new ResponseViewModel()
             {
                 message = "Veri getirildi. 😍",

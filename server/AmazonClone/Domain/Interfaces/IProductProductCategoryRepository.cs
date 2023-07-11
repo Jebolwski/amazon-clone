@@ -4,8 +4,9 @@ namespace AmazonClone.Domain.Interfaces
 {
     public interface IProductProductCategoryRepository : IRepository<ProductProductCategory>
     {
-        public ICollection<ProductProductCategory> FindByProductId(Guid id);
-        public bool DeleteItems(List<ProductProductCategory> items);
-        public bool deleteByProductCategoryId(Guid id);
+        ICollection<ProductProductCategory> FindByProductId(Guid id);
+        bool DeleteItems(List<ProductProductCategory> items);
+        bool deleteByProductCategoryId(Guid id);
+        ICollection<ProductProductCategory> filterByCategoryId(Guid id);
     }
 }

@@ -8,7 +8,7 @@ namespace AmazonClone.Application.Interfaces
     {
         public ResponseViewModel add(ProductCategoryCreateModel model);
         public ResponseViewModel delete(Guid id);
-        public ResponseViewModel update(ProductUpdateModel model);
+        public ResponseViewModel update(ProductCategoryUpdateModel model);
         public ResponseViewModel get(Guid id);
         public ResponseViewModel GetProductCategories();
     }

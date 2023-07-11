@@ -19,23 +19,34 @@ namespace AmazonClone.Controllers
             this.productCategoryService = productCategoryService;
         }
 
-        [HttpGet("get-all-categories"),Authorize(Roles = "Admin")]
-        public ResponseViewModel GetAllCategories(){
+        [HttpGet("get-all-categories"), Authorize(Roles = "Admin")]
+        public ResponseViewModel GetAllCategories()
+        {
             return this.productCategoryService.GetProductCategories();
         }
 
-        [HttpPost("add"),Authorize(Roles = "Admin")]
-        public ResponseViewModel Add(ProductCategoryCreateModel model){
+        [HttpPost("add"), Authorize(Roles = "Admin")]
+        public ResponseViewModel Add(ProductCategoryCreateModel model)
+        {
             return this.productCategoryService.add(model);
         }
 
-        [HttpDelete("{categoryId}/delete"),Authorize(Roles = "Admin")]
-        public ResponseViewModel Delete(Guid categoryId){
+        [HttpPut("update"), Authorize(Roles = "Admin")]
+        public ResponseViewModel Update(ProductCategoryUpdateModel model)
+        {
+            return this.productCategoryService.update(model);
+        }
+
+
+        [HttpDelete("{categoryId}/delete"), Authorize(Roles = "Admin")]
+        public ResponseViewModel Delete(Guid categoryId)
+        {
             return this.productCategoryService.delete(categoryId);
         }
 
-        [HttpGet("{categoryId}"),Authorize(Roles = "Admin")]
-        public ResponseViewModel GetAll(Guid categoryId){
+        [HttpGet("{categoryId}"), Authorize(Roles = "Admin")]
+        public ResponseViewModel GetAll(Guid categoryId)
+        {
             return this.productCategoryService.get(categoryId);
         }
     }

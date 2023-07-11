@@ -94,7 +94,7 @@ namespace AmazonClone.Application.Services
             };
         }
 
-        public ResponseViewModel update(ProductUpdateModel model)
+        public ResponseViewModel update(ProductCategoryUpdateModel model)
         {
             ProductCategory productCategory = categoryRepository.get(model.id);
             if (productCategory != null)

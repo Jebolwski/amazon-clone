@@ -58,6 +58,7 @@ namespace AmazonClone.Application.Services
                 ICollection<CommentPhoto> commentPhotos = new List<CommentPhoto>();
                 foreach (CreateCommentPhotoModel item in model.commentPhotos)
                 {
+                    System.Console.WriteLine(item.photoUrl);
                     commentPhotos.Add(new CommentPhoto()
                     {
                         photoUrl = item.photoUrl,
@@ -70,6 +71,8 @@ namespace AmazonClone.Application.Services
                     userId = user.id,
                     commentPhotos = commentPhotos,
                     productId = model.productId,
+                    title = model.title,
+                    stars = model.stars
                 };
 
                 comment = commentRepository.add(comment);
@@ -88,6 +91,8 @@ namespace AmazonClone.Application.Services
                     comment = comment.comment,
                     userId = comment.userId,
                     productId = comment.productId,
+                    stars = comment.stars,
+                    title = comment.title
                 };
                 return new ResponseViewModel()
                 {
@@ -161,6 +166,8 @@ namespace AmazonClone.Application.Services
                                 comment = comment.comment,
                                 productId = comment.productId,
                                 userId = comment.userId,
+                                stars = comment.stars,
+                                title = comment.title,
                                 commentPhotos = commentPhotos1
                             },
                             statusCode = 200
@@ -262,6 +269,8 @@ namespace AmazonClone.Application.Services
                         userId = comment.userId,
                         commentPhotos = commentPhotos,
                         productId = comment.productId,
+                        stars = comment.stars,
+                        title = comment.title
                     },
                     statusCode = 200
                 };

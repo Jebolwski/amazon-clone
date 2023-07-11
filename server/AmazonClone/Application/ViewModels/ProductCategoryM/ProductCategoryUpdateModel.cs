@@ -5,10 +5,8 @@ namespace AmazonClone.Application.ViewModels.ProductCategoryM
 {
     public class ProductCategoryUpdateModel
     {
+        public Guid id { get; set; }
         public string name { get; set; }
-        public float price { get; set; }
         public string description { get; set; }
-        public ICollection<ProductCategoryCreateModel> productCategories { get; set; }
-        public ICollection<ProductPhotoCreateModel> photos { get; set; }
     }
 }
