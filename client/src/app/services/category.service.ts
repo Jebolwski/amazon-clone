@@ -43,7 +43,7 @@ export class CategoryService {
   public updateCategory(data: { name: string; description: string }): boolean {
     let bool: boolean = false;
     this.http
-      .post(this.baseApiUrl + 'ProductCategory/add', data, {
+      .put(this.baseApiUrl + 'ProductCategory/update', data, {
         headers: new HttpHeaders().append(
           'Authorization',
           `Bearer ${localStorage.getItem('accessToken')}`

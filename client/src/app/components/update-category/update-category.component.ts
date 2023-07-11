@@ -14,7 +14,18 @@ import { CategoryService } from 'src/app/services/category.service';
 })
 export class UpdateCategoryComponent implements OnInit {
   id!: string | null;
-  updateCategoryForm!: FormGroup;
+  updateCategoryForm: FormGroup = new FormGroup({
+    name: new FormControl('', [
+      Validators.required,
+      Validators.minLength(3),
+      Validators.maxLength(40),
+    ]),
+    description: new FormControl('', [
+      Validators.required,
+      Validators.minLength(10),
+      Validators.maxLength(200),
+    ]),
+  });
   private baseApiUrl: string = 'http://localhost:5044/api/';
   notyf = new Notyf();
   category!: ProductCategory;
@@ -40,19 +51,12 @@ export class UpdateCategoryComponent implements OnInit {
         let response: Response = res;
         if (response.statusCode === 200) {
           this.category = response.responseModel;
-          console.log(this.category?.name);
-          this.updateCategoryForm = new FormGroup({
-            name: new FormControl(this.category?.name, [
-              Validators.required,
-              Validators.minLength(3),
-              Validators.maxLength(40),
-            ]),
-            description: new FormControl(this.category?.description, [
-              Validators.required,
-              Validators.minLength(10),
-              Validators.maxLength(200),
-            ]),
-          });
+          console.table(response);
+
+          this.updateCategoryForm.get('name')?.setValue(this.category?.name);
+          this.updateCategoryForm
+            .get('description')
+            ?.setValue(this.category?.description);
         } else {
           this.notyf.error(response.message);
         }
@@ -70,18 +74,22 @@ export class UpdateCategoryComponent implements OnInit {
   jsonData: {
     name: string;
     description: string;
+    id: string;
   } = {
     name: '',
     description: '',
+    id: '',
   };
 
   constructData(): {
     name: string;
     description: string;
+    id: string;
   } {
     this.jsonData = {
       name: this.updateCategoryForm.get('name')?.value,
       description: this.updateCategoryForm.get('description')?.value,
+      id: this.id || '',
     };
     return this.jsonData;
   }
