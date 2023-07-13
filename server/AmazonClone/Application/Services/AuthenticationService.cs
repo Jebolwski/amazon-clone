@@ -89,7 +89,7 @@ namespace AmazonClone.Application.Services
                 passwordHash = passwordHash,
                 passwordSalt = passwordSalt,
                 TokenCreated = DateTime.UtcNow,
-                TokenExpires = DateTime.UtcNow.AddMinutes(4),
+                TokenExpires = DateTime.UtcNow.AddMinutes(5),
                 roleId = roleService.getRole("Normal User").id
             };
 
@@ -140,7 +140,7 @@ namespace AmazonClone.Application.Services
 
             var token = new JwtSecurityToken(
                 claims: claims,
-                expires: DateTime.UtcNow.AddMinutes(60),
+                expires: DateTime.UtcNow.AddMinutes(5),
                 signingCredentials: creds
 
             );
@@ -170,11 +170,11 @@ namespace AmazonClone.Application.Services
             return refreshToken;
         }
 
-        public ResponseViewModel RefreshToken(string reftoken)
+        public ResponseViewModel RefreshToken(RefreshTokenModel model)
         {
-            if (reftoken != null)
+            if (model.reftoken != null)
             {
-                User user = userService.getUserByRefreshToken(reftoken);
+                User user = userService.getUserByRefreshToken(model.reftoken);
                 if (user == null)
                 {
                     return new ResponseViewModel()
@@ -184,7 +184,7 @@ namespace AmazonClone.Application.Services
                         statusCode = 400
                     };
                 }
-                if (!user.RefreshToken.Equals(reftoken))
+                if (!user.RefreshToken.Equals(model.reftoken))
                 {
                     return new ResponseViewModel()
                     {
@@ -266,10 +266,7 @@ namespace AmazonClone.Application.Services
             };
         }
 
-
     }
-
-
 
 }
 

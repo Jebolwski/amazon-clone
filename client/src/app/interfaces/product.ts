@@ -3,8 +3,18 @@ export interface Product {
   name: string;
   price: number;
   description: string;
+  comments: Comment[];
   productCategories: ProductCategory[];
   photos: Photo[];
+}
+
+export interface Comment {
+  userId: string;
+  comment: string;
+  commentPhotos: Photo[];
+  productId: string;
+  title: string;
+  stars: number;
 }
 
 export interface Photo {

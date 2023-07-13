@@ -11,6 +11,7 @@ using AmazonClone.Application.ViewModels.ProductProductCategory;
 using AmazonClone.Application.ViewModels.CartM;
 using Newtonsoft.Json;
 using AmazonClone.Application.ViewModels.ResponseM;
+using AmazonClone.Application.ViewModels.CommentPhotoM;
 
 namespace AmazonClone.Application.Services
 {
@@ -157,7 +158,32 @@ namespace AmazonClone.Application.Services
                         });
                     }
                 }
-
+                List<CommentResponseModel> comments = new List<CommentResponseModel>();
+                if (product.comments != null)
+                {
+                    foreach (Comment comment in product.comments)
+                    {
+                        List<CommentPhotoResponseModel> photos = new List<CommentPhotoResponseModel>();
+                        System.Console.WriteLine(comment.commentPhotos.Any());
+                        foreach (var photo in comment.commentPhotos)
+                        {
+                            photos.Add(new CommentPhotoResponseModel()
+                            {
+                                id = photo.id,
+                                photoUrl = photo.photoUrl
+                            });
+                        }
+                        comments.Add(new CommentResponseModel()
+                        {
+                            comment = comment.comment,
+                            productId = comment.productId,
+                            stars = comment.stars,
+                            title = comment.title,
+                            userId = comment.userId,
+                            commentPhotos = photos
+                        });
+                    }
+                }
                 ICollection<ProductCategoryResponseModel> productCategories = (HashSet<ProductCategoryResponseModel>)productProductCategoryService
                         .getProductCategoriesByProductId(id).responseModel;
                 return new ResponseViewModel()
@@ -171,7 +197,8 @@ namespace AmazonClone.Application.Services
                         id = product.id,
                         price = product.price,
                         productCategories = productCategories,
-                        photos = productPhotoModels
+                        photos = productPhotoModels,
+                        comments = comments
                     }
                 };
             }
@@ -306,8 +333,9 @@ namespace AmazonClone.Application.Services
         public ResponseViewModel filterProductsByNameAndCategory(Guid categoryId, string productName)
         {
             ICollection<ProductResponseModel> productResponseModels = new List<ProductResponseModel>();
-            ICollection <ProductProductCategory> categories  = productProductCategoryRespository.filterByCategoryId(categoryId); 
-            if (categories != null && categories.Any()) {
+            ICollection<ProductProductCategory> categories = productProductCategoryRespository.filterByCategoryId(categoryId);
+            if (categories != null && categories.Any())
+            {
                 ICollection<Guid> prodcutsIds = categories.Select(p => p.productId).ToList();
                 List<Product> products = productRepository.filterProductsByNameAndCategory(prodcutsIds.ToList(), productName);
                 if (products != null && products.Any())

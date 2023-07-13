@@ -43,9 +43,10 @@ export class AuthService {
             'accessToken',
             response.responseModel.accessToken
           );
+
           localStorage.setItem(
             'refreshToken',
-            response.responseModel.refreshToken
+            response.responseModel.refreshToken.token
           );
           let jwtData: any = jwt_decode.default(
             response.responseModel.accessToken

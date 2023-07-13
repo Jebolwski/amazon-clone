@@ -75,11 +75,12 @@ export class ProductService {
       });
   }
 
-  public getProduct(id: string): void {
+  public async getProduct(id: string): Promise<void> {
     this.http.get(this.baseApiUrl + 'Product/' + id).subscribe((res: any) => {
       let response: Response = res;
       if (response.statusCode === 200) {
         this.product = response.responseModel;
+        console.log(this.product);
       } else {
         this.notyf.error(response.message);
       }

@@ -9,8 +9,7 @@ namespace AmazonClone.Application.Interfaces
     {
         public ResponseViewModel Register(RegisterModel model);
         public ResponseViewModel Login(LoginModel request);
-        public ResponseViewModel RefreshToken(string reftoken);
+        public ResponseViewModel RefreshToken(RefreshTokenModel model);
         public ResponseViewModel SearchByUsername(string name);
     }
 }
-    

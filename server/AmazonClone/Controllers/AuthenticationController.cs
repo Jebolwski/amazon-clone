@@ -29,9 +29,9 @@ namespace AmazonClone.Controllers
         }
 
         [HttpPost("refresh-token")]
-        public ResponseViewModel RefreshToken(string reftoken)
+        public ResponseViewModel RefreshToken(RefreshTokenModel model)
         {
-            return authenticationService.RefreshToken(reftoken);
+            return authenticationService.RefreshToken(model);
         }
 
         [HttpPost("search-by-username")]
