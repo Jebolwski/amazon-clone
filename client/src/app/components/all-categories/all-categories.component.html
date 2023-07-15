@@ -11,6 +11,7 @@
   <div class="flex flex-wrap items-center gap-3">
     <div
       *ngFor="let category of category.allCategories"
+      [routerLink]="'/category/' + category.id"
       class="bg-gradient-to-br category relative cursor-pointer from-white to-stone-300 border hover:shadow-lg duration-200 border-stone-300 shadow-md p-3 rounded-md"
     >
       <p class="font-semibold text-lg">

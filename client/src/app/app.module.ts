@@ -22,6 +22,7 @@ import { DeleteProductComponent } from './components/delete-product/delete-produ
 import { UpdateCategoryComponent } from './components/update-category/update-category.component';
 import { ProductDetailComponent } from './components/product-detail/product-detail.component';
 import { CommentComponent } from './components/comment/comment.component';
+import { CategoryDetailComponent } from './components/category-detail/category-detail.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -42,6 +43,7 @@ import { CommentComponent } from './components/comment/comment.component';
     UpdateCategoryComponent,
     ProductDetailComponent,
     CommentComponent,
+    CategoryDetailComponent,
   ],
   imports: [
     BrowserModule,

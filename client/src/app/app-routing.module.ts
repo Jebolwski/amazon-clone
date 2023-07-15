@@ -17,6 +17,7 @@ import { DeleteProductComponent } from './components/delete-product/delete-produ
 import { UpdateCategoryComponent } from './components/update-category/update-category.component';
 import { ProductDetailComponent } from './components/product-detail/product-detail.component';
 import { CommentComponent } from './components/comment/comment.component';
+import { CategoryDetailComponent } from './components/category-detail/category-detail.component';
 
 const routes: Routes = [
   {
@@ -99,7 +100,12 @@ const routes: Routes = [
   {
     path: 'comment/:id',
     component: CommentComponent,
-    title: 'Ürün Detayı',
+    title: 'Yorum Detayı',
+  },
+  {
+    path: 'category/:id',
+    component: CategoryDetailComponent,
+    title: 'Kategori Detayı',
   },
 ];
 

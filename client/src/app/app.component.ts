@@ -55,7 +55,6 @@ export class AppComponent implements OnInit {
               'http://schemas.microsoft.com/ws/2008/06/identity/claims/role'
             ],
           };
-          this.notyf.success(response.message);
         } else {
           this.notyf.error(response.message);
         }
