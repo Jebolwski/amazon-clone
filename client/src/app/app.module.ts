@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -23,6 +23,10 @@ import { UpdateCategoryComponent } from './components/update-category/update-cat
 import { ProductDetailComponent } from './components/product-detail/product-detail.component';
 import { CommentComponent } from './components/comment/comment.component';
 import { CategoryDetailComponent } from './components/category-detail/category-detail.component';
+import { register } from 'swiper/element/bundle';
+import { DeleteCommentComponent } from './components/delete-comment/delete-comment.component';
+
+register();
 @NgModule({
   declarations: [
     AppComponent,
@@ -44,6 +48,7 @@ import { CategoryDetailComponent } from './components/category-detail/category-d
     ProductDetailComponent,
     CommentComponent,
     CategoryDetailComponent,
+    DeleteCommentComponent,
   ],
   imports: [
     BrowserModule,
@@ -53,5 +58,6 @@ import { CategoryDetailComponent } from './components/category-detail/category-d
   ],
   providers: [],
   bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AppModule {}

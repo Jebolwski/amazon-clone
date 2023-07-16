@@ -15,6 +15,7 @@ namespace AmazonClone.Application.Services
         private readonly IUserService userService;
         private readonly IProductService productService;
 
+
         public CommentService(ICommentRepository commentRepository, IUserService userService, IProductService productService)
         {
             this.commentRepository = commentRepository;
@@ -89,7 +90,7 @@ namespace AmazonClone.Application.Services
                 {
                     commentPhotos = commentPhotos1,
                     comment = comment.comment,
-                    userId = comment.userId,
+                    user = userService.get(comment.userId),
                     productId = comment.productId,
                     stars = comment.stars,
                     title = comment.title
@@ -165,7 +166,7 @@ namespace AmazonClone.Application.Services
                             {
                                 comment = comment.comment,
                                 productId = comment.productId,
-                                userId = comment.userId,
+                                user = userService.get(comment.userId),
                                 stars = comment.stars,
                                 title = comment.title,
                                 commentPhotos = commentPhotos1
@@ -233,7 +234,7 @@ namespace AmazonClone.Application.Services
                 commentRepository.delete(id);
                 return new ResponseViewModel()
                 {
-                    message = "Ürün başarıyla silindi. 🚀",
+                    message = "Yorum başarıyla silindi. 🚀",
                     responseModel = new Object(),
                     statusCode = 200
                 };
@@ -260,13 +261,16 @@ namespace AmazonClone.Application.Services
                         id = item.id
                     });
                 }
+
+                User user = userService.get(id);
                 return new ResponseViewModel()
                 {
                     message = "Yorum getirildi. 😍",
                     responseModel = new CommentResponseModel()
                     {
+                        id = comment.id,
                         comment = comment.comment,
-                        userId = comment.userId,
+                        user = user,
                         commentPhotos = commentPhotos,
                         productId = comment.productId,
                         stars = comment.stars,

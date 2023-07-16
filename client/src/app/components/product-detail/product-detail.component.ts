@@ -37,89 +37,77 @@ export class ProductDetailComponent {
     private http: HttpClient
   ) {
     this.id = this.route.snapshot.paramMap.get('id') || '0';
-    this.productService.getProduct(this.id).then(() => {
-      this.makeStats();
-      this.averageStars();
-    });
-    // this.http
-    //   .get(this.baseApiUrl + 'Product/' + this.id)
-    //   .subscribe((res: any) => {
-    //     let response: Response = res;
-    //     if (response.statusCode === 200) {
-    //       console.log(response.responseModel);
-
-    //       this.product = response.responseModel;
-    //       this.makeStats();
-    //       this.averageStars();
-    //     } else {
-    //       this.notyf.error(response.message);
-    //     }
-    //   });
+    // this.getProduct(this.id).then(() => {
+    //   this.makeStats();
+    //   this.averageStars();
+    // });
+    this.http
+      .get(this.baseApiUrl + 'Product/' + this.id)
+      .subscribe((res: any) => {
+        let response: Response = res;
+        if (response.statusCode === 200) {
+          this.product = response.responseModel;
+          this.makeStats();
+          this.averageStars();
+        } else {
+          this.notyf.error(response.message);
+        }
+      });
   }
 
   makeStats() {
     this.stats.fives = {
       count:
-        this.productService.product?.comments.filter(
-          (comment) => comment.stars == 5
-        ).length || 0,
+        this.product?.comments.filter((comment) => comment.stars == 5).length ||
+        0,
       percentage: (
-        ((this.productService.product?.comments.filter(
-          (comment) => comment.stars == 5
-        ).length || 0) /
-          (this.productService.product?.comments.length || 0)) *
+        ((this.product?.comments.filter((comment) => comment.stars == 5)
+          .length || 0) /
+          (this.product?.comments.length || 0)) *
         100
       ).toFixed(2),
     };
     this.stats.fours = {
       count:
-        this.productService.product?.comments.filter(
-          (comment) => comment.stars == 4
-        ).length || 0,
+        this.product?.comments.filter((comment) => comment.stars == 4).length ||
+        0,
       percentage: (
-        ((this.productService.product?.comments.filter(
-          (comment) => comment.stars == 4
-        ).length || 0) /
-          (this.productService.product?.comments.length || 0)) *
+        ((this.product?.comments.filter((comment) => comment.stars == 4)
+          .length || 0) /
+          (this.product?.comments.length || 0)) *
         100
       ).toFixed(2),
     };
     this.stats.threes = {
       count:
-        this.productService.product?.comments.filter(
-          (comment) => comment.stars == 3
-        ).length || 0,
+        this.product?.comments.filter((comment) => comment.stars == 3).length ||
+        0,
       percentage: (
-        ((this.productService.product?.comments.filter(
-          (comment) => comment.stars == 3
-        ).length || 0) /
-          (this.productService.product?.comments.length || 0)) *
+        ((this.product?.comments.filter((comment) => comment.stars == 3)
+          .length || 0) /
+          (this.product?.comments.length || 0)) *
         100
       ).toFixed(2),
     };
     this.stats.twos = {
       count:
-        this.productService.product?.comments.filter(
-          (comment) => comment.stars == 2
-        ).length || 0,
+        this.product?.comments.filter((comment) => comment.stars == 2).length ||
+        0,
       percentage: (
-        ((this.productService.product?.comments.filter(
-          (comment) => comment.stars == 2
-        ).length || 0) /
-          (this.productService.product?.comments.length || 0)) *
+        ((this.product?.comments.filter((comment) => comment.stars == 2)
+          .length || 0) /
+          (this.product?.comments.length || 0)) *
         100
       ).toFixed(2),
     };
     this.stats.ones = {
       count:
-        this.productService.product?.comments.filter(
-          (comment) => comment.stars == 1
-        ).length || 0,
+        this.product?.comments.filter((comment) => comment.stars == 1).length ||
+        0,
       percentage: (
-        ((this.productService.product?.comments.filter(
-          (comment) => comment.stars == 1
-        ).length || 0) /
-          (this.productService.product?.comments.length || 0)) *
+        ((this.product?.comments.filter((comment) => comment.stars == 1)
+          .length || 0) /
+          (this.product?.comments.length || 0)) *
         100
       ).toFixed(2),
     };
@@ -127,15 +115,13 @@ export class ProductDetailComponent {
   }
 
   averageStars() {
-    this.productService.product?.comments.forEach((element: Comment) => {
+    this.product?.comments.forEach((element: Comment) => {
       this.total += element.stars;
     });
-    console.log(
-      this.total / (this.productService.product?.comments?.length || 1)
-    );
+    console.log(this.total / (this.product?.comments?.length || 1));
 
-    this.average = (
-      this.total / (this.productService.product?.comments?.length || 1)
-    ).toFixed(2);
+    this.average = (this.total / (this.product?.comments?.length || 1)).toFixed(
+      2
+    );
   }
 }

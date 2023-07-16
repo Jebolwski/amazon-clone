@@ -62,7 +62,7 @@
 
   <div class="mx-3 h-[1px] bg-stone-300"></div>
   <div class="flex items-start flex-wrap p-4 gap-4">
-    <div class="w-80">
+    <div class="w-80 lg:text-base md:text-sm text-xs">
       <h2 class="text-xl font-semibold" (click)="averageStars()">
         Müşteri Yorumları
       </h2>
@@ -74,13 +74,15 @@
           <i class="fa-regular fa-star stars"></i>
           <i class="fa-regular fa-star stars"></i>
         </div>
-        <div class="text-lg">{{ average }} / 5 yıldız</div>
+        <div class="md:text-lg text-base">{{ average }} / 5 yıldız</div>
       </div>
       <p class="mt-2">{{ product?.comments?.length }} genel puan</p>
       <div class="text-sm">
         <div class="flex items-center gap-2 mt-3">
-          <p>5 yıldız</p>
-          <div class="h-6 w-48 border border-orange-400 rounded-md">
+          <p class="whitespace-nowrap">5 yıldız</p>
+          <div
+            class="h-6 md:w-48 sm:w-32 w-24 border border-orange-400 rounded-md"
+          >
             <div
               [class]="
                 'h-full bg-orange-300 rounded-md ' +
@@ -93,8 +95,10 @@
           <p>%{{ stats.fives.percentage }}</p>
         </div>
         <div class="flex items-center gap-2 mt-3">
-          <p>4 yıldız</p>
-          <div class="h-6 w-48 border border-orange-400 rounded-md">
+          <p class="whitespace-nowrap">4 yıldız</p>
+          <div
+            class="h-6 md:w-48 sm:w-32 w-24 border border-orange-400 rounded-md"
+          >
             <div
               [class]="
                 'h-full bg-orange-300 rounded-md ' +
@@ -107,8 +111,10 @@
           <p>%{{ stats.fours.percentage }}</p>
         </div>
         <div class="flex items-center gap-2 mt-3">
-          <p>3 yıldız</p>
-          <div class="h-6 w-48 border border-orange-400 rounded-md">
+          <p class="whitespace-nowrap">3 yıldız</p>
+          <div
+            class="h-6 md:w-48 sm:w-32 w-24 border border-orange-400 rounded-md"
+          >
             <div
               [class]="
                 'h-full bg-orange-300 rounded-md ' +
@@ -121,8 +127,10 @@
           <p>%{{ stats.threes.percentage }}</p>
         </div>
         <div class="flex items-center gap-2 mt-3">
-          <p>2 yıldız</p>
-          <div class="h-6 w-48 border border-orange-400 rounded-md">
+          <p class="whitespace-nowrap">2 yıldız</p>
+          <div
+            class="h-6 md:w-48 sm:w-32 w-24 border border-orange-400 rounded-md"
+          >
             <div
               [class]="
                 'h-full bg-orange-300 rounded-md ' +
@@ -135,8 +143,10 @@
           <p>%{{ stats.twos.percentage }}</p>
         </div>
         <div class="flex items-center gap-2 mt-3">
-          <p>1 yıldız</p>
-          <div class="h-6 w-48 border border-orange-400 rounded-md">
+          <p class="whitespace-nowrap">1 yıldız</p>
+          <div
+            class="h-6 md:w-48 sm:w-32 w-24 border border-orange-400 rounded-md"
+          >
             <div
               [class]="
                 'h-full bg-orange-300 rounded-md ' +
@@ -148,14 +158,96 @@
           </div>
           <p>%{{ stats.ones.percentage }}</p>
         </div>
+        <p class="mt-1 text-blue-800">Puanlar nasıl hesaplanır?</p>
       </div>
+      <hr class="my-5" />
+      <div>
+        <h3>Bu ürünü incele</h3>
+        <p>Düşüncelerinizi diğer müşteriler ile paylaşın</p>
+        <button
+          class="border border-stone-300 text-center w-full rounded-md mt-3 shadow-md p-1 text-sm"
+          [routerLink]="'/comment/' + product?.id"
+        >
+          Müşteri yorumu yazın
+        </button>
+      </div>
+      <hr class="my-5" />
     </div>
-    <div class="flex-1 min-w-[180px]">
-      <div *ngFor="let comment of product?.comments">
+    <div class="flex-1 min-w-[200px]">
+      <div *ngFor="let comment of product?.comments" class="mb-5">
+        <div class="flex justify-between items-center">
+          <div class="flex items-center gap-1">
+            <img
+              class="w-8"
+              src="https://images-eu.ssl-images-amazon.com/images/S/amazon-avatars-global/default._CR0,0,1024,1024_SX48_.png"
+            />
+            <p class="text-sm">{{ comment.user.username }}</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <i
+              class="fa-solid fa-file-pen text-yellow-500"
+              [routerLink]="'/comment/' + comment?.id + '/update'"
+            ></i>
+            <i
+              class="fa-solid fa-trash text-red-500 cursor-pointer"
+              [routerLink]="'/comment/' + comment?.id + '/delete'"
+            ></i>
+          </div>
+        </div>
+        <div class="text-yellow-500 my-[4px] text-sm">
+          <div class="flex items-center" *ngIf="comment.stars == 0">
+            <i class="fa-regular fa-star stars"></i>
+            <i class="fa-regular fa-star stars"></i>
+            <i class="fa-regular fa-star stars"></i>
+            <i class="fa-regular fa-star stars"></i>
+            <i class="fa-regular fa-star stars"></i>
+          </div>
+          <div class="flex items-center" *ngIf="comment.stars == 1">
+            <i class="fa-solid fa-star stars"></i>
+            <i class="fa-regular fa-star stars"></i>
+            <i class="fa-regular fa-star stars"></i>
+            <i class="fa-regular fa-star stars"></i>
+            <i class="fa-regular fa-star stars"></i>
+          </div>
+          <div class="flex items-center" *ngIf="comment.stars == 2">
+            <i class="fa-solid fa-star stars"></i>
+            <i class="fa-solid fa-star stars"></i>
+            <i class="fa-regular fa-star stars"></i>
+            <i class="fa-regular fa-star stars"></i>
+            <i class="fa-regular fa-star stars"></i>
+          </div>
+          <div class="flex items-center" *ngIf="comment.stars == 3">
+            <i class="fa-solid fa-star stars"></i>
+            <i class="fa-solid fa-star stars"></i>
+            <i class="fa-solid fa-star stars"></i>
+            <i class="fa-regular fa-star stars"></i>
+            <i class="fa-regular fa-star stars"></i>
+          </div>
+          <div class="flex items-center" *ngIf="comment.stars == 4">
+            <i class="fa-solid fa-star stars"></i>
+            <i class="fa-solid fa-star stars"></i>
+            <i class="fa-solid fa-star stars"></i>
+            <i class="fa-solid fa-star stars"></i>
+            <i class="fa-regular fa-star stars"></i>
+          </div>
+          <div class="flex items-center" *ngIf="comment.stars == 5">
+            <i class="fa-solid fa-star stars"></i>
+            <i class="fa-solid fa-star stars"></i>
+            <i class="fa-solid fa-star stars"></i>
+            <i class="fa-solid fa-star stars"></i>
+            <i class="fa-solid fa-star stars"></i>
+          </div>
+        </div>
         <h4 class="font-medium">
           {{ comment.title }}
         </h4>
         <p class="text-sm">{{ comment.comment }}</p>
+        <div
+          class="flex items-start mt-1"
+          *ngFor="let photo of comment.commentPhotos"
+        >
+          <img [src]="photo.photoUrl" class="w-6" />
+        </div>
       </div>
     </div>
   </div>

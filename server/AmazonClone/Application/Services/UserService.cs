@@ -17,7 +17,8 @@ namespace AmazonClone.Application.Services
 
         public User update(User user)
         {
-            if (user != null) { 
+            if (user != null)
+            {
                 return userRepository.update(user);
             }
             return null;
@@ -37,6 +38,11 @@ namespace AmazonClone.Application.Services
         {
             return userRepository.add(user);
         }
+
+        public User get(Guid id)
+        {
+            return userRepository.get(id);
+        }
     }
-    
+
 }

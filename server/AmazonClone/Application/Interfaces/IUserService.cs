@@ -9,5 +9,6 @@ namespace AmazonClone.Application.Interfaces
         public User getUserByRefreshToken(string token);
         public User getUserByUsername(string username);
         public User add(User user);
+        public User get(Guid id);
     }
 }

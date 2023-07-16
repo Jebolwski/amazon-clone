@@ -21,17 +21,20 @@ namespace AmazonClone.Application.Services
         private readonly IProductPhotoService productPhotoService;
         private readonly IProductProductCategoryService productProductCategoryService;
         private readonly IProductProductCategoryRepository productProductCategoryRespository;
+        private readonly IUserService userService;
 
 
         public ProductService(IProductRepository productRepository,
             IProductProductCategoryService productProductCategoryService,
             IProductPhotoService productPhotoService,
-            IProductProductCategoryRepository productProductCategoryRespository)
+            IProductProductCategoryRepository productProductCategoryRespository,
+            IUserService userService)
         {
             this.productRepository = productRepository;
             this.productProductCategoryService = productProductCategoryService;
             this.productPhotoService = productPhotoService;
             this.productProductCategoryRespository = productProductCategoryRespository;
+            this.userService = userService;
         }
 
         public ResponseViewModel add(ProductCreateModel model)
@@ -175,11 +178,12 @@ namespace AmazonClone.Application.Services
                         }
                         comments.Add(new CommentResponseModel()
                         {
+                            id = comment.id,
                             comment = comment.comment,
                             productId = comment.productId,
                             stars = comment.stars,
                             title = comment.title,
-                            userId = comment.userId,
+                            user = userService.get(comment.userId),
                             commentPhotos = photos
                         });
                     }
