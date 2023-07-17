@@ -78,4 +78,29 @@ export class CommentService {
         this.location.back();
       });
   }
+
+  updateComment(data: {
+    id: string;
+    comment: string;
+    title: string;
+    stars: number;
+    commentPhotos: { photoUrl: string }[];
+  }) {
+    this.http
+      .put(this.baseApiUrl + 'comment/Comment/update', data, {
+        headers: new HttpHeaders().append(
+          'Authorization',
+          `Bearer ${localStorage.getItem('accessToken')}`
+        ),
+      })
+      .subscribe((res: any) => {
+        let response: Response = res;
+        if (response.statusCode === 200) {
+          this.notyf.success(response.message);
+        } else {
+          this.notyf.error(response.message);
+        }
+        this.location.back();
+      });
+  }
 }

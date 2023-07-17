@@ -7,6 +7,7 @@ import { Response } from '../interfaces/response';
 import { Notyf } from 'notyf';
 import { async, map } from 'rxjs';
 import { UpdateProduct } from '../interfaces/updateProduct';
+import { Location } from '@angular/common';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +20,8 @@ export class ProductService {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private auth: AuthService
+    private auth: AuthService,
+    private location: Location
   ) {}
   notyf = new Notyf();
 
@@ -102,7 +104,7 @@ export class ProductService {
         } else {
           this.notyf.error(response.message);
         }
-        console.log(res);
+        this.location.back();
       });
   }
 

@@ -25,6 +25,7 @@ import { CommentComponent } from './components/comment/comment.component';
 import { CategoryDetailComponent } from './components/category-detail/category-detail.component';
 import { register } from 'swiper/element/bundle';
 import { DeleteCommentComponent } from './components/delete-comment/delete-comment.component';
+import { UpdateCommentComponent } from './components/update-comment/update-comment.component';
 
 register();
 @NgModule({
@@ -49,6 +50,7 @@ register();
     CommentComponent,
     CategoryDetailComponent,
     DeleteCommentComponent,
+    UpdateCommentComponent,
   ],
   imports: [
     BrowserModule,

@@ -9,18 +9,16 @@
     </div>
     <div>
       <h4 class="text-xl font-medium">
-        {{ productService.product?.name }}
+        {{ product?.name }}
       </h4>
-      <p class="font-light">{{ productService.product?.description }}</p>
+      <p class="font-light">{{ product?.description }}</p>
       <p class="text-green-800">Marka : Genel</p>
       <hr class="my-1" />
-      <p class="text-xl">{{ productService.product?.price }} TL</p>
+      <p class="text-xl">{{ product?.price }} TL</p>
       <p>Fiyatlara KDV dahildir.</p>
     </div>
     <div class="rounded-md border border-black/20 p-3 w-64">
-      <p class="font-semibold text-lg my-1">
-        {{ productService.product?.price }} TL
-      </p>
+      <p class="font-semibold text-lg my-1">{{ product?.price }} TL</p>
       <p class="text-base my-1">ÜCRETSİZ teslimat 14 - 19 Temmuz. Ayrıntılar</p>
       <div class="flex items-center text-sm gap-1">
         <div><i class="fa-solid fa-location-dot"></i></div>
@@ -32,9 +30,9 @@
       <div class="flex items-center gap-1">
         <p>Miktar :</p>
         <select class="border rounded-md p-1">
-          <option value="">1</option>
-          <option value="">2</option>
-          <option value="">3</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
         </select>
       </div>
       <div class="flex flex-1 flex-col gap-2 place-content-center mt-3">
@@ -185,7 +183,7 @@
           </div>
           <div class="flex items-center gap-2">
             <i
-              class="fa-solid fa-file-pen text-yellow-500"
+              class="fa-solid fa-file-pen text-yellow-500 cursor-pointer"
               [routerLink]="'/comment/' + comment?.id + '/update'"
             ></i>
             <i

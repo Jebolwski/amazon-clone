@@ -14,13 +14,15 @@ namespace AmazonClone.Application.Services
         private readonly ICommentRepository commentRepository;
         private readonly IUserService userService;
         private readonly IProductService productService;
+        private readonly ICommentPhotoService commentPhotoService;
 
 
-        public CommentService(ICommentRepository commentRepository, IUserService userService, IProductService productService)
+        public CommentService(ICommentRepository commentRepository, IUserService userService, IProductService productService, ICommentPhotoService commentPhotoService)
         {
             this.commentRepository = commentRepository;
             this.userService = userService;
             this.productService = productService;
+            this.commentPhotoService = commentPhotoService;
         }
 
         public ResponseViewModel postComment(PostCommentModel model, string authToken)
@@ -114,7 +116,7 @@ namespace AmazonClone.Application.Services
         {
             if (model != null)
             {
-                Comment comment = commentRepository.get(model.id);
+                Comment comment = commentRepository.getCommentWithPhotos(model.id);
                 if (comment != null)
                 {
                     User user = new User();
@@ -137,7 +139,14 @@ namespace AmazonClone.Application.Services
                     }
                     if (user.id == comment.userId)
                     {
+                        //eski fotoğraflar siliniyor
+                        foreach (CommentPhoto commentPhoto in comment.commentPhotos)
+                        {
+                            commentPhotoService.delete(commentPhoto.id);
+                        }
                         comment.comment = model.comment;
+                        comment.stars = model.stars;
+                        comment.title= model.title;
                         ICollection<CommentPhoto> commentPhotos = new List<CommentPhoto>();
                         foreach (CreateCommentPhotoModel item in model.commentPhotos)
                         {
@@ -164,6 +173,7 @@ namespace AmazonClone.Application.Services
                             message = "Yorum başarıyla güncellendi.",
                             responseModel = new CommentResponseModel()
                             {
+                                id = comment.id,
                                 comment = comment.comment,
                                 productId = comment.productId,
                                 user = userService.get(comment.userId),

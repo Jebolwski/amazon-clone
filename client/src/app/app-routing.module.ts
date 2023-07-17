@@ -19,6 +19,7 @@ import { ProductDetailComponent } from './components/product-detail/product-deta
 import { CommentComponent } from './components/comment/comment.component';
 import { CategoryDetailComponent } from './components/category-detail/category-detail.component';
 import { DeleteCommentComponent } from './components/delete-comment/delete-comment.component';
+import { UpdateCommentComponent } from './components/update-comment/update-comment.component';
 
 const routes: Routes = [
   {
@@ -114,6 +115,12 @@ const routes: Routes = [
     path: 'comment/:id/delete',
     component: DeleteCommentComponent,
     title: 'Yorum Sil',
+    canActivate: [LoggedService],
+  },
+  {
+    path: 'comment/:id/update',
+    component: UpdateCommentComponent,
+    title: 'Yorum Düzenle',
     canActivate: [LoggedService],
   },
 ];

@@ -1,33 +1,13 @@
-﻿using AmazonClone.Domain.Entities;
+﻿using AmazonClone.Data.Context;
+using AmazonClone.Domain.Entities;
 using AmazonClone.Domain.Interfaces;
 
 namespace AmazonClone.Data.Repositories
 {
-    public class CommentPhotoRepository : ICommentPhotoRepository
+    public class CommentPhotoRepository : Repository<CommentPhoto>, ICommentPhotoRepository
     {
-        public CommentPhoto add(CommentPhoto entity)
+        public CommentPhotoRepository(BaseContext db) : base(db)
         {
-            throw new NotImplementedException();
-        }
-
-        public bool delete(Guid id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public CommentPhoto get(Guid id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IQueryable<CommentPhoto> getAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public CommentPhoto update(CommentPhoto entity)
-        {
-            throw new NotImplementedException();
         }
     }
 }
