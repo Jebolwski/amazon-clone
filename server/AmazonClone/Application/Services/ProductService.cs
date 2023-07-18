@@ -115,10 +115,7 @@ namespace AmazonClone.Application.Services
             };
         }
 
-        public CartResponseModel addProductToCart(ProductCreateModel model)
-        {
-            throw new NotImplementedException();
-        }
+
 
         public ResponseViewModel delete(Guid id)
         {

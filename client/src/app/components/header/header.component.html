@@ -60,12 +60,12 @@
       </div>
     </div>
     <!-- İadeler -->
-    <div class="text-white">
+    <div class="text-white" (click)="auth.logout()">
       <p class="text-sm">İadeler</p>
       <label class="font-semibold">ve Siparişler</label>
     </div>
     <!-- Sepet -->
-    <div class="flex items-center" (click)="auth.logout()">
+    <div class="flex items-center" [routerLink]="'/cart/' + auth.user.id">
       <div>
         <img
           src="https://simpleicon.com/wp-content/uploads/shopping-cart.png"

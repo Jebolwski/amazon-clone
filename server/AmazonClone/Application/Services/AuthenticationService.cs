@@ -245,6 +245,7 @@ namespace AmazonClone.Application.Services
 
                 UserResponseModel userResponseModel = new UserResponseModel()
                 {
+                    id = user.id,
                     TokenCreated = user.TokenCreated,
                     cartId = user.cartId,
                     username = user.username,

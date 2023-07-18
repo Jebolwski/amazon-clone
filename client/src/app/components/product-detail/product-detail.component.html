@@ -36,7 +36,10 @@
         </select>
       </div>
       <div class="flex flex-1 flex-col gap-2 place-content-center mt-3">
-        <button class="bg-[#ffd814] block rounded-2xl shadow-md p-1 w-100">
+        <button
+          class="bg-[#ffd814] block rounded-2xl shadow-md p-1 w-100"
+          (click)="cartService.addToCart({ productId: product?.id || '' })"
+        >
           Sepete Ekle
         </button>
         <button class="bg-[#ffa41c] block rounded-2xl shadow-md p-1 w-100">

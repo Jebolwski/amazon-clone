@@ -35,7 +35,13 @@ namespace AmazonClone.Controllers
 
             return cartAppService.addToCart(model, authToken);
         }
+        [HttpGet("cart/{id}"), Authorize(Roles = "Normal User,Admin")]
+        public ResponseViewModel get(Guid id)
+        {
+            string authToken = HttpContext.Request.Headers["Authorization"];
 
+            return cartAppService.getCart(authToken);
+        }
 
     }
 }

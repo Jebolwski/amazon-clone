@@ -9,5 +9,15 @@ namespace AmazonClone.Data.Repositories
         public CartRepository(BaseContext db) : base(db)
         {
         }
+
+        public Cart getCartByUserId(Guid userId)
+        {
+            IQueryable<Cart> carts = dbset.Where(x => x.userId == userId);
+            if (carts != null && carts.Any())
+            {
+                return carts.First();
+            }
+            return null;
+        }
     }
 }

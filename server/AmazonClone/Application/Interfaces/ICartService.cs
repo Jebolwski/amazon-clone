@@ -13,5 +13,6 @@ namespace AmazonClone.Application.Interfaces
         //create new cart for user
         public ResponseViewModel addCartToUser(Guid id);
         public ResponseViewModel addToCart(CartProductCreateModel model, string authToken);
+        public ResponseViewModel getCart(string authToken);
     }
 }

@@ -7,16 +7,21 @@ namespace AmazonClone.Data.Repositories
 {
     public class UserRepository : Repository<User>, IUserRepository
     {
-        public UserRepository(BaseContext db) : base(db)
+        private readonly ICartRepository cartRepository;
+        public UserRepository(BaseContext db, ICartRepository cartRepository) : base(db)
         {
+            this.cartRepository = cartRepository;
         }
 
         public User getUserByUsername(string username)
         {
             IQueryable<User> users = dbset.Where(p => p.username == username);
-            if (users!=null && users.Any())
+            if (users != null && users.Any())
             {
-                return users.First();
+                User user = users.First();
+                Cart cart = cartRepository.getCartByUserId(user.id);
+                user.cartId = cart.id;
+                return user;
             }
             return null;
         }

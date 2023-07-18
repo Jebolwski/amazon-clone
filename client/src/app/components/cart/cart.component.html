@@ -1,0 +1,43 @@
+<app-header></app-header>
+<div class="flex items-start flex-wrap bg-[#eaeded] p-4 gap-2">
+  <div class="flex-1 min-w-[240px]">
+    <div class="bg-white p-2">
+      <h3 class="text-3xl">Alışveriş Sepeti</h3>
+      <p class="text-green-700 text-sm">Tüm ürünlerin seçimini kaldır</p>
+      <hr />
+      <!-- Ürünler -->
+      <div>
+        <div *ngFor="let product of cartService.cart?.products" class="p-3">
+          <div class="flex items-start p-2 gap-2">
+            <div>
+              <img [src]="product.photos[0].photoUrl" class="h-28" />
+            </div>
+            <div>
+              <p class="font-semibold text-lg">{{ product.name }}</p>
+              <p class="text-sm">{{ product.description }}</p>
+              <p class="text-lg font-semibold">{{ product.price }}</p>
+            </div>
+          </div>
+        </div>
+        <hr />
+      </div>
+      <hr />
+      <p class="text-right text-lg">Ara toplam (2 ürün): 2.595,00 TL</p>
+    </div>
+    <p class="text-xs mt-2">
+      Amazon.com.tr web sitesindeki ürünlerin fiyatları ve stok durumları
+      değişebilir. Ürünlerinizi geçici olarak alışveriş sepetinizde
+      saklayabilirsiniz. Alışveriş sepetiniz her ürünün güncel fiyatını
+      yansıtır. <br />
+      Bir hediye kartı veya promosyon kodunuz varsa, ödeme sırasında kodu
+      girmenizi isteyeceğiz.
+    </p>
+  </div>
+  <div class="bg-white md:w-80 w-full p-2">
+    <p class="font-semibold text-lg">Ara toplam (2 ürün) : 2.595,00 TL</p>
+    <button class="bg-[#ffd814] rounded-md shadow-md p-1 text-sm w-full my-2">
+      Alışverişi Tamamla
+    </button>
+  </div>
+</div>
+<app-footer></app-footer>

@@ -2,6 +2,7 @@
 {
     public class UserResponseModel
     {
+        public Guid id { get; set; }
         public Guid roleId { get; set; }
         public string username { get; set; }
         public Guid cartId { get; set; }

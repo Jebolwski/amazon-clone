@@ -5,18 +5,21 @@ using AmazonClone.Application.ViewModels.CartProductM;
 using AmazonClone.Domain.Entities;
 using AmazonClone.Domain.Interfaces;
 using AmazonClone.Application.ViewModels.ResponseM;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace AmazonClone.Application.Services
 {
     public class CartService : ICartService
     {
+        private readonly IUserService userService;
         private readonly ICartRepository cartRepository;
         private readonly ICartProductService cartProductService;
 
-        public CartService(ICartRepository cartRepository, ICartProductService cartProductService)
+        public CartService(ICartRepository cartRepository, ICartProductService cartProductService, IUserService userService)
         {
             this.cartRepository = cartRepository;
             this.cartProductService = cartProductService;
+            this.userService = userService;
         }
 
         public ResponseViewModel addCartToUser(Guid id)
@@ -50,6 +53,45 @@ namespace AmazonClone.Application.Services
         public ResponseViewModel addToCart(CartProductCreateModel model, string authToken)
         {
             return cartProductService.add(model, authToken);
+        }
+
+        public ResponseViewModel getCart(string authToken)
+        {
+            authToken = authToken.Replace("Bearer ", string.Empty);
+            var stream = authToken;
+            var handler = new JwtSecurityTokenHandler();
+            JwtSecurityToken jsonToken = handler.ReadJwtToken(stream);
+            User user = userService.getUserByUsername(jsonToken.Claims.First().Value);
+            if (user == null)
+            {
+                return new ResponseViewModel()
+                {
+                    message = "Kullanıcı doğrulanamadı. 😞",
+                    responseModel = new Object(),
+                    statusCode = 400
+                };
+            }
+            Cart cart = cartRepository.getCartByUserId(user.id);
+            ResponseViewModel responseViewModel = cartProductService.getProductsByCartId(cart.id);
+            if (responseViewModel == null)
+            {
+                return new ResponseViewModel()
+                {
+                    message = "Ürünler yok. 😞",
+                    responseModel = new Object(),
+                    statusCode = 400
+                };
+            }
+            return new ResponseViewModel()
+            {
+                message = "Kart başarıyla getirildi. 🌝",
+                responseModel = new
+                {
+                    products = responseViewModel.responseModel,
+                    cart = cart
+                },
+                statusCode = 200
+            };
         }
     }
 }

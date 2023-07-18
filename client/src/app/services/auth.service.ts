@@ -26,6 +26,7 @@ export class AuthService {
         role: jwtData[
           'http://schemas.microsoft.com/ws/2008/06/identity/claims/role'
         ],
+        id: 'sadas',
       };
     }
   }
@@ -43,7 +44,6 @@ export class AuthService {
             'accessToken',
             response.responseModel.accessToken
           );
-
           localStorage.setItem(
             'refreshToken',
             response.responseModel.refreshToken.token
@@ -59,9 +59,27 @@ export class AuthService {
             role: jwtData[
               'http://schemas.microsoft.com/ws/2008/06/identity/claims/role'
             ],
+            id: 'asas',
           };
-          this.notyf.success(response.message);
-          this.router.navigate(['/']);
+          //! get user
+          this.http
+            .post(
+              this.baseApiUrl +
+                'Authentication/search-by-username?name=' +
+                this.user.username,
+              {}
+            )
+            .subscribe((res: any) => {
+              let response: Response = res;
+              if (response.statusCode === 200) {
+                console.log(response.responseModel);
+                this.user.id = response.responseModel.id;
+                this.notyf.success(response.message);
+                this.router.navigate(['/']);
+              } else {
+                this.notyf.error(response.message);
+              }
+            });
         } else {
           this.notyf.error(response.message);
         }
@@ -77,10 +95,13 @@ export class AuthService {
         {}
       )
       .subscribe((res: any) => {
-        if (res != null) {
+        let response: Response = res;
+        if (response.statusCode == 200) {
           this.router.navigate(['/login-2'], {
             state: { name: formData.name },
           });
+        } else {
+          this.notyf.error(response.message);
         }
       });
   }

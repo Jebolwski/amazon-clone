@@ -54,6 +54,7 @@ export class AppComponent implements OnInit {
             role: jwtData[
               'http://schemas.microsoft.com/ws/2008/06/identity/claims/role'
             ],
+            id: 'ds',
           };
         } else {
           this.notyf.error(response.message);

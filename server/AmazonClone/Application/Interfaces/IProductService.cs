@@ -13,7 +13,6 @@ namespace AmazonClone.Application.Interfaces
         public ResponseViewModel add(ProductCreateModel model);
         public ResponseViewModel filterProductsByName(string productName);
         //add product to cart
-        public CartResponseModel addProductToCart(ProductCreateModel model);
         public ResponseViewModel filterProductsByNameAndCategory(Guid categoryId, string productName);
 
     }

@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Notyf } from 'notyf';
 import { Comment, Product } from 'src/app/interfaces/product';
 import { Response } from 'src/app/interfaces/response';
+import { CartService } from 'src/app/services/cart.service';
 import { ProductService } from 'src/app/services/product.service';
 
 @Component({
@@ -34,7 +35,8 @@ export class ProductDetailComponent {
   constructor(
     public productService: ProductService,
     private route: ActivatedRoute,
-    private http: HttpClient
+    private http: HttpClient,
+    public cartService: CartService
   ) {
     this.id = this.route.snapshot.paramMap.get('id') || '0';
     // this.getProduct(this.id).then(() => {
