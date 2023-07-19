@@ -6,6 +6,7 @@ export interface Product {
   comments: Comment[];
   productCategories: ProductCategory[];
   photos: Photo[];
+  count?: number;
 }
 
 export interface Comment {

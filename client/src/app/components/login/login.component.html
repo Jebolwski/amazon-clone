@@ -1,11 +1,13 @@
 <div class="pt-4">
-  <div class="grid place-items-center">
-    <img
-      src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Amazon_logo.svg/2560px-Amazon_logo.svg.png"
-      class="w-32 mb-5"
-    />
+  <div class="flex justify-center items-center flex-col">
+    <div class="grid place-content-center">
+      <img
+        src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Amazon_logo.svg/2560px-Amazon_logo.svg.png"
+        class="w-32 mb-5"
+      />
+    </div>
     <form
-      class="mt-10 rounded-lg p-4"
+      class="mt-10 max-w-[450px] rounded-lg p-4"
       [formGroup]="loginForm"
       (submit)="name?.errors ? null : auth.checkIfUserExists(loginForm.value)"
     >
@@ -60,21 +62,21 @@
           </div>
         </div>
       </div>
-      <div class="flex items-center justify-between w-96 mt-4">
+      <div class="flex items-center justify-between lg:w-96 w-full mt-4">
         <div class="w-24 h-[1px] bg-gray-200"></div>
         <div class="text-sm flex-nowrap">Amazon hesabınız yok mu?</div>
         <div class="w-24 h-[1px] bg-gray-200"></div>
       </div>
       <button
         routerLink="/register"
-        class="border border-stone-300 rounded-md mt-3 text-sm w-96 p-1 shadow-md"
+        class="border border-stone-300 rounded-md mt-3 text-sm lg:w-96 w-full p-1 shadow-md"
       >
         Amazon hesabınızı oluşturun
       </button>
     </form>
   </div>
-  <div class="bg-[#fcfcfc] border-t border-stone-300 mt-5">
-    <div class="flex items-center justify-center gap-8 text-xs mt-6">
+  <div class="bg-[#fcfcfc] border-t border-stone-300 mt-5 p-3">
+    <div class="flex items-center justify-center gap-8 text-xs mt-6 flex-wrap">
       <div
         class="text-blue-800 hover:text-red-900 hover:underline cursor-pointer"
       >

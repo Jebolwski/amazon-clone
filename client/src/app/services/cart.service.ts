@@ -11,7 +11,12 @@ import { Product } from '../interfaces/product';
 export class CartService {
   private baseApiUrl: string = 'http://localhost:5044/api/';
   notyf = new Notyf();
-  cart!: { id: string; userId: string; products: Product[] };
+  cart: { id: string; userId: string; products: Product[]; total: string } = {
+    id: '',
+    products: [],
+    total: '0',
+    userId: '',
+  };
   constructor(private http: HttpClient, private router: Router) {}
 
   addToCart(data: { productId: string }) {
@@ -43,20 +48,38 @@ export class CartService {
       .subscribe((res: any) => {
         let response: Response = res;
         if (response.statusCode === 200) {
+          let productsArray: Product[] = [];
+          response.responseModel.products.forEach((product: Product) => {
+            if (
+              productsArray.filter(
+                (product: Product) => (x: Product) => x.id == product.id
+              ).length == 0
+            ) {
+              product.count = response.responseModel.products.filter(
+                (x: Product) => x.id == product.id
+              ).length;
+              productsArray.push(product);
+            }
+          });
+          const f = new Intl.NumberFormat('tr-TR', {
+            style: 'currency',
+            currency: 'TRY',
+            minimumFractionDigits: 2,
+          });
           this.cart = {
             id: response.responseModel.cart.id,
-            products: response.responseModel.products,
+            products: productsArray,
             userId: response.responseModel.cart.userId,
+            total: '0',
           };
           this.cart?.products?.forEach((product) => {
-            const f = new Intl.NumberFormat('tr-TR', {
-              style: 'currency',
-              currency: 'TRY',
-              minimumFractionDigits: 2,
-            });
-            product.price = f.format(parseInt(product.price));
-            console.log(product.price);
-          }, 2000);
+            this.cart.total = String(
+              parseFloat(this.cart.total) +
+                parseFloat(product.price) * (product.count || 1)
+            );
+            product.price = f.format(parseFloat(product.price));
+          });
+          this.cart.total = f.format(parseFloat(this.cart.total));
         } else {
           this.notyf.error(response.message);
         }

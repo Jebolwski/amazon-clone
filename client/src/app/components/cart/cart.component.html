@@ -16,13 +16,17 @@
               <p class="font-semibold text-lg">{{ product.name }}</p>
               <p class="text-sm">{{ product.description }}</p>
               <p class="text-lg font-semibold">{{ product.price }}</p>
+              <p class="text-sm font-light">Miktar : {{ product.count }}</p>
             </div>
           </div>
         </div>
         <hr />
       </div>
       <hr />
-      <p class="text-right text-lg">Ara toplam (2 ürün): 2.595,00 TL</p>
+      <p class="text-right text-lg">
+        Ara toplam ({{ cartService.cart.products.length }} ürün):
+        {{ cartService.cart.total }}
+      </p>
     </div>
     <p class="text-xs mt-2">
       Amazon.com.tr web sitesindeki ürünlerin fiyatları ve stok durumları
@@ -34,7 +38,10 @@
     </p>
   </div>
   <div class="bg-white md:w-80 w-full p-2">
-    <p class="font-semibold text-lg">Ara toplam (2 ürün) : 2.595,00 TL</p>
+    <p class="font-semibold text-lg">
+      Ara toplam ({{ cartService.cart.products.length }} ürün):
+      {{ cartService.cart.total }}
+    </p>
     <button class="bg-[#ffd814] rounded-md shadow-md p-1 text-sm w-full my-2">
       Alışverişi Tamamla
     </button>

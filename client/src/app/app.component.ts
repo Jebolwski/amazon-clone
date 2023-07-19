@@ -56,6 +56,23 @@ export class AppComponent implements OnInit {
             ],
             id: 'ds',
           };
+          this.http
+            .post(
+              this.baseApiUrl +
+                'Authentication/search-by-username?name=' +
+                this.auth.user.username,
+              {}
+            )
+            .subscribe((res: any) => {
+              let response: Response = res;
+              if (response.statusCode === 200) {
+                console.log('geldi');
+
+                this.auth.user.id = response.responseModel.id;
+              } else {
+                this.notyf.error(response.message);
+              }
+            });
         } else {
           this.notyf.error(response.message);
         }
@@ -64,7 +81,8 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     setInterval(() => {
-      this.updateToken();
+      if (this.auth.user && localStorage.getItem('accessToken'))
+        this.updateToken();
     }, 240000);
   }
 }

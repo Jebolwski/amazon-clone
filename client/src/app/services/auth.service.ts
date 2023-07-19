@@ -28,6 +28,23 @@ export class AuthService {
         ],
         id: 'sadas',
       };
+      this.http
+        .post(
+          this.baseApiUrl +
+            'Authentication/search-by-username?name=' +
+            jwtData[
+              'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'
+            ],
+          {}
+        )
+        .subscribe((res: any) => {
+          let response: Response = res;
+          if (response.statusCode == 200) {
+            this.user.id = response.responseModel.id;
+          } else {
+            this.notyf.error(response.message);
+          }
+        });
     }
   }
 
@@ -72,7 +89,6 @@ export class AuthService {
             .subscribe((res: any) => {
               let response: Response = res;
               if (response.statusCode === 200) {
-                console.log(response.responseModel);
                 this.user.id = response.responseModel.id;
                 this.notyf.success(response.message);
                 this.router.navigate(['/']);
