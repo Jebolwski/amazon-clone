@@ -267,6 +267,45 @@ namespace AmazonClone.Application.Services
             };
         }
 
+        public ResponseViewModel getUser(Guid id)
+        {
+            if (id != null)
+            {
+                User user = userService.get(id);
+                if (user == null)
+                {
+                    return new ResponseViewModel()
+                    {
+                        message = "Kullanıcı bulunmadı. 😶",
+                        responseModel = new Object(),
+                        statusCode = 400
+                    };
+                }
+
+                UserResponseModel userResponseModel = new UserResponseModel()
+                {
+                    id = user.id,
+                    TokenCreated = user.TokenCreated,
+                    cartId = user.cartId,
+                    username = user.username,
+                    roleId = user.roleId,
+                    TokenExpires = user.TokenExpires
+                };
+                return new ResponseViewModel()
+                {
+                    statusCode = 200,
+                    message = "Kullanıcı getirildi. 🥰",
+                    responseModel = userResponseModel
+                };
+            }
+            return new ResponseViewModel()
+            {
+                message = "Veri girilmedi.",
+                responseModel = new Object(),
+                statusCode = 400
+            };
+
+        }
     }
 
 }

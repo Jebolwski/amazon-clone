@@ -5,21 +5,29 @@
 >
   <div
     [routerLink]="'/product/' + product.id + '/update'"
-    class="absolute right-8 -top-3 cursor-pointer"
+    class="cursor-pointer"
   >
-    <i class="fa-solid fa-pen-to-square text-yellow-400"></i>
+    <i
+      class="fa-solid fa-pen-to-square absolute z-10 right-8 -top-3 text-yellow-400"
+    ></i>
   </div>
   <div
     [routerLink]="'/product/' + product.id + '/delete'"
-    class="absolute cursor-pointer -right-1 -top-3"
+    class="cursor-pointer"
   >
-    <i class="fa-solid fa-trash text-red-500"></i>
+    <i class="fa-solid fa-trash z-10 absolute -right-1 -top-3 text-red-500"></i>
   </div>
-  <div *ngFor="let photo of product.photos">
-    <img
-      [src]="photo.photoUrl"
-      class="w-full lg:h-48 md:h-32 h-24 border border-stone-200"
-    />
+  <div>
+    <swiper-container
+      slides-per-view="1"
+      speed="500"
+      loop="true"
+      class="w-full"
+    >
+      <swiper-slide *ngFor="let photo of product?.photos">
+        <img [src]="photo.photoUrl" class="w-full"
+      /></swiper-slide>
+    </swiper-container>
   </div>
   <div class="p-6">
     <p class="text-lg font-semibold">{{ product.name }}</p>

@@ -11,5 +11,6 @@ namespace AmazonClone.Application.Interfaces
         public ResponseViewModel Login(LoginModel request);
         public ResponseViewModel RefreshToken(RefreshTokenModel model);
         public ResponseViewModel SearchByUsername(string name);
+        public ResponseViewModel getUser(Guid id);
     }
 }

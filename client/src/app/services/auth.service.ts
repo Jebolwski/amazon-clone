@@ -10,6 +10,7 @@ import { Notyf } from 'notyf';
 })
 export class AuthService {
   public user!: User;
+  profile!: User;
   private baseApiUrl: string = 'http://localhost:5044/api/';
   notyf = new Notyf();
   constructor(private http: HttpClient, private router: Router) {
@@ -137,6 +138,19 @@ export class AuthService {
         if (response.statusCode == 200) {
           this.notyf.success(response.message);
           this.router.navigate(['/login']);
+        } else {
+          this.notyf.error(response.message);
+        }
+      });
+  }
+
+  public getUser(id: string) {
+    this.http
+      .get(this.baseApiUrl + 'Authentication/' + id)
+      .subscribe((res: any) => {
+        let response: Response = res;
+        if (response.statusCode == 200) {
+          this.profile = response.responseModel;
         } else {
           this.notyf.error(response.message);
         }

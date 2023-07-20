@@ -19,7 +19,10 @@
       </p>
     </div>
     <div class="flex gap-4 flex-wrap">
-      <div class="lg:w-64 w-48" *ngFor="let product of product.products">
+      <div
+        class="lg:w-64 w-48 cursor-pointer"
+        *ngFor="let product of product.products"
+      >
         <app-product [product]="product"></app-product>
       </div>
     </div>

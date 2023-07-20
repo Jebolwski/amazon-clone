@@ -15,7 +15,7 @@
         /></swiper-slide>
       </swiper-container>
     </div>
-    <div>
+    <div class="lg:w-80 w-64">
       <h4 class="text-xl font-medium">
         {{ product?.name }}
       </h4>
@@ -251,11 +251,10 @@
           {{ comment.title }}
         </h4>
         <p class="text-sm">{{ comment.comment }}</p>
-        <div
-          class="flex items-start mt-1"
-          *ngFor="let photo of comment.commentPhotos"
-        >
-          <img [src]="photo.photoUrl" class="w-6" />
+        <div class="flex justify-start w-32 mt-2 gap-1">
+          <div *ngFor="let photo of product?.photos">
+            <img [src]="photo.photoUrl" class="w-32" />
+          </div>
         </div>
       </div>
     </div>

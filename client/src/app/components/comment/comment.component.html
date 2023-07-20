@@ -3,11 +3,19 @@
   <div class="lg:w-3/4 md:w-4/5 w-11/12 my-5">
     <h2 class="text-xl font-semibold">Yorum Oluştur</h2>
     <form [formGroup]="updateProductForm">
-      <div class="flex items-center gap-4 my-2">
-        <img
-          src="https://m.media-amazon.com/images/I/61Or0FdfVsL._AC_SL1500_.jpg"
-          class="w-16"
-        />
+      <div class="flex items-start gap-4 my-2">
+        <div>
+          <swiper-container
+            slides-per-view="1"
+            speed="500"
+            loop="true"
+            class="w-32"
+          >
+            <swiper-slide *ngFor="let photo of productService.product?.photos">
+              <img [src]="photo.photoUrl" class="w-32"
+            /></swiper-slide>
+          </swiper-container>
+        </div>
         <div>
           <p class="block">
             {{ productService.product?.name }}

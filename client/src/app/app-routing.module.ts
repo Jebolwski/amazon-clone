@@ -21,6 +21,7 @@ import { CategoryDetailComponent } from './components/category-detail/category-d
 import { DeleteCommentComponent } from './components/delete-comment/delete-comment.component';
 import { UpdateCommentComponent } from './components/update-comment/update-comment.component';
 import { CartComponent } from './components/cart/cart.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 const routes: Routes = [
   {
@@ -129,6 +130,11 @@ const routes: Routes = [
     component: CartComponent,
     title: 'Kart',
     canActivate: [LoggedService],
+  },
+  {
+    path: 'profile/:id',
+    component: ProfileComponent,
+    title: 'Profil',
   },
 ];
 

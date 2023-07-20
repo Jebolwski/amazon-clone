@@ -39,5 +39,11 @@ namespace AmazonClone.Controllers
         {
             return authenticationService.SearchByUsername(name);
         }
+
+        [HttpGet("{userId}")]
+        public ResponseViewModel SearchByUsername(Guid userId)
+        {
+            return authenticationService.getUser(userId);
+        }
     }
 }
