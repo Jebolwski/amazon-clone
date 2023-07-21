@@ -7,11 +7,12 @@
       <swiper-container
         slides-per-view="1"
         speed="500"
+        pagination="true"
         loop="true"
-        class="lg:w-72 w-64"
+        class="lg:w-72 w-64 rounded-md border border-stone-300"
       >
         <swiper-slide *ngFor="let photo of product?.photos">
-          <img [src]="photo.photoUrl" class="lg:w-72 w-64"
+          <img [src]="photo.photoUrl" class="lg:w-72 w-64 rounded-md"
         /></swiper-slide>
       </swiper-container>
     </div>
@@ -19,14 +20,14 @@
       <h4 class="text-xl font-medium">
         {{ product?.name }}
       </h4>
-      <p class="font-light">{{ product?.description }}</p>
+      <p class="font-light text-sm">{{ product?.description }}</p>
       <p class="text-green-800">Marka : Genel</p>
       <hr class="my-1" />
-      <p class="text-xl">{{ product?.price }} TL</p>
+      <p class="text-xl">{{ product?.price }}</p>
       <p>Fiyatlara KDV dahildir.</p>
     </div>
     <div class="rounded-md border border-black/20 p-3 w-64">
-      <p class="font-semibold text-lg my-1">{{ product?.price }} TL</p>
+      <p class="font-semibold text-lg my-1">{{ product?.price }}</p>
       <p class="text-base my-1">ÜCRETSİZ teslimat 14 - 19 Temmuz. Ayrıntılar</p>
       <div class="flex items-center text-sm gap-1">
         <div><i class="fa-solid fa-location-dot"></i></div>

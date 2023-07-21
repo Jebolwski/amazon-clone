@@ -66,8 +66,6 @@ export class AppComponent implements OnInit {
             .subscribe((res: any) => {
               let response: Response = res;
               if (response.statusCode === 200) {
-                console.log('geldi');
-
                 this.auth.user.id = response.responseModel.id;
               } else {
                 this.notyf.error(response.message);

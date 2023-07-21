@@ -137,18 +137,20 @@ export class ProductService {
           'Product/filter-by-name-and-category/' +
           name +
           '/' +
-          category,
-        {
-          headers: new HttpHeaders().append(
-            'Authorization',
-            `Bearer ${localStorage.getItem('accessToken')}`
-          ),
-        }
+          category
       )
       .subscribe((res: any) => {
         let response: Response = res;
         if (response.statusCode === 200) {
           this.products = response.responseModel;
+          const f = new Intl.NumberFormat('tr-TR', {
+            style: 'currency',
+            currency: 'TRY',
+            minimumFractionDigits: 2,
+          });
+          this.products.forEach((product) => {
+            product.price = f.format(parseFloat(product.price));
+          });
         } else {
           this.notyf.error(response.message);
         }

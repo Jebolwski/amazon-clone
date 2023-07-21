@@ -89,7 +89,7 @@ namespace AmazonClone.Application.Services
                 passwordHash = passwordHash,
                 passwordSalt = passwordSalt,
                 TokenCreated = DateTime.UtcNow,
-                TokenExpires = DateTime.UtcNow.AddMinutes(5),
+                TokenExpires = DateTime.UtcNow.AddMinutes(60),
                 roleId = roleService.getRole("Normal User").id
             };
 
@@ -140,7 +140,7 @@ namespace AmazonClone.Application.Services
 
             var token = new JwtSecurityToken(
                 claims: claims,
-                expires: DateTime.UtcNow.AddMinutes(5),
+                expires: DateTime.UtcNow.AddMinutes(60),
                 signingCredentials: creds
 
             );

@@ -38,6 +38,11 @@ export class ProductDetailComponent {
     private http: HttpClient,
     public cartService: CartService
   ) {
+    const f = new Intl.NumberFormat('tr-TR', {
+      style: 'currency',
+      currency: 'TRY',
+      minimumFractionDigits: 2,
+    });
     this.id = this.route.snapshot.paramMap.get('id') || '0';
     // this.getProduct(this.id).then(() => {
     //   this.makeStats();
@@ -49,6 +54,9 @@ export class ProductDetailComponent {
         let response: Response = res;
         if (response.statusCode === 200) {
           this.product = response.responseModel;
+          this.product!.price = f.format(
+            parseFloat(response.responseModel.price)
+          );
           this.makeStats();
           this.averageStars();
         } else {

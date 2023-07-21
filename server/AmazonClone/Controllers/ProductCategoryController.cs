@@ -44,7 +44,7 @@ namespace AmazonClone.Controllers
             return this.productCategoryService.delete(categoryId);
         }
 
-        [HttpGet("{categoryId}"), Authorize(Roles = "Admin")]
+        [HttpGet("{categoryId}"), AllowAnonymous]
         public ResponseViewModel GetAll(Guid categoryId)
         {
             return this.productCategoryService.get(categoryId);

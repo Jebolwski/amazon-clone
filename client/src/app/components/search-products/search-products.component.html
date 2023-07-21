@@ -4,7 +4,8 @@
     <p class="font-semibold">
       Daha az anahtar kelime kullanın ya da aşağıdaki ürünleri deneyin.
     </p>
-    <label for="">{{ name }} için sonuç yok.</label>
+    <label *ngIf="name != 'empty'">{{ name }} için sonuç yok.</label>
+    <label *ngIf="name == 'empty'">Aradığınız kategori için sonuç yok.</label>
     <p class="text-sm">
       Fiyat ve diğer ayrıntılar ürünün boyutu ve rengine göre farklılık
       gösterebilir.
@@ -18,7 +19,7 @@
         gösterebilir.
       </p>
     </div>
-    <div class="flex gap-4 flex-wrap">
+    <div class="flex gap-4 flex-wrap flex-row content-stretch">
       <div
         class="lg:w-64 w-48 cursor-pointer"
         *ngFor="let product of product.products"

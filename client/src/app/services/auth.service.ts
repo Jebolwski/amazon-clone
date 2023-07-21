@@ -91,7 +91,6 @@ export class AuthService {
               let response: Response = res;
               if (response.statusCode === 200) {
                 this.user.id = response.responseModel.id;
-                this.notyf.success(response.message);
                 this.router.navigate(['/']);
               } else {
                 this.notyf.error(response.message);

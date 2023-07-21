@@ -22,17 +22,18 @@
       slides-per-view="1"
       speed="500"
       loop="true"
+      pagination="true"
       class="w-full"
     >
       <swiper-slide *ngFor="let photo of product?.photos">
-        <img [src]="photo.photoUrl" class="w-full"
+        <img [src]="photo.photoUrl" class="w-full h-72"
       /></swiper-slide>
     </swiper-container>
   </div>
   <div class="p-6">
     <p class="text-lg font-semibold">{{ product.name }}</p>
     <label>{{ product.price }}₺</label>
-    <div class="flex items-center mt-2 gap-1">
+    <div class="flex items-center mt-2 gap-1 flex-wrap">
       <div
         *ngFor="let productCategory of product.productCategories"
         [class]="
@@ -59,7 +60,7 @@
   <div class="p-3">
     <p class="text-lg font-semibold">{{ product.name }}</p>
     <label>{{ product.price }}₺</label>
-    <div class="flex items-center mt-2 gap-1">
+    <div class="flex items-center flex-wrap mt-2 gap-1">
       <div
         *ngFor="let productCategory of product.productCategories"
         [class]="
