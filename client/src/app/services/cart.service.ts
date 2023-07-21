@@ -49,16 +49,22 @@ export class CartService {
         let response: Response = res;
         if (response.statusCode === 200) {
           let productsArray: Product[] = [];
+
           response.responseModel.products.forEach((product: Product) => {
+            console.log(
+              productsArray.filter((x: Product) => x.id == product.id)
+            );
+
             if (
-              productsArray.filter(
-                (product: Product) => (x: Product) => x.id == product.id
-              ).length == 0
+              productsArray.filter((x: Product) => x.id == product.id).length ==
+              0
             ) {
-              product.count = response.responseModel.products.filter(
-                (x: Product) => x.id == product.id
-              ).length;
+              product.count = 1;
               productsArray.push(product);
+            } else {
+              productsArray.filter(
+                (x: Product) => x.id == product.id
+              )[0].count! += 1;
             }
           });
           const f = new Intl.NumberFormat('tr-TR', {

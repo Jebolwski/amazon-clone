@@ -77,16 +77,19 @@ export class ProductService {
       });
   }
 
-  public async getProduct(id: string): Promise<void> {
-    this.http.get(this.baseApiUrl + 'Product/' + id).subscribe((res: any) => {
-      let response: Response = res;
-      if (response.statusCode === 200) {
-        this.product = response.responseModel;
-        console.log(this.product);
-      } else {
-        this.notyf.error(response.message);
-      }
-    });
+  public getProduct(id: string): any {
+    return this.http.get(this.baseApiUrl + 'Product/' + id).pipe(
+      map((response: any) => {
+        let res: Response = response;
+        if (response.statusCode === 200) {
+          // this.notyf.success(response.message);
+          return response.responseModel;
+        } else {
+          this.notyf.error(response.message);
+          return null;
+        }
+      })
+    );
   }
 
   public updateProduct(body: UpdateProduct): void {

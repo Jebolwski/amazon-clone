@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Notyf } from 'notyf';
 import { Comment, Product } from 'src/app/interfaces/product';
@@ -12,7 +12,7 @@ import { ProductService } from 'src/app/services/product.service';
   templateUrl: './product-detail.component.html',
   styleUrls: ['./product-detail.component.scss'],
 })
-export class ProductDetailComponent {
+export class ProductDetailComponent implements OnInit {
   total: number = 0;
   private baseApiUrl: string = 'http://localhost:5044/api/';
   average: string = '0';
@@ -44,25 +44,39 @@ export class ProductDetailComponent {
       minimumFractionDigits: 2,
     });
     this.id = this.route.snapshot.paramMap.get('id') || '0';
-    // this.getProduct(this.id).then(() => {
-    //   this.makeStats();
-    //   this.averageStars();
-    // });
-    this.http
-      .get(this.baseApiUrl + 'Product/' + this.id)
-      .subscribe((res: any) => {
-        let response: Response = res;
-        if (response.statusCode === 200) {
-          this.product = response.responseModel;
-          this.product!.price = f.format(
-            parseFloat(response.responseModel.price)
-          );
-          this.makeStats();
-          this.averageStars();
-        } else {
-          this.notyf.error(response.message);
-        }
-      });
+
+    // this.http
+    //   .get(this.baseApiUrl + 'Product/' + this.id)
+    //   .subscribe((res: any) => {
+    //     let response: Response = res;
+    //     if (response.statusCode === 200) {
+    //       this.product = response.responseModel;
+    //       this.product!.price = f.format(
+    //         parseFloat(response.responseModel.price)
+    //       );
+    //       this.makeStats();
+    //       this.averageStars();
+    //     } else {
+    //       this.notyf.error(response.message);
+    //     }
+    //   });
+  }
+
+  public four!: string;
+
+  ngOnInit(): void {
+    this.productService.getProduct(this.id).subscribe((res: any) => {
+      this.product = res;
+      console.log(this.product);
+      this.makeStats();
+      this.averageStars();
+      console.log();
+      this.four =
+        'h-full bg-orange-300 rounded-md ' +
+        'w-[' +
+        this.stats.fours.percentage +
+        '%]';
+    });
   }
 
   makeStats() {
@@ -121,14 +135,12 @@ export class ProductDetailComponent {
         100
       ).toFixed(2),
     };
-    console.log(this.stats);
   }
 
   averageStars() {
     this.product?.comments.forEach((element: Comment) => {
       this.total += element.stars;
     });
-    console.log(this.total / (this.product?.comments?.length || 1));
 
     this.average = (this.total / (this.product?.comments?.length || 1)).toFixed(
       2

@@ -20,14 +20,18 @@
       <h4 class="text-xl font-medium">
         {{ product?.name }}
       </h4>
-      <p class="font-light text-sm">{{ product?.description }}</p>
+      <p class="font-light text-sm">
+        {{ product?.description }}
+      </p>
       <p class="text-green-800">Marka : Genel</p>
       <hr class="my-1" />
       <p class="text-xl">{{ product?.price }}</p>
       <p>Fiyatlara KDV dahildir.</p>
     </div>
     <div class="rounded-md border border-black/20 p-3 w-64">
-      <p class="font-semibold text-lg my-1">{{ product?.price }}</p>
+      <p class="font-semibold text-lg my-1">
+        {{ product?.price }}
+      </p>
       <p class="text-base my-1">ÜCRETSİZ teslimat 14 - 19 Temmuz. Ayrıntılar</p>
       <div class="flex items-center text-sm gap-1">
         <div><i class="fa-solid fa-location-dot"></i></div>
@@ -47,7 +51,11 @@
       <div class="flex flex-1 flex-col gap-2 place-content-center mt-3">
         <button
           class="bg-[#ffd814] block rounded-2xl shadow-md p-1 w-100"
-          (click)="cartService.addToCart({ productId: product?.id || '' })"
+          (click)="
+            cartService.addToCart({
+              productId: product?.id || ''
+            })
+          "
         >
           Sepete Ekle
         </button>
@@ -94,13 +102,19 @@
             class="h-6 md:w-48 sm:w-32 w-24 border border-orange-400 rounded-md"
           >
             <div
-              [class]="
-                'h-full bg-orange-300 rounded-md ' +
-                'w-[' +
-                stats.fives.percentage +
-                '%]'
-              "
+              *ngIf="stats.fives.percentage == '0.00'; else fiveValue"
+              [class]="'h-full bg-orange-300 rounded-md ' + 'w-[0%]'"
             ></div>
+            <ng-template #fiveValue
+              ><div
+                [class]="
+                  'h-full bg-orange-300 rounded-md ' +
+                  'w-[' +
+                  stats.fives.percentage +
+                  '%]'
+                "
+              ></div>
+            </ng-template>
           </div>
           <p>%{{ stats.fives.percentage }}</p>
         </div>
@@ -110,13 +124,19 @@
             class="h-6 md:w-48 sm:w-32 w-24 border border-orange-400 rounded-md"
           >
             <div
-              [class]="
-                'h-full bg-orange-300 rounded-md ' +
-                'w-[' +
-                stats.fours.percentage +
-                '%]'
-              "
+              *ngIf="stats.fours.percentage == '0.00'; else fourValue"
+              [class]="'h-full bg-orange-300 rounded-md ' + 'w-[0%]'"
             ></div>
+            <ng-template #fourValue
+              ><div
+                [class]="
+                  'h-full bg-orange-300 rounded-md ' +
+                  'w-[' +
+                  stats.fours.percentage +
+                  '%]'
+                "
+              ></div>
+            </ng-template>
           </div>
           <p>%{{ stats.fours.percentage }}</p>
         </div>
@@ -126,13 +146,19 @@
             class="h-6 md:w-48 sm:w-32 w-24 border border-orange-400 rounded-md"
           >
             <div
-              [class]="
-                'h-full bg-orange-300 rounded-md ' +
-                'w-[' +
-                stats.threes.percentage +
-                '%]'
-              "
+              *ngIf="stats.threes.percentage == '0.00'; else threeValue"
+              [class]="'h-full bg-orange-300 rounded-md ' + 'w-[0%]'"
             ></div>
+            <ng-template #threeValue
+              ><div
+                [class]="
+                  'h-full bg-orange-300 rounded-md ' +
+                  'w-[' +
+                  stats.threes.percentage +
+                  '%]'
+                "
+              ></div>
+            </ng-template>
           </div>
           <p>%{{ stats.threes.percentage }}</p>
         </div>
@@ -142,13 +168,19 @@
             class="h-6 md:w-48 sm:w-32 w-24 border border-orange-400 rounded-md"
           >
             <div
-              [class]="
-                'h-full bg-orange-300 rounded-md ' +
-                'w-[' +
-                stats.twos.percentage +
-                '%]'
-              "
+              *ngIf="stats.twos.percentage == '0.00'; else twoValue"
+              [class]="'h-full bg-orange-300 rounded-md ' + 'w-[0%]'"
             ></div>
+            <ng-template #twoValue
+              ><div
+                [class]="
+                  'h-full bg-orange-300 rounded-md ' +
+                  'w-[' +
+                  stats.twos.percentage +
+                  '%]'
+                "
+              ></div>
+            </ng-template>
           </div>
           <p>%{{ stats.twos.percentage }}</p>
         </div>
@@ -158,13 +190,19 @@
             class="h-6 md:w-48 sm:w-32 w-24 border border-orange-400 rounded-md"
           >
             <div
-              [class]="
-                'h-full bg-orange-300 rounded-md ' +
-                'w-[' +
-                stats.ones.percentage +
-                '%]'
-              "
+              *ngIf="stats.ones.percentage == '0.00'; else oneValue"
+              [class]="'h-full bg-orange-300 rounded-md ' + 'w-[0%]'"
             ></div>
+            <ng-template #oneValue
+              ><div
+                [class]="
+                  'h-full bg-orange-300 rounded-md ' +
+                  'w-[' +
+                  stats.ones.percentage +
+                  '%]'
+                "
+              ></div>
+            </ng-template>
           </div>
           <p>%{{ stats.ones.percentage }}</p>
         </div>
