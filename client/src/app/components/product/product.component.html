@@ -1,7 +1,7 @@
 <div
   [routerLink]="'/product/' + product.id"
   *ngIf="auth.user.role == 'Admin'"
-  class="border border-stone-200/75 bg-white items-stretch relative"
+  class="border border-stone-200/75 bg-white shadow-md items-stretch relative"
 >
   <div
     [routerLink]="'/product/' + product.id + '/update'"

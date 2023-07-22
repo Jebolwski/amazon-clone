@@ -38,112 +38,137 @@ export class ProductDetailComponent implements OnInit {
     private http: HttpClient,
     public cartService: CartService
   ) {
+    this.id = this.route.snapshot.paramMap.get('id') || '0';
+  }
+
+  ngOnInit(): void {
     const f = new Intl.NumberFormat('tr-TR', {
       style: 'currency',
       currency: 'TRY',
       minimumFractionDigits: 2,
     });
-    this.id = this.route.snapshot.paramMap.get('id') || '0';
-
-    // this.http
-    //   .get(this.baseApiUrl + 'Product/' + this.id)
-    //   .subscribe((res: any) => {
-    //     let response: Response = res;
-    //     if (response.statusCode === 200) {
-    //       this.product = response.responseModel;
-    //       this.product!.price = f.format(
-    //         parseFloat(response.responseModel.price)
-    //       );
-    //       this.makeStats();
-    //       this.averageStars();
-    //     } else {
-    //       this.notyf.error(response.message);
-    //     }
-    //   });
-  }
-
-  public four!: string;
-
-  ngOnInit(): void {
     this.productService.getProduct(this.id).subscribe((res: any) => {
       this.product = res;
-      console.log(this.product);
+      this.product!.price = f.format(parseFloat(this.product?.price || ''));
       this.makeStats();
       this.averageStars();
-      console.log();
-      this.four =
-        'h-full bg-orange-300 rounded-md ' +
-        'w-[' +
-        this.stats.fours.percentage +
-        '%]';
     });
   }
 
   makeStats() {
-    this.stats.fives = {
-      count:
-        this.product?.comments.filter((comment) => comment.stars == 5).length ||
-        0,
-      percentage: (
-        ((this.product?.comments.filter((comment) => comment.stars == 5)
-          .length || 0) /
-          (this.product?.comments.length || 0)) *
-        100
-      ).toFixed(2),
-    };
-    this.stats.fours = {
-      count:
-        this.product?.comments.filter((comment) => comment.stars == 4).length ||
-        0,
-      percentage: (
-        ((this.product?.comments.filter((comment) => comment.stars == 4)
-          .length || 0) /
-          (this.product?.comments.length || 0)) *
-        100
-      ).toFixed(2),
-    };
-    this.stats.threes = {
-      count:
-        this.product?.comments.filter((comment) => comment.stars == 3).length ||
-        0,
-      percentage: (
-        ((this.product?.comments.filter((comment) => comment.stars == 3)
-          .length || 0) /
-          (this.product?.comments.length || 0)) *
-        100
-      ).toFixed(2),
-    };
-    this.stats.twos = {
-      count:
-        this.product?.comments.filter((comment) => comment.stars == 2).length ||
-        0,
-      percentage: (
-        ((this.product?.comments.filter((comment) => comment.stars == 2)
-          .length || 0) /
-          (this.product?.comments.length || 0)) *
-        100
-      ).toFixed(2),
-    };
-    this.stats.ones = {
-      count:
-        this.product?.comments.filter((comment) => comment.stars == 1).length ||
-        0,
-      percentage: (
-        ((this.product?.comments.filter((comment) => comment.stars == 1)
-          .length || 0) /
-          (this.product?.comments.length || 0)) *
-        100
-      ).toFixed(2),
-    };
+    if (this.product?.comments.length == 0) {
+      this.stats.fives.percentage = '0';
+      this.stats.fours.percentage = '0';
+      this.stats.threes.percentage = '0';
+      this.stats.twos.percentage = '0';
+      this.stats.ones.percentage = '0';
+    } else {
+      this.stats.fives = {
+        count:
+          this.product?.comments.filter((comment) => comment.stars == 5)
+            .length || 0,
+        percentage: (
+          ((this.product?.comments.filter((comment) => comment.stars == 5)
+            .length || 0) /
+            (this.product?.comments.length || 0)) *
+          100
+        ).toFixed(2),
+      };
+      this.stats.fours = {
+        count:
+          this.product?.comments.filter((comment) => comment.stars == 4)
+            .length || 0,
+        percentage: (
+          ((this.product?.comments.filter((comment) => comment.stars == 4)
+            .length || 0) /
+            (this.product?.comments.length || 0)) *
+          100
+        ).toFixed(2),
+      };
+      this.stats.threes = {
+        count:
+          this.product?.comments.filter((comment) => comment.stars == 3)
+            .length || 0,
+        percentage: (
+          ((this.product?.comments.filter((comment) => comment.stars == 3)
+            .length || 0) /
+            (this.product?.comments.length || 0)) *
+          100
+        ).toFixed(2),
+      };
+      this.stats.twos = {
+        count:
+          this.product?.comments.filter((comment) => comment.stars == 2)
+            .length || 0,
+        percentage: (
+          ((this.product?.comments.filter((comment) => comment.stars == 2)
+            .length || 0) /
+            (this.product?.comments.length || 0)) *
+          100
+        ).toFixed(2),
+      };
+      this.stats.ones = {
+        count:
+          this.product?.comments.filter((comment) => comment.stars == 1)
+            .length || 0,
+        percentage: (
+          ((this.product?.comments.filter((comment) => comment.stars == 1)
+            .length || 0) /
+            (this.product?.comments.length || 0)) *
+          100
+        ).toFixed(2),
+      };
+    }
+
+    let ones: any = document.querySelector('.ones');
+    ones!.style.width = this.stats.ones.percentage + '%';
+    if (this.stats.ones.percentage != '100') {
+      ones.classList.add('rounded-l-md');
+    } else {
+      ones.classList.add('rounded-md');
+    }
+    let twos: any = document.querySelector('.twos');
+    twos!.style.width = this.stats.twos.percentage + '%';
+    if (this.stats.twos.percentage != '100') {
+      twos.classList.add('rounded-l-md');
+    } else {
+      twos.classList.add('rounded-md');
+    }
+    let threes: any = document.querySelector('.threes');
+    threes!.style.width = this.stats.threes.percentage + '%';
+    if (this.stats.threes.percentage != '100') {
+      threes.classList.add('rounded-l-md');
+    } else {
+      threes.classList.add('rounded-md');
+    }
+    let fours: any = document.querySelector('.fours');
+    fours!.style.width = this.stats.fours.percentage + '%';
+    if (this.stats.fours.percentage != '100') {
+      fours.classList.add('rounded-l-md');
+    } else {
+      fours.classList.add('rounded-md');
+    }
+    let fives: any = document.querySelector('.fives');
+    fives!.style.width = this.stats.fives.percentage + '%';
+    if (this.stats.fives.percentage != '100') {
+      fives.classList.add('rounded-l-md');
+    } else {
+      fives.classList.add('rounded-md');
+    }
   }
 
   averageStars() {
     this.product?.comments.forEach((element: Comment) => {
       this.total += element.stars;
     });
-
+    if (this.product?.comments.length == 0) {
+      this.average = '0';
+    }
     this.average = (this.total / (this.product?.comments?.length || 1)).toFixed(
       2
     );
+
+    let average: any = document.querySelector('.average');
+    average.style.width = parseFloat(this.average) * 20 + '%';
   }
 }

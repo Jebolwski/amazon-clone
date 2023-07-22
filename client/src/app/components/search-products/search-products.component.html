@@ -13,7 +13,12 @@
   </div>
   <div *ngIf="product.products.length > 0">
     <div class="mb-3">
-      <h2 class="font-semibold text-lg">Sonuçlar</h2>
+      <h2 class="font-semibold text-lg">
+        Sonuçlar
+        <span class="text-sm font-normal">
+          ({{ product.products.length }}) Ürün
+        </span>
+      </h2>
       <p>
         Fiyat ve diğer ayrıntılar ürünün boyutu ve rengine göre farklılık
         gösterebilir.

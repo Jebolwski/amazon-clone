@@ -1,22 +1,59 @@
 <app-header></app-header>
 <div class="flex items-start flex-wrap bg-[#eaeded] p-4 gap-2">
   <div class="flex-1 min-w-[240px]">
-    <div class="bg-white p-2">
-      <h3 class="text-3xl">Alışveriş Sepeti</h3>
-      <p class="text-green-700 text-sm">Tüm ürünlerin seçimini kaldır</p>
+    <div class="bg-white p-2 shadow-md">
+      <h3 class="lg:text-3xl text-xl">Alışveriş Sepeti</h3>
+      <p class="text-green-700 lg:text-sm text-xs">
+        Tüm ürünlerin seçimini kaldır
+      </p>
       <hr />
       <!-- Ürünler -->
       <div>
         <div *ngFor="let product of cartService.cart?.products" class="p-3">
-          <div class="flex items-start p-2 gap-2">
-            <div>
-              <img [src]="product.photos[0].photoUrl" class="h-28" />
+          <div class="flex justify-between items-start p-2 gap-2">
+            <div class="flex items-start gap-2">
+              <div>
+                <swiper-container
+                  slides-per-view="1"
+                  speed="500"
+                  loop="true"
+                  pagination="true"
+                  class="lg:w-32 w-24"
+                >
+                  <swiper-slide *ngFor="let photo of product?.photos">
+                    <img
+                      [src]="photo.photoUrl"
+                      class="lg:w-32 w-24 border border-stone-300 rounded-sm"
+                  /></swiper-slide>
+                </swiper-container>
+              </div>
+              <div>
+                <p class="font-semibold lg:text-lg text-base">
+                  {{ product.name }}
+                </p>
+                <p class="text-sm" *ngIf="product.description.length > 80">
+                  {{ product.description | slice : 0 : 80 }}...
+                </p>
+                <p class="text-sm" *ngIf="product.description.length <= 80">
+                  {{ product.description }}
+                </p>
+                <p class="text-lg font-semibold">{{ product.price }}</p>
+                <p class="text-sm font-light">Miktar : {{ product.count }}</p>
+              </div>
             </div>
-            <div>
-              <p class="font-semibold text-lg">{{ product.name }}</p>
-              <p class="text-sm">{{ product.description }}</p>
-              <p class="text-lg font-semibold">{{ product.price }}</p>
-              <p class="text-sm font-light">Miktar : {{ product.count }}</p>
+            <!-- Ekleme, silme -->
+            <div class="flex flex-col gap-1">
+              <i
+                class="fa-solid fa-plus text-green-400 bg-green-200 rounded-md h-5 w-5 grid place-content-center cursor-pointer"
+              ></i>
+              <i
+                class="fa-solid fa-minus text-red-400 bg-red-200 rounded-md h-5 w-5 grid place-content-center cursor-pointer"
+                *ngIf="product.count != 1"
+              ></i>
+              <i
+                class="fa-solid fa-trash text-red-500 text-sm bg-red-200 rounded-md h-5 w-5 grid place-content-center cursor-pointer"
+                *ngIf="product.count == 1"
+              ></i>
             </div>
           </div>
         </div>
@@ -37,7 +74,7 @@
       girmenizi isteyeceğiz.
     </p>
   </div>
-  <div class="bg-white md:w-80 w-full p-2">
+  <div class="bg-white shadow-md md:w-80 w-full p-2">
     <p class="font-semibold text-lg">
       Ara toplam ({{ cartService.cart.products.length }} ürün):
       {{ cartService.cart.total }}

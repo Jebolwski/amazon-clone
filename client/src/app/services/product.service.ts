@@ -153,6 +153,7 @@ export class ProductService {
           });
           this.products.forEach((product) => {
             product.price = f.format(parseFloat(product.price));
+            console.log(product.price);
           });
         } else {
           this.notyf.error(response.message);

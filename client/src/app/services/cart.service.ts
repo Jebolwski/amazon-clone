@@ -51,10 +51,6 @@ export class CartService {
           let productsArray: Product[] = [];
 
           response.responseModel.products.forEach((product: Product) => {
-            console.log(
-              productsArray.filter((x: Product) => x.id == product.id)
-            );
-
             if (
               productsArray.filter((x: Product) => x.id == product.id).length ==
               0

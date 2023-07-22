@@ -42,4 +42,11 @@ export class HeaderComponent {
     this.productService.getByNameAndCategory(name, category);
     this.router.navigate(['/search-products/' + name + '/' + category]);
   }
+
+  toggleSideBar() {
+    let sidebar = document.querySelector('.sidebar');
+    console.log('messi');
+    sidebar?.classList.toggle('-left-full');
+    sidebar?.classList.toggle('left-0');
+  }
 }

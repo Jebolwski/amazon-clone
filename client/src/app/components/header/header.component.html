@@ -1,5 +1,5 @@
 <div class="bg-[#131921] p-2">
-  <div class="flex items-center flex-wrap justify-evenly gap-4">
+  <div class="flex items-center justify-evenly gap-4">
     <!-- Home Logo -->
     <a routerLink="/">
       <img
@@ -7,7 +7,7 @@
         class="w-32"
       />
     </a>
-    <div class="text-white">
+    <div class="text-white md:block hidden">
       <p class="text-sm">Alıcı : {{ auth.user.username }}</p>
       <div class="flex items-center gap-1">
         <i class="fa-solid fa-location-dot"></i>
@@ -18,7 +18,7 @@
     <div class="flex items-center">
       <form [formGroup]="searchForm" class="flex items-center">
         <select
-          class="rounded-l-md outline-none whitespace-nowrap h-[40px] bg-stone-200 p-2 border-r border-stone-400"
+          class="rounded-l-md text-sm outline-none whitespace-nowrap h-[40px] bg-stone-200 lg:p-2 p-1 lg:w-auto w-24 border-r border-stone-400"
           formControlName="category"
         >
           Tüm kategoriler
@@ -47,19 +47,22 @@
       </form>
     </div>
     <!-- Hesap ve Listeler -->
-    <div class="text-white cursor-pointer">
+    <div class="text-white md:block hidden cursor-pointer">
       <a [routerLink]="'/profile/' + auth.user.id">
         <p class="text-sm">{{ auth.user.username }}</p>
         <label class="font-semibold cursor-pointer">Hesap ve Listeler</label>
       </a>
     </div>
     <!-- İadeler -->
-    <div class="text-white" (click)="auth.logout()">
+    <div class="text-white md:block hidden" (click)="auth.logout()">
       <p class="text-sm">İadeler</p>
       <label class="font-semibold">ve Siparişler</label>
     </div>
     <!-- Sepet -->
-    <div class="flex items-center" [routerLink]="'/cart/' + auth.user.id">
+    <div
+      class="items-center md:flex hidden"
+      [routerLink]="'/cart/' + auth.user.id"
+    >
       <div>
         <img
           src="https://simpleicon.com/wp-content/uploads/shopping-cart.png"
@@ -70,6 +73,53 @@
         <p class="text-sm">Alışveriş</p>
         <p class="font-semibold">Sepeti</p>
       </div>
+    </div>
+    <div
+      class="sidebar bg-[#232f3e] flex flex-col justify-start gap-6 items-start h-full top-0 p-5 w-3/4 fixed -left-full duration-300 text-white"
+    >
+      <a routerLink="/">
+        <img
+          src="https://upload.wikimedia.org/wikipedia/donate/thumb/f/fd/Amazon-logo-white.svg/1024px-Amazon-logo-white.svg.png"
+          class="w-28"
+        />
+      </a>
+      <div class="text-white">
+        <p class="text-sm">Alıcı : {{ auth.user.username }}</p>
+        <div class="flex items-center gap-1">
+          <i class="fa-solid fa-location-dot"></i>
+          <label class="font-semibold">Bursa 16110</label>
+        </div>
+      </div>
+      <div class="text-white cursor-pointer">
+        <a [routerLink]="'/profile/' + auth.user.id">
+          <p class="text-sm">{{ auth.user.username }}</p>
+          <label class="font-semibold cursor-pointer">Hesap ve Listeler</label>
+        </a>
+      </div>
+      <!-- İadeler -->
+      <div class="text-white" (click)="auth.logout()">
+        <p class="text-sm">İadeler</p>
+        <label class="font-semibold">ve Siparişler</label>
+      </div>
+      <!-- Sepet -->
+      <div class="flex items-center" [routerLink]="'/cart/' + auth.user.id">
+        <div>
+          <img
+            src="https://simpleicon.com/wp-content/uploads/shopping-cart.png"
+            class="w-8 reverse-color"
+          />
+        </div>
+        <div class="text-white">
+          <p class="text-sm">Alışveriş</p>
+          <p class="font-semibold">Sepeti</p>
+        </div>
+      </div>
+    </div>
+    <div>
+      <i
+        class="fa-solid fa-bars md:hidden block text-lg text-white cursor-pointer"
+        (click)="toggleSideBar()"
+      ></i>
     </div>
   </div>
 </div>

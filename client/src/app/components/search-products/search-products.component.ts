@@ -20,7 +20,6 @@ export class SearchProductsComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params: ParamMap) => {
-      console.log(params);
       this.product.getByNameAndCategory(
         params.get('name') || '',
         params.get('category') || ''
