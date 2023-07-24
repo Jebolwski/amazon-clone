@@ -87,5 +87,30 @@ namespace AmazonClone.Application.Services
                 statusCode = 200
             };
         }
+
+        public ResponseViewModel removeProductFromCart(Guid cartId, Guid productId)
+        {
+            bool boolean =
+                cartProductRepository.deleteByCartIdAndProductId(productId, cartId);
+            if (boolean)
+            {
+                return new ResponseViewModel()
+                {
+                    message = "Ürün karttan silindi. 🌝",
+                    responseModel = new object(),
+                    statusCode = 200
+                };
+            }
+            else
+            {
+                return new ResponseViewModel()
+                {
+                    message = "Ürün silinirken bir hata oluştu. 😒",
+                    responseModel = new object(),
+                    statusCode = 400
+                };
+            }
+        }
+
     }
 }

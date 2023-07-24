@@ -82,7 +82,6 @@ export class ProductService {
       map((response: any) => {
         let res: Response = response;
         if (response.statusCode === 200) {
-          // this.notyf.success(response.message);
           return response.responseModel;
         } else {
           this.notyf.error(response.message);
@@ -133,6 +132,9 @@ export class ProductService {
   public getByNameAndCategory(name: string, category: string) {
     if (name == "''") {
       name = '+';
+    }
+    if (category == '') {
+      category = '+';
     }
     this.http
       .get(

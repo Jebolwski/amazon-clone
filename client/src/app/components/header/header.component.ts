@@ -39,8 +39,14 @@ export class HeaderComponent {
     if (name == '') {
       name = "''";
     }
+    console.log(category == '');
+
     this.productService.getByNameAndCategory(name, category);
-    this.router.navigate(['/search-products/' + name + '/' + category]);
+    if (category == '') {
+      this.router.navigate(['/search-products/' + name + '/' + "''"]);
+    } else {
+      this.router.navigate(['/search-products/' + name + '/' + category]);
+    }
   }
 
   toggleSideBar() {

@@ -8,6 +8,8 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./product.component.scss'],
 })
 export class ProductComponent {
-  constructor(public auth: AuthService) {}
+  constructor(public auth: AuthService) {
+    console.log(this.product);
+  }
   @Input() product!: Product;
 }

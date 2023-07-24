@@ -92,6 +92,7 @@ export class AuthService {
               if (response.statusCode === 200) {
                 this.user.id = response.responseModel.id;
                 this.router.navigate(['/']);
+                this.notyf.success('Başarıyla giriş yapıldı. 🥰');
               } else {
                 this.notyf.error(response.message);
               }

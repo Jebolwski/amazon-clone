@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Notyf } from 'notyf';
 import { Response } from '../interfaces/response';
 import { Product } from '../interfaces/product';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +18,11 @@ export class CartService {
     total: '0',
     userId: '',
   };
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private authService: AuthService
+  ) {}
 
   addToCart(data: { productId: string }) {
     this.http
@@ -30,6 +35,7 @@ export class CartService {
       .subscribe((res: any) => {
         let response: Response = res;
         if (response.statusCode === 200) {
+          this.getCartsProducts(this.authService.user.id);
           this.notyf.success(response.message);
         } else {
           this.notyf.error(response.message);
@@ -68,6 +74,9 @@ export class CartService {
             currency: 'TRY',
             minimumFractionDigits: 2,
           });
+          productsArray = productsArray.sort((a, b) => {
+            return a.name.length - b.name.length;
+          });
           this.cart = {
             id: response.responseModel.cart.id,
             products: productsArray,
@@ -82,6 +91,25 @@ export class CartService {
             product.price = f.format(parseFloat(product.price));
           });
           this.cart.total = f.format(parseFloat(this.cart.total));
+        } else {
+          this.notyf.error(response.message);
+        }
+      });
+  }
+
+  removeProductFromCart(productId: string, cartId: string) {
+    this.http
+      .delete(this.baseApiUrl + 'cart/Cart/' + productId + '/' + cartId, {
+        headers: new HttpHeaders().append(
+          'Authorization',
+          `Bearer ${localStorage.getItem('accessToken')}`
+        ),
+      })
+      .subscribe((res: any) => {
+        let response: Response = res;
+        if (response.statusCode === 200) {
+          this.getCartsProducts(this.authService.user.id);
+          this.notyf.success(response.message);
         } else {
           this.notyf.error(response.message);
         }

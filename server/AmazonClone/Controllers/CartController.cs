@@ -43,5 +43,13 @@ namespace AmazonClone.Controllers
             return cartAppService.getCart(authToken);
         }
 
+        [HttpDelete("{productId}/{cartId}"), Authorize(Roles = "Normal User,Admin")]
+        public ResponseViewModel DeleteProductFromCart(Guid cartId, Guid productId)
+        {
+            string authToken = HttpContext.Request.Headers["Authorization"];
+
+            return cartAppService.deleteProductFromCart(authToken, productId, cartId);
+        }
+
     }
 }

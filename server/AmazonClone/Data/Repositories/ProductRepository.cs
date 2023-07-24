@@ -43,6 +43,10 @@ namespace AmazonClone.Data.Repositories
 
         public List<Product> filterProductsByName(string name)
         {
+            if (name == "+")
+            {
+                return dbset.Include(x => x.photos).ToList();
+            }
             List<Product> products = dbset.Where(p => p.name.ToLower().Contains(name.ToLower())).Include(x => x.photos).ToList(); ;
             if (products != null && products.Any())
             {
@@ -54,16 +58,28 @@ namespace AmazonClone.Data.Repositories
         public List<Product> filterProductsByNameAndCategory(List<Guid> productIds, string productName)
         {
             List<Product> products = new List<Product>();
-
-            if (productName == "+")
+            if (!productIds.Any())
             {
-                products = dbset.Where(p => productIds.Contains(p.id)).Include(x => x.photos).ToList();
+                if (productName == "+")
+                {
+                    products = dbset.ToList();
+                }
+                else
+                {
+                    products = dbset.Where(p => p.name.ToLower().Contains(productName.ToLower())).Include(x => x.photos).ToList();
+                }
             }
             else
             {
-                products = dbset.Where(p => p.name.ToLower().Contains(productName.ToLower()) && productIds.Contains(p.id)).Include(x => x.photos).ToList();
+                if (productName == "+")
+                {
+                    products = dbset.Where(p => productIds.Contains(p.id)).Include(x => x.photos).ToList();
+                }
+                else
+                {
+                    products = dbset.Where(p => p.name.ToLower().Contains(productName.ToLower()) && productIds.Contains(p.id)).Include(x => x.photos).ToList();
+                }
             }
-
             if (products != null && products.Any())
             {
                 return products;

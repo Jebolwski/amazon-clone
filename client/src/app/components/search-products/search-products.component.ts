@@ -14,21 +14,22 @@ export class SearchProductsComponent implements OnInit {
   pageNumber: number = 1;
   totalPages: number = this.product.products.length;
 
-  constructor(private route: ActivatedRoute, public product: ProductService) {
-    console.log(this.totalPages, this.pageNumber);
-  }
+  constructor(private route: ActivatedRoute, public product: ProductService) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params: ParamMap) => {
-      this.product.getByNameAndCategory(
-        params.get('name') || '',
-        params.get('category') || ''
-      );
+      this.category = params.get('category');
+      if (this.category == 'all') {
+        this.category = 'all';
+      }
       this.name = params.get('name');
       if (this.name == "''") {
         this.name = 'empty';
       }
-      this.category = params.get('category');
+      this.product.getByNameAndCategory(
+        params.get('name') || '',
+        this.category!
+      );
     });
   }
 }

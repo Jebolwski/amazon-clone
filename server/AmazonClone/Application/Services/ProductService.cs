@@ -331,46 +331,79 @@ namespace AmazonClone.Application.Services
             };
         }
 
-        public ResponseViewModel filterProductsByNameAndCategory(Guid categoryId, string productName)
+        public ResponseViewModel filterProductsByNameAndCategory(string categoryId, string productName)
         {
             ICollection<ProductResponseModel> productResponseModels = new List<ProductResponseModel>();
-            ICollection<ProductProductCategory> categories = productProductCategoryRespository.filterByCategoryId(categoryId);
-            if (categories != null && categories.Any())
+            if (Convert.ToString(categoryId) == "+")
             {
-                ICollection<Guid> prodcutsIds = categories.Select(p => p.productId).ToList();
-                List<Product> products = productRepository.filterProductsByNameAndCategory(prodcutsIds.ToList(), productName);
-                if (products != null && products.Any())
+                List<Product> products = productRepository.filterProductsByName(productName);
+                foreach (Product item in products)
                 {
-                    foreach (Product item in products)
+                    List<ProductPhotoResponseModel> productPhotoModels = new List<ProductPhotoResponseModel>();
+                    if (item.photos != null)
                     {
-                        List<ProductPhotoResponseModel> productPhotoModels = new List<ProductPhotoResponseModel>();
-                        if (item.photos != null)
+                        foreach (ProductPhoto photo in item.photos)
                         {
-                            foreach (ProductPhoto photo in item.photos)
+                            productPhotoModels.Add(new ProductPhotoResponseModel()
                             {
-                                productPhotoModels.Add(new ProductPhotoResponseModel()
-                                {
-                                    photoUrl = photo.photoUrl,
-                                    id = photo.id
-                                });
-                            }
+                                photoUrl = photo.photoUrl,
+                                id = photo.id
+                            });
                         }
-                        ICollection<ProductCategoryResponseModel> productCategories = (HashSet<ProductCategoryResponseModel>)productProductCategoryService
-                                .getProductCategoriesByProductId(item.id).responseModel;
-                        ProductResponseModel responseModel = new ProductResponseModel()
+                    }
+                    ICollection<ProductCategoryResponseModel> productCategories = (HashSet<ProductCategoryResponseModel>)productProductCategoryService
+                            .getProductCategoriesByProductId(item.id).responseModel;
+                    ProductResponseModel responseModel = new ProductResponseModel()
+                    {
+                        description = item.description,
+                        name = item.name,
+                        id = item.id,
+                        price = item.price,
+                        productCategories = productCategories,
+                        photos = productPhotoModels
+                    };
+                    productResponseModels.Add(responseModel);
+                }
+            }
+            else
+            {
+                ICollection<ProductProductCategory> categories = productProductCategoryRespository.filterByCategoryId(new Guid(categoryId));
+                if (categories != null && categories.Any())
+                {
+                    ICollection<Guid> prodcutsIds = categories.Select(p => p.productId).ToList();
+                    List<Product> products = productRepository.filterProductsByNameAndCategory(prodcutsIds.ToList(), productName);
+                    if (products != null && products.Any())
+                    {
+                        foreach (Product item in products)
                         {
-                            description = item.description,
-                            name = item.name,
-                            id = item.id,
-                            price = item.price,
-                            productCategories = productCategories,
-                            photos = productPhotoModels
-                        };
-                        productResponseModels.Add(responseModel);
+                            List<ProductPhotoResponseModel> productPhotoModels = new List<ProductPhotoResponseModel>();
+                            if (item.photos != null)
+                            {
+                                foreach (ProductPhoto photo in item.photos)
+                                {
+                                    productPhotoModels.Add(new ProductPhotoResponseModel()
+                                    {
+                                        photoUrl = photo.photoUrl,
+                                        id = photo.id
+                                    });
+                                }
+                            }
+                            ICollection<ProductCategoryResponseModel> productCategories = (HashSet<ProductCategoryResponseModel>)productProductCategoryService
+                                    .getProductCategoriesByProductId(item.id).responseModel;
+                            ProductResponseModel responseModel = new ProductResponseModel()
+                            {
+                                description = item.description,
+                                name = item.name,
+                                id = item.id,
+                                price = item.price,
+                                productCategories = productCategories,
+                                photos = productPhotoModels
+                            };
+                            productResponseModels.Add(responseModel);
+                        }
                     }
                 }
             }
-
             return new ResponseViewModel()
             {
                 message = "Veri getirildi. 😍",

@@ -93,5 +93,55 @@ namespace AmazonClone.Application.Services
                 statusCode = 200
             };
         }
+
+        public ResponseViewModel deleteProductFromCart(string authToken, Guid productId, Guid cartId)
+        {
+            authToken = authToken.Replace("Bearer ", string.Empty);
+            var stream = authToken;
+            var handler = new JwtSecurityTokenHandler();
+            JwtSecurityToken jsonToken = handler.ReadJwtToken(stream);
+            User user = userService.getUserByUsername(jsonToken.Claims.First().Value);
+            if (user == null)
+            {
+                return new ResponseViewModel()
+                {
+                    message = "Kullanıcı doğrulanamadı. 😞",
+                    responseModel = new Object(),
+                    statusCode = 400
+                };
+            }
+            System.Console.WriteLine(user.id);
+            Cart cart = cartRepository.getCartByUserId(user.id);
+            System.Console.WriteLine(cart.id + " " + cart.userId);
+            if (cart.id != cartId)
+            {
+                return new ResponseViewModel()
+                {
+                    message = "Kullanıcı doğrulanamadı. 😞",
+                    responseModel = new Object(),
+                    statusCode = 400
+                };
+            }
+            if (cartProductService.removeProductFromCart(cartId, productId).statusCode == 200)
+            {
+                return new ResponseViewModel()
+                {
+                    message = "Ürün başarıyla karttan kaldırıldı. 🌝",
+                    responseModel = new Object(),
+                    statusCode = 200
+                };
+            }
+            else
+            {
+                return new ResponseViewModel()
+                {
+                    message = "Ürün kaldırılırken hata oluştu. 😥",
+                    responseModel = new Object(),
+                    statusCode = 400
+                };
+            }
+        }
+
+
     }
 }
