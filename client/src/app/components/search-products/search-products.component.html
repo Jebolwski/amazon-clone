@@ -1,35 +1,87 @@
 <app-header></app-header>
-<div class="p-6 bg-stone-100">
-  <div *ngIf="product.products.length == 0">
-    <p class="font-semibold">
-      Daha az anahtar kelime kullanın ya da aşağıdaki ürünleri deneyin.
-    </p>
-    <label *ngIf="name != 'empty'">{{ name }} için sonuç yok.</label>
-    <label *ngIf="name == 'empty'">Aradığınız kategori için sonuç yok.</label>
-    <p class="text-sm">
-      Fiyat ve diğer ayrıntılar ürünün boyutu ve rengine göre farklılık
-      gösterebilir.
-    </p>
+<div class="p-6 bg-stone-100 flex items-start gap-5">
+  <div>
+    <h4 class="font-semibold">Fiyat</h4>
+    <div class="flex items-center gap-1">
+      <input
+        type="checkbox"
+        class="checkbox"
+        (click)="checkIt($event, 20, 100)"
+      />
+      <p>20 - 100₺</p>
+    </div>
+    <div class="flex items-center gap-1">
+      <input
+        type="checkbox"
+        class="checkbox"
+        (click)="checkIt($event, 100, 200)"
+      />
+      <p>100 - 200₺</p>
+    </div>
+    <div class="flex items-center gap-1">
+      <input
+        type="checkbox"
+        class="checkbox"
+        (click)="checkIt($event, 200, 500)"
+      />
+      <p>200 - 500₺</p>
+    </div>
+    <div class="flex items-center gap-1">
+      <input
+        type="checkbox"
+        class="checkbox"
+        (click)="checkIt($event, 500, 10000000000)"
+      />
+      <p>500₺ ve üzeri</p>
+    </div>
+    <div class="flex gap-2 mt-3">
+      <input
+        type="text"
+        placeholder="₺ Min."
+        class="border border-black/50 outline-none p-1 text-sm rounded-md shadow-md w-12"
+      />
+      <input
+        type="text"
+        placeholder="₺ Maks"
+        class="border border-black/50 outline-none p-1 text-sm rounded-md shadow-md w-12"
+      />
+      <button class="border border-black/10 px-2 shadow-sm rounded-md bg-white">
+        Git
+      </button>
+    </div>
   </div>
-  <div *ngIf="product.products.length > 0">
-    <div class="mb-3">
-      <h2 class="font-semibold text-lg">
-        Sonuçlar
-        <span class="text-sm font-normal">
-          ({{ product.products.length }}) Ürün
-        </span>
-      </h2>
-      <p>
+  <div>
+    <div *ngIf="products.length == 0">
+      <p class="font-semibold">
+        Daha az anahtar kelime kullanın ya da aşağıdaki ürünleri deneyin.
+      </p>
+      <label *ngIf="name != 'empty'">{{ name }} için sonuç yok.</label>
+      <label *ngIf="name == 'empty'">Aradığınız kategori için sonuç yok.</label>
+      <p class="text-sm">
         Fiyat ve diğer ayrıntılar ürünün boyutu ve rengine göre farklılık
         gösterebilir.
       </p>
     </div>
-    <div class="flex gap-4 flex-wrap flex-row content-stretch">
-      <div
-        class="lg:w-64 w-48 cursor-pointer"
-        *ngFor="let product of product.products"
-      >
-        <app-product [product]="product"></app-product>
+    <div *ngIf="products.length > 0">
+      <div class="mb-3">
+        <h2 class="font-semibold text-lg">
+          Sonuçlar
+          <span class="text-sm font-normal">
+            ({{ products.length }}) Ürün
+          </span>
+        </h2>
+        <p>
+          Fiyat ve diğer ayrıntılar ürünün boyutu ve rengine göre farklılık
+          gösterebilir.
+        </p>
+      </div>
+      <div class="flex gap-4 flex-wrap flex-row content-stretch">
+        <div
+          class="lg:w-64 w-48 cursor-pointer"
+          *ngFor="let product of products"
+        >
+          <app-product [product]="product"></app-product>
+        </div>
       </div>
     </div>
   </div>

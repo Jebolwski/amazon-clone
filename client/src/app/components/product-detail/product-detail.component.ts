@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Notyf } from 'notyf';
 import { Comment, Product } from 'src/app/interfaces/product';
 import { Response } from 'src/app/interfaces/response';
+import { AuthService } from 'src/app/services/auth.service';
 import { CartService } from 'src/app/services/cart.service';
 import { ProductService } from 'src/app/services/product.service';
 
@@ -35,7 +36,7 @@ export class ProductDetailComponent implements OnInit {
   constructor(
     public productService: ProductService,
     private route: ActivatedRoute,
-    private http: HttpClient,
+    public authService: AuthService,
     public cartService: CartService
   ) {
     this.id = this.route.snapshot.paramMap.get('id') || '0';

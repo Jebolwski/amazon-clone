@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { Product } from 'src/app/interfaces/product';
 import { ProductService } from 'src/app/services/product.service';
 
 @Component({
@@ -10,13 +11,12 @@ import { ProductService } from 'src/app/services/product.service';
 export class SearchProductsComponent implements OnInit {
   name!: string | null;
   category!: string | null;
-  productsPerPage: number = 2;
-  pageNumber: number = 1;
-  totalPages: number = this.product.products.length;
-
-  constructor(private route: ActivatedRoute, public product: ProductService) {}
-
-  ngOnInit(): void {
+  products: Product[] = [];
+  constructor(
+    private route: ActivatedRoute,
+    public productService: ProductService
+  ) {}
+  ngOnInit(): any {
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.category = params.get('category');
       if (this.category == 'all') {
@@ -26,10 +26,24 @@ export class SearchProductsComponent implements OnInit {
       if (this.name == "''") {
         this.name = 'empty';
       }
-      this.product.getByNameAndCategory(
-        params.get('name') || '',
-        this.category!
-      );
     });
+    console.log(this.name, this.category);
+    this.productService
+      .getByNameAndCategory(this.name!, this.category!)
+      .subscribe((res: any) => {
+        this.products = res;
+      });
+  }
+
+  checkIt(event: Event, num1: number, num2: number) {
+    let list = (
+      event.target as HTMLElement
+    ).parentNode?.parentNode?.querySelectorAll('.checkbox');
+    list?.forEach((element: any) => {
+      element.checked = false;
+    });
+    let thisNode: any = event.target;
+    thisNode.checked = true;
+    console.log(num1, num2);
   }
 }

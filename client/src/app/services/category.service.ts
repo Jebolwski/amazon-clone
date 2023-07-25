@@ -71,8 +71,12 @@ export class CategoryService {
       })
       .subscribe((res: any) => {
         let response: Response = res;
-        this.allCategories = response.responseModel;
-        this.headerAllCategories = response.responseModel;
+        if (response.statusCode === 200) {
+          this.allCategories = response.responseModel;
+          this.headerAllCategories = response.responseModel;
+        } else {
+          this.notyf.error(response.message);
+        }
       });
   }
 

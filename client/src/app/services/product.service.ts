@@ -129,7 +129,7 @@ export class ProductService {
       });
   }
 
-  public getByNameAndCategory(name: string, category: string) {
+  public getByNameAndCategory(name: string, category: string): any {
     if (name == "''") {
       name = '+';
     }
@@ -144,22 +144,25 @@ export class ProductService {
           '/' +
           category
       )
-      .subscribe((res: any) => {
-        let response: Response = res;
-        if (response.statusCode === 200) {
-          this.products = response.responseModel;
-          const f = new Intl.NumberFormat('tr-TR', {
-            style: 'currency',
-            currency: 'TRY',
-            minimumFractionDigits: 2,
-          });
-          this.products.forEach((product) => {
-            product.price = f.format(parseFloat(product.price));
-            console.log(product.price);
-          });
-        } else {
-          this.notyf.error(response.message);
-        }
-      });
+      .pipe(
+        map((response: any) => {
+          let res: Response = response;
+          if (response.statusCode === 200) {
+            let products: Product[] = response.responseModel;
+            const f = new Intl.NumberFormat('tr-TR', {
+              style: 'currency',
+              currency: 'TRY',
+              minimumFractionDigits: 2,
+            });
+            products.forEach((product) => {
+              product.price = f.format(parseFloat(product.price));
+            });
+            return products;
+          } else {
+            this.notyf.error(response.message);
+            return null;
+          }
+        })
+      );
   }
 }

@@ -160,9 +160,11 @@
           <div class="flex items-center gap-2">
             <i
               class="fa-solid fa-file-pen text-yellow-500 cursor-pointer"
+              *ngIf="comment.user.id == authService.user.id"
               [routerLink]="'/comment/' + comment?.id + '/update'"
             ></i>
             <i
+              *ngIf="comment.user.id == authService.user.id"
               class="fa-solid fa-trash text-red-500 cursor-pointer"
               [routerLink]="'/comment/' + comment?.id + '/delete'"
             ></i>

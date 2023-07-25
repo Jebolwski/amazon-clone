@@ -19,7 +19,7 @@ namespace AmazonClone.Controllers
             this.productCategoryService = productCategoryService;
         }
 
-        [HttpGet("get-all-categories"), Authorize(Roles = "Admin")]
+        [HttpGet("get-all-categories"), Authorize(Roles = "Admin,Normal User")]
         public ResponseViewModel GetAllCategories()
         {
             return this.productCategoryService.GetProductCategories();

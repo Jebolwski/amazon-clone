@@ -9,10 +9,14 @@ export class NotLoggedService {
   constructor(private auth: AuthService) {}
 
   canActivate(): boolean {
+    console.log('gel');
+
     let flag: boolean = false;
     if (!(localStorage.getItem('accessToken') && this.auth.user != undefined)) {
       flag = true;
     }
+    console.log(flag);
+
     return flag;
   }
 }
