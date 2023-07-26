@@ -1,42 +1,19 @@
-<div [routerLink]="'/product/' + product.id">
+<div [routerLink]="'/product/' + product.id" class="relative">
   <div
-    [routerLink]="'/product/' + product.id"
+    [routerLink]="'/product/' + product.id + '/update'"
+    class="cursor-pointer"
     *ngIf="auth.user.role == 'Admin'"
-    class="border border-stone-200/75 bg-white shadow-md items-stretch relative"
   >
-    <div
-      [routerLink]="'/product/' + product.id + '/update'"
-      class="cursor-pointer"
-    >
-      <i
-        class="fa-solid fa-pen-to-square absolute z-10 right-8 -top-3 text-yellow-400"
-      ></i>
-    </div>
-    <div
-      [routerLink]="'/product/' + product.id + '/delete'"
-      class="cursor-pointer"
-    >
-      <i
-        class="fa-solid fa-trash z-10 absolute -right-1 -top-3 text-red-500"
-      ></i>
-    </div>
-
-    <div class="p-6">
-      <p class="text-lg font-semibold">{{ product.name }}</p>
-      <label>{{ product.price }}₺</label>
-      <div class="flex items-center mt-2 gap-1 flex-wrap">
-        <div
-          *ngFor="let productCategory of product.productCategories"
-          [class]="
-            'bg-stone-200/80 ' +
-            productCategory.id +
-            ' border-stone-500 text-sm rounded-md duration-200 inline-block p-1 font-semibold'
-          "
-        >
-          {{ productCategory.name }}
-        </div>
-      </div>
-    </div>
+    <i
+      class="fa-solid fa-pen-to-square absolute z-10 right-8 -top-3 text-yellow-400"
+    ></i>
+  </div>
+  <div
+    [routerLink]="'/product/' + product.id + '/delete'"
+    class="cursor-pointer"
+    *ngIf="auth.user.role == 'Admin'"
+  >
+    <i class="fa-solid fa-trash z-10 absolute -right-1 -top-3 text-red-500"></i>
   </div>
   <div class="border border-stone-200/75 bg-white items-stretch">
     <div>

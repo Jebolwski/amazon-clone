@@ -39,7 +39,6 @@ export class HeaderComponent {
     if (name == '') {
       name = "''";
     }
-    console.log(category == '');
 
     this.productService.getByNameAndCategory(name, category);
     if (category == '') {

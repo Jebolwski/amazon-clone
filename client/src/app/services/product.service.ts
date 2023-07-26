@@ -133,10 +133,11 @@ export class ProductService {
     if (name == "''") {
       name = '+';
     }
-    if (category == '') {
+    if (category == "''") {
       category = '+';
     }
-    this.http
+
+    return this.http
       .get(
         this.baseApiUrl +
           'Product/filter-by-name-and-category/' +
@@ -149,14 +150,6 @@ export class ProductService {
           let res: Response = response;
           if (response.statusCode === 200) {
             let products: Product[] = response.responseModel;
-            const f = new Intl.NumberFormat('tr-TR', {
-              style: 'currency',
-              currency: 'TRY',
-              minimumFractionDigits: 2,
-            });
-            products.forEach((product) => {
-              product.price = f.format(parseFloat(product.price));
-            });
             return products;
           } else {
             this.notyf.error(response.message);
