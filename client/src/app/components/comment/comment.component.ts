@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { addProductPhoto } from 'src/app/interfaces/addProductPhoto';
+import { Product } from 'src/app/interfaces/product';
 import { AuthService } from 'src/app/services/auth.service';
 import { CommentService } from 'src/app/services/comment.service';
 import { ProductService } from 'src/app/services/product.service';
@@ -33,6 +34,7 @@ export class CommentComponent {
   });
 
   starCount: number = 0;
+  product!: Product;
   id!: string;
   numberOfPhoto: number = 0;
 
@@ -98,6 +100,8 @@ export class CommentComponent {
   ngOnInit(): void {
     this.id = this.router.snapshot.paramMap.get('id') || '0';
     console.log(this.id);
-    this.productService.getProduct(this.id);
+    this.productService.getProduct(this.id).subscribe((product: Product) => {
+      this.product = product;
+    });
   }
 }

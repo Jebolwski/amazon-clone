@@ -2,6 +2,23 @@
 <div class="flex justify-center">
   <div class="lg:w-3/4 md:w-4/5 w-11/12 my-5">
     <h2 class="text-xl font-semibold">Yorum Oluştur</h2>
+    <div class="flex items-center justify-start gap-2">
+      <swiper-container
+        slides-per-view="1"
+        speed="500"
+        pagination="true"
+        loop="true"
+        class="lg:w-32 w-28 rounded-md border border-stone-300"
+      >
+        <swiper-slide *ngFor="let photo of product?.photos">
+          <img [src]="photo.photoUrl" class="lg:w-32 w-28 rounded-md"
+        /></swiper-slide>
+      </swiper-container>
+      <div class="flex-1">
+        <p>{{ product.name }}</p>
+        <p>{{ product.description | slice : 0 : 100 }}</p>
+      </div>
+    </div>
     <form [formGroup]="updateProductForm">
       <div class="flex items-start gap-4 my-2">
         <div>

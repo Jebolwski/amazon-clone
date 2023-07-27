@@ -21,7 +21,9 @@ export class SearchProductsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     public productService: ProductService
-  ) {}
+  ) {
+    console.log('git bakam');
+  }
 
   f = new Intl.NumberFormat('tr-TR', {
     style: 'currency',
@@ -30,16 +32,14 @@ export class SearchProductsComponent implements OnInit {
   });
 
   ngOnInit(): any {
-    this.route.paramMap.subscribe((params: ParamMap) => {
-      this.category = params.get('category');
-      if (this.category == 'all') {
-        this.category = 'all';
-      }
-      this.name = params.get('name');
-      if (this.name == "''") {
-        this.name = '+';
-      }
-    });
+    this.category = this.route.snapshot.paramMap.get('category');
+    if (this.category == 'all') {
+      this.category = 'all';
+    }
+    this.name = this.route.snapshot.paramMap.get('name');
+    if (this.name == "''") {
+      this.name = '+';
+    }
     this.productService
       .getByNameAndCategory(this.name || '', this.category || '')
       .subscribe((res: any) => {
