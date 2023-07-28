@@ -79,8 +79,7 @@ namespace AmazonClone.Application.Services
 
             foreach (ProductProductCategory item in productProductCategories)
             {
-                //productCategoryResponseModels.Add((ProductCategoryResponseModel)productCategoryService
-                //    .get(item.productCategoryId).responseModel);
+
                 string json = JsonSerializer
                     .Serialize(productCategoryService.get(item.productCategoryId).responseModel);
                 if (json.Equals("{}") == false)

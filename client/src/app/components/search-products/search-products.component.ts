@@ -44,7 +44,7 @@ export class SearchProductsComponent implements OnInit {
       .getByNameAndCategory(this.name || '', this.category || '')
       .subscribe((res: any) => {
         this.products = res;
-        this.productsTemp = [...this.products];
+        this.productsTemp = res;
       });
   }
 

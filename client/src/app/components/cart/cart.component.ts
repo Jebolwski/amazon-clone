@@ -13,4 +13,8 @@ export class CartComponent {
     this.id = this.route.snapshot.paramMap.get('id') || '0';
     cartService.getCartsProducts(this.id);
   }
+
+  buyCart() {
+    this.cartService.buyTheCart(this.cartService.cart.id);
+  }
 }

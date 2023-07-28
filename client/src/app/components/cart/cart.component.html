@@ -90,7 +90,10 @@
       Ara toplam ({{ cartService.cart.products.length }} ürün):
       {{ cartService.cart.total }}
     </p>
-    <button class="bg-[#ffd814] rounded-md shadow-md p-1 text-sm w-full my-2">
+    <button
+      class="bg-[#ffd814] rounded-md shadow-md p-1 text-sm w-full my-2"
+      (click)="buyCart()"
+    >
       Alışverişi Tamamla
     </button>
   </div>

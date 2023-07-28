@@ -6,7 +6,7 @@ using AmazonClone.Domain.Entities;
 using AmazonClone.Domain.Interfaces;
 using AmazonClone.Application.ViewModels.ResponseM;
 using System.IdentityModel.Tokens.Jwt;
-
+using System.Text.Json;
 namespace AmazonClone.Application.Services
 {
     public class CartService : ICartService
@@ -142,6 +142,64 @@ namespace AmazonClone.Application.Services
             }
         }
 
+        public ResponseViewModel buyTheCart(string authToken, Guid cartId)
+        {
+            authToken = authToken.Replace("Bearer ", string.Empty);
+            var stream = authToken;
+            var handler = new JwtSecurityTokenHandler();
+            JwtSecurityToken jsonToken = handler.ReadJwtToken(stream);
+            User user = userService.getUserByUsername(jsonToken.Claims.First().Value);
+            if (user == null)
+            {
+                return new ResponseViewModel()
+                {
+                    message = "Kullanıcı doğrulanamadı. 😞",
+                    responseModel = new Object(),
+                    statusCode = 400
+                };
+            }
+            Cart cart = cartRepository.getCartByUserId(user.id);
+            System.Console.WriteLine(cart.id + " " + cart.userId);
+            if (cart.id != cartId)
+            {
+                return new ResponseViewModel()
+                {
+                    message = "Kullanıcı doğrulanamadı. 😞",
+                    responseModel = new Object(),
+                    statusCode = 400
+                };
+            }
+            if (this.getCart(authToken).statusCode == 200)
+            {
+                string json = JsonSerializer
+                    .Serialize(this.getCart(authToken).responseModel);
+                CartWithProductModel cartWith = null;
+                if (json.Equals("{}") == false)
+                {
+                    cartWith = JsonSerializer.Deserialize<CartWithProductModel>(json);
+                }
+                foreach (ProductResponseModel product in cartWith.products)
+                {
+                    cartProductService.removeProductFromCart(cartId, product.id);
+                }
+
+                return new ResponseViewModel()
+                {
+                    message = "Karttaki ürünler başarıyla satın alındı. 🌝",
+                    responseModel = new Object(),
+                    statusCode = 200
+                };
+            }
+            else
+            {
+                return new ResponseViewModel()
+                {
+                    message = "Satın alınırken hata oluştu. 😥",
+                    responseModel = new Object(),
+                    statusCode = 400
+                };
+            }
+        }
 
     }
 }

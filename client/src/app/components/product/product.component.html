@@ -15,7 +15,9 @@
   >
     <i class="fa-solid fa-trash z-10 absolute -right-1 -top-3 text-red-500"></i>
   </div>
-  <div class="border border-stone-200/75 bg-white items-stretch">
+  <div
+    class="border border-stone-200/75 min-h-[460px] flex flex-col bg-white items-stretch"
+  >
     <div>
       <swiper-container
         slides-per-view="1"
@@ -29,8 +31,10 @@
         /></swiper-slide>
       </swiper-container>
     </div>
-    <div class="p-3">
-      <p class="text-lg font-semibold">{{ product.name }}</p>
+    <div class="p-3 flex-1 justify-end">
+      <p class="text-lg font-semibold h-24">
+        {{ product.name | slice : 0 : 50 }}
+      </p>
       <label>{{ product.price }}₺</label>
       <div class="flex items-center flex-wrap mt-2 gap-1">
         <div
