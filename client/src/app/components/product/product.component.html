@@ -27,7 +27,9 @@
         class="w-full"
       >
         <swiper-slide *ngFor="let photo of product?.photos">
-          <img [src]="photo.photoUrl" class="w-full h-72"
+          <img
+            [src]="photo.photoUrl"
+            class="w-full h-72 grid place-items-center"
         /></swiper-slide>
       </swiper-container>
     </div>

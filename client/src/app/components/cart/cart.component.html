@@ -21,7 +21,9 @@
                   class="lg:w-32 w-24 border border-stone-300"
                 >
                   <swiper-slide *ngFor="let photo of product?.photos">
-                    <img [src]="photo.photoUrl" class="lg:w-32 w-24 rounded-sm"
+                    <img
+                      [src]="photo.photoUrl"
+                      class="lg:w-32 w-24 rounded-sm grid place-items-center h-full"
                   /></swiper-slide>
                 </swiper-container>
               </div>
