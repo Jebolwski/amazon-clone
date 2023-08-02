@@ -14,6 +14,7 @@ namespace AmazonClone.Data.Mapping
             builder.Property(p => p.passwordSalt).HasColumnName("passwordSalt");
             builder.Property(p => p.passwordHash).HasColumnName("passwordHash");
             builder.Property(p => p.roleId).HasColumnName("role_id");
+            builder.HasMany(p => p.addresses).WithOne().HasForeignKey(p => p.userId).OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

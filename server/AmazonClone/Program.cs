@@ -45,7 +45,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 builder.Services.AddCors(options => options.AddPolicy(name: "NgOrigins",
-    policy => {
+    policy =>
+    {
         policy.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader();
     }));
 builder.Services.AddScoped<BaseContext>();
@@ -58,6 +59,7 @@ builder.Services.AddScoped<IProductPhotoRepository, ProductPhotoRepository>();
 builder.Services.AddScoped<IProductProductCategoryRepository, ProductProductCategoryRepository>();
 builder.Services.AddScoped<ICommentPhotoRepository, CommentPhotoRepository>();
 builder.Services.AddScoped<ICommentRepository, CommentRepository>();
+builder.Services.AddScoped<IAddressRepository, AddressRepository>();
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
@@ -69,6 +71,7 @@ builder.Services.AddScoped<IProductProductCategoryService, ProductProductCategor
 builder.Services.AddScoped<IProductPhotoService, ProductPhotoService>();
 builder.Services.AddScoped<ICommentPhotoService, CommentPhotoService>();
 builder.Services.AddScoped<ICommentService, CommentService>();
+builder.Services.AddScoped<IAddressService, AddressService>();
 builder.Services.AddScoped<IRoleService, RoleService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();

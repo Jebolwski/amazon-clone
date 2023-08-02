@@ -22,6 +22,8 @@ namespace AmazonClone.Data.Context
         public DbSet<ProductPhoto> productPhotos { get; set; }
         public DbSet<Role> roles { get; set; }
         public DbSet<User> users { get; set; }
+        public DbSet<Address> addresses { get; set; }
+        public DbSet<CreditCart> creditCarts { get; set; }
 
         public BaseContext()
         {
@@ -41,6 +43,8 @@ namespace AmazonClone.Data.Context
             modelBuilder.ApplyConfiguration(new CommentPhotoMap());
             modelBuilder.ApplyConfiguration(new UserMap());
             modelBuilder.ApplyConfiguration(new RoleMap());
+            modelBuilder.ApplyConfiguration(new AddressMap());
+            modelBuilder.ApplyConfiguration(new CreditCartMap());
             modelBuilder.HasDefaultSchema("AmazonClone");
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

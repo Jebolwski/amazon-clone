@@ -3,6 +3,7 @@ using System;
 using AmazonClone.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AmazonClone.Migrations
 {
     [DbContext(typeof(BaseContext))]
-    partial class BaseContextModelSnapshot : ModelSnapshot
+    [Migration("20230801142605_address")]
+    partial class address
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -157,42 +160,6 @@ namespace AmazonClone.Migrations
                     b.HasIndex("commentId");
 
                     b.ToTable("CommentPhoto", "AmazonClone");
-                });
-
-            modelBuilder.Entity("AmazonClone.Domain.Entities.CreditCart", b =>
-                {
-                    b.Property<Guid>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
-
-                    b.Property<string>("cartNumber")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("cartNumber");
-
-                    b.Property<string>("cvvNumber")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("cvvNumber");
-
-                    b.Property<string>("expDate")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("expDate");
-
-                    b.Property<string>("nameSurname")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("nameSurname");
-
-                    b.Property<Guid>("userId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("user_id");
-
-                    b.HasKey("id");
-
-                    b.ToTable("CreditCart", "AmazonClone");
                 });
 
             modelBuilder.Entity("AmazonClone.Domain.Entities.Product", b =>
