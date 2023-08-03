@@ -5,6 +5,7 @@ using AmazonClone.Application.ViewModels.AuthM;
 using AmazonClone.Application.ViewModels.ResponseM;
 using AmazonClone.Domain.Entities;
 using AmazonClone.Domain.Interfaces;
+using Azure;
 
 namespace AmazonClone.Application.Services
 {
@@ -133,7 +134,6 @@ namespace AmazonClone.Application.Services
             };
         }
 
-
         public ResponseViewModel getAddresses(string authToken, Guid id)
         {
             if (authToken != null)
@@ -195,9 +195,79 @@ namespace AmazonClone.Application.Services
 
         }
 
-        public ResponseViewModel updateAddress(RefreshTokenModel model)
+        public ResponseViewModel updateAddress(string authToken,AddressUpdateModel model)
         {
-            throw new NotImplementedException();
+            if (model != null)
+            {
+                authToken = authToken.Replace("Bearer ", string.Empty);
+                var stream = authToken;
+                var handler = new JwtSecurityTokenHandler();
+                JwtSecurityToken jsonToken = handler.ReadJwtToken(stream);
+                User user = userService.getUserByUsername(jsonToken.Claims.First().Value);
+                if (user == null)
+                {
+                    return new ResponseViewModel()
+                    {
+                        message = "Kullanıcı doğrulanamadı. 😞",
+                        responseModel = new Object(),
+                        statusCode = 400
+                    };
+                }
+                Address address = this.addresRepository.get(model.id);
+                if (address != null)
+                {
+
+                    if (user.id != address.userId)
+                    {
+                        return new ResponseViewModel()
+                    {
+                        message = "Kullanıcı doğrulanamadı. 😞",
+                        responseModel = new Object(),
+                        statusCode = 400
+                    };
+                    }
+                    address.hood = model.hood;
+                    address.city = model.city;
+                    address.apartmentNo = model.apartmentNo;
+                    address.apartmentName= model.apartmentName;
+                    address.floor = model.floor;
+                    address.addressComplete = model.hood + " mah. " + model.apartmentName + " apt. d : " + model.apartmentNo + " kat : " + model.floor + " " + model.city.ToUpper();
+                    Address addressUpdated = addresRepository.update(address);
+                    return new ResponseViewModel()
+                    {
+                        message = "Adres başarıyla güncellendi. 🥰",
+                        responseModel = new AddressResponseModel()
+                        {
+                            addressComplete = addressUpdated.addressComplete,
+                            apartmentName = addressUpdated.apartmentName,
+                            city = addressUpdated.city,
+                            apartmentNo = addressUpdated.apartmentNo,
+                            floor = addressUpdated.floor,
+                            hood = addressUpdated.hood,
+                            user = user,
+                        },
+                        statusCode = 200
+                    };
+                }
+                else
+                {
+                    return new ResponseViewModel()
+                    {
+                        message = "Adres bulunamadı. 😞",
+                        responseModel = new Object(),
+                        statusCode = 400
+                    };
+                }
+            }
+            else
+            {
+
+                return new ResponseViewModel(){
+                    message = "Veri girilmedli. 😶",
+                    responseModel= new Object(),
+                    statusCode = 400
+                };
+            }
         }
 
 

@@ -1,4 +1,5 @@
 using AmazonClone.Application.ViewModels.AuthM;
+using AmazonClone.Application.ViewModels.CreditCartM;
 using AmazonClone.Application.ViewModels.ResponseM;
 using AmazonClone.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
@@ -7,9 +8,9 @@ namespace AmazonClone.Application.Interfaces
 {
     public interface ICreditCartService
     {
-        public ResponseViewModel getCreditCarts(Guid id);
-        public ResponseViewModel addCreditCart(RegisterModel model);
-        public ResponseViewModel updateCreditCart(LoginModel request);
-        public ResponseViewModel deleteCreditCart(RefreshTokenModel model);
+        public ResponseViewModel getCreditCarts(string authToken, Guid id);
+        public ResponseViewModel addCreditCart(string authToken, CreditCartAddModel model);
+        public ResponseViewModel updateCreditCart(string authToken, CreditCartUpdateModel model);
+        public ResponseViewModel deleteCreditCart(string authToken, Guid id);
     }
 }

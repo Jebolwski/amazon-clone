@@ -38,5 +38,13 @@ namespace AmazonClone.Controllers
             string authToken = HttpContext.Request.Headers["Authorization"];
             return AddressService.deleteAddress(authToken, id);
         }
+
+        [HttpPut("address/update"), Authorize(Roles = "Normal User,Admin")]
+        public ResponseViewModel update(AddressUpdateModel model)
+        {
+            string authToken = HttpContext.Request.Headers["Authorization"];
+
+            return AddressService.updateAddress(authToken, model);
+        }
     }
 }

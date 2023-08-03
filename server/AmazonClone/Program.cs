@@ -62,6 +62,7 @@ builder.Services.AddScoped<ICommentRepository, CommentRepository>();
 builder.Services.AddScoped<IAddressRepository, AddressRepository>();
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<ICreditCartRepository, CreditCartRepository>();
 
 builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<ICartProductService, CartProductService>();
@@ -74,6 +75,7 @@ builder.Services.AddScoped<ICommentService, CommentService>();
 builder.Services.AddScoped<IAddressService, AddressService>();
 builder.Services.AddScoped<IRoleService, RoleService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ICreditCartService, CreditCartService>();
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 
 var app = builder.Build();
