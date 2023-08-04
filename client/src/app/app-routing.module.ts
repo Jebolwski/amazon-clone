@@ -22,6 +22,8 @@ import { DeleteCommentComponent } from './components/delete-comment/delete-comme
 import { UpdateCommentComponent } from './components/update-comment/update-comment.component';
 import { CartComponent } from './components/cart/cart.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { AddressesComponent } from './components/addresses/addresses.component';
+import { CreditCartsComponent } from './components/credit-carts/credit-carts.component';
 
 const routes: Routes = [
   {
@@ -135,6 +137,16 @@ const routes: Routes = [
     path: 'profile/:id',
     component: ProfileComponent,
     title: 'Profil',
+  },
+  {
+    path: 'addresses',
+    component: AddressesComponent,
+    title: 'Adresler',
+  },
+  {
+    path: 'credit-carts',
+    component: CreditCartsComponent,
+    title: 'Kredi Kartları',
   },
 ];
 

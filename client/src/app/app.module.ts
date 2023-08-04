@@ -28,6 +28,8 @@ import { DeleteCommentComponent } from './components/delete-comment/delete-comme
 import { UpdateCommentComponent } from './components/update-comment/update-comment.component';
 import { CartComponent } from './components/cart/cart.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { CreditCartsComponent } from './components/credit-carts/credit-carts.component';
+import { AddressesComponent } from './components/addresses/addresses.component';
 
 register();
 @NgModule({
@@ -55,6 +57,8 @@ register();
     UpdateCommentComponent,
     CartComponent,
     ProfileComponent,
+    CreditCartsComponent,
+    AddressesComponent,
   ],
   imports: [
     BrowserModule,

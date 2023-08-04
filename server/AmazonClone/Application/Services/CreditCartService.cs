@@ -145,33 +145,14 @@ namespace AmazonClone.Application.Services
                         statusCode = 400
                     };
                 }
-                CreditCart creditCart = creditCartRepository.get(id);
-                if (creditCart.userId == id)
+                List<CreditCart> creditCarts = creditCartRepository.getCartsByUserId(id);
+                return new ResponseViewModel()
                 {
-                    return new ResponseViewModel()
-                    {
-                        responseModel = new CreditCartResponseModel()
-                        {
-                            cartNumber = creditCart.cartNumber,
-                            cvvNumber = creditCart.cvvNumber,
-                            expDate = creditCart.expDate,
-                            nameSurname = creditCart.nameSurname,
-                            user = user,
-                            id = id,
-                        },
-                        message = "Başarıyla getirildi. 🥰",
-                        statusCode = 200
-                    };
-                }
-                else
-                {
-                    return new ResponseViewModel()
-                    {
-                        responseModel = new Object(),
-                        statusCode = 400,
-                        message = "Kart size ait değil. 😶"
-                    };
-                }
+                    responseModel = creditCarts,
+                    message = "Başarıyla getirildi. 🥰",
+                    statusCode = 200
+                };
+                
             }
             else
             {

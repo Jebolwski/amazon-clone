@@ -1,0 +1,14 @@
+<app-header></app-header>
+<div class="p-3 bg-stone-200">
+  <h3 class="text-xl font-semibold">Kayıtlı Adresleriniz</h3>
+  <div class="flex items-center gap-2 mt-3">
+    <div *ngFor="let address of addresses">
+      <div
+        class="bg-stone-100 shadow-md hover:shadow-lg duration-200 cursor-pointer rounded-md border border-stone-300 px-3 py-1"
+      >
+        {{ address.apartmentName }} apt., {{ address.hood }}, {{ address.city }}
+      </div>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>

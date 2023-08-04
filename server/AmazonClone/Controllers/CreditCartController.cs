@@ -1,18 +1,14 @@
 ﻿using AmazonClone.Application.Interfaces;
 using AmazonClone.Application.ViewModels.CreditCartM;
 using AmazonClone.Application.ViewModels.ResponseM;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Web.Http;
-using HttpDeleteAttribute = Microsoft.AspNetCore.Mvc.HttpDeleteAttribute;
-using HttpGetAttribute = Microsoft.AspNetCore.Mvc.HttpGetAttribute;
-using HttpPostAttribute = Microsoft.AspNetCore.Mvc.HttpPostAttribute;
-using HttpPutAttribute = Microsoft.AspNetCore.Mvc.HttpPutAttribute;
 
 namespace AmazonClone.Controllers
 {
-    [System.Web.Http.Route("api/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
-    public class CreditCartController : Controller
+    public class CreditCartController : ControllerBase
     {
         private readonly ICreditCartService CreditCartService;
 

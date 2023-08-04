@@ -10,6 +10,10 @@ namespace AmazonClone.Data.Repositories
         {
         }
 
+        public List<CreditCart> getCartsByUserId(Guid id) {
+            return dbset.Where(p => p.userId == id).ToList();
+        }
+
 
     }
 }
