@@ -1,11 +1,26 @@
 <app-header></app-header>
 <div class="p-3 bg-stone-200">
   <h3 class="text-xl font-semibold">Kayıtlı Kredi Kartlarınız</h3>
+  <div
+    routerLink="/add-category"
+    class="font-light inline-block my-3 hover:text-yellow-500 text-yellow-700 cursor-pointer"
+  >
+    <i class="fa-solid fa-certificate fa-sm"></i>
+    Yeni kredi kartı ekle
+  </div>
   <div class="flex items-center gap-2 mt-3">
-    <div *ngFor="let carts of creditCarts">
-      <div
-        class="bg-stone-100 shadow-md hover:shadow-lg duration-200 cursor-pointer rounded-md border border-stone-300 px-3 py-1"
-      ></div>
+    <div *ngIf="creditCarts.length > 0">
+      <div *ngFor="let carts of creditCarts">
+        <div
+          class="bg-stone-100 shadow-md hover:shadow-lg duration-200 cursor-pointer rounded-md border border-stone-300 px-3 py-1"
+        >
+          mesi
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <h2>Kayıtlı kredi kartınız yok. 😥</h2>
     </div>
   </div>
 </div>

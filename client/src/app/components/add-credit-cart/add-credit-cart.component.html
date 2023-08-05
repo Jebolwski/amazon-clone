@@ -1,0 +1,76 @@
+<app-header></app-header>
+<div class="p-3 bg-stone-200">
+  <div class="flex justify-center">
+    <div class="bg-white shadow-md rounded-md p-3 lg:w-1/2 w-11/12">
+      <!-- Şehir -->
+      <div>
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-hashtag"></i>
+          <p class="font-semibold">Ad Soyad</p>
+        </div>
+        <input
+          type="text"
+          formControlName="description"
+          placeholder="Ali Güner"
+          class="p-2 mb-3 outline-none border shadow-md border-stone-200 rounded-md my-1 flex-1 w-full"
+        />
+      </div>
+      <!-- Mahalle -->
+      <div>
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-credit-card"></i>
+          <p class="font-semibold">Kart Numarası</p>
+        </div>
+        <input
+          type="text"
+          formControlName="description"
+          placeholder="4568 6548 6548 2138"
+          class="p-2 mb-3 outline-none border shadow-md border-stone-200 rounded-md my-1 flex-1 w-full"
+        />
+      </div>
+      <!-- Apt Adı -->
+      <div>
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-building"></i>
+          <p class="font-semibold">CCV Numarası</p>
+        </div>
+        <input
+          type="text"
+          formControlName="description"
+          placeholder="457"
+          class="p-2 mb-3 outline-none border shadow-md border-stone-200 rounded-md my-1 flex-1 w-full"
+        />
+      </div>
+      <!-- Bina No -->
+      <div>
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-calendar-days"></i>
+          <p class="font-semibold">Tarih</p>
+        </div>
+        <div class="flex gap-3 items-center w-1/2">
+          <input
+            type="number"
+            max="12"
+            min="1"
+            formControlName="description"
+            class="p-2 mb-3 outline-none border shadow-md border-stone-200 rounded-md my-1 flex-1 w-full"
+          /><input
+            type="number"
+            max="35"
+            min="23"
+            formControlName="description"
+            class="p-2 mb-3 outline-none border shadow-md border-stone-200 rounded-md my-1 flex-1 w-full"
+          />
+        </div>
+      </div>
+      <!-- Kat -->
+
+      <button
+        class="bg-[#febd69] p-1 rounded-md font-semibold border border-[#dea466] shadow-md w-full"
+      >
+        Kredi Kartı Ekle
+      </button>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>

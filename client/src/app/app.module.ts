@@ -30,6 +30,8 @@ import { CartComponent } from './components/cart/cart.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { CreditCartsComponent } from './components/credit-carts/credit-carts.component';
 import { AddressesComponent } from './components/addresses/addresses.component';
+import { AddAddressComponent } from './components/add-address/add-address.component';
+import { AddCreditCartComponent } from './components/add-credit-cart/add-credit-cart.component';
 
 register();
 @NgModule({
@@ -59,6 +61,8 @@ register();
     ProfileComponent,
     CreditCartsComponent,
     AddressesComponent,
+    AddAddressComponent,
+    AddCreditCartComponent,
   ],
   imports: [
     BrowserModule,

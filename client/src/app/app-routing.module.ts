@@ -24,6 +24,8 @@ import { CartComponent } from './components/cart/cart.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { AddressesComponent } from './components/addresses/addresses.component';
 import { CreditCartsComponent } from './components/credit-carts/credit-carts.component';
+import { AddCreditCartComponent } from './components/add-credit-cart/add-credit-cart.component';
+import { AddAddressComponent } from './components/add-address/add-address.component';
 
 const routes: Routes = [
   {
@@ -147,6 +149,16 @@ const routes: Routes = [
     path: 'credit-carts',
     component: CreditCartsComponent,
     title: 'Kredi Kartları',
+  },
+  {
+    path: 'add-credit-cart',
+    component: AddCreditCartComponent,
+    title: 'Kredi Kartı ekle',
+  },
+  {
+    path: 'add-address',
+    component: AddAddressComponent,
+    title: 'Kredi Adres ekle',
   },
 ];
 
