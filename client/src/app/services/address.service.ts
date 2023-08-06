@@ -39,4 +39,26 @@ export class AddressService {
         })
       );
   }
+
+  addAddress(data: any) {
+    return this.http
+      .post(this.baseApiUrl + 'Address/address/add', data, {
+        headers: new HttpHeaders().append(
+          'Authorization',
+          `Bearer ${localStorage.getItem('accessToken')}`
+        ),
+      })
+      .pipe(
+        map((response: any) => {
+          let res: Response = response;
+          console.log(res);
+          if (res.statusCode === 200) {
+            return res.responseModel;
+            this.notyf.success(res.message);
+          } else {
+            this.notyf.error(res.message);
+          }
+        })
+      );
+  }
 }
