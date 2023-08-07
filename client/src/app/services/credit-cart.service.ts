@@ -41,4 +41,27 @@ export class CreditCartService {
         })
       );
   }
+
+  addCreditCart(data: any) {
+    return this.http
+      .post(this.baseApiUrl + 'CreditCart/creditCart/add', data, {
+        headers: new HttpHeaders().append(
+          'Authorization',
+          `Bearer ${localStorage.getItem('accessToken')}`
+        ),
+      })
+      .pipe(
+        map((response: any) => {
+          let res: Response = response;
+          console.log(res);
+          if (res.statusCode === 200) {
+            this.notyf.success(res.message);
+            this.router.navigate(['/credit-carts']);
+            return res.responseModel;
+          } else {
+            this.notyf.error(res.message);
+          }
+        })
+      );
+  }
 }

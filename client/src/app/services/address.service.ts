@@ -53,8 +53,9 @@ export class AddressService {
           let res: Response = response;
           console.log(res);
           if (res.statusCode === 200) {
-            return res.responseModel;
             this.notyf.success(res.message);
+            this.router.navigate(['/addresses']);
+            return res.responseModel;
           } else {
             this.notyf.error(res.message);
           }

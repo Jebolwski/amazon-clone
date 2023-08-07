@@ -1,6 +1,6 @@
 <app-header></app-header>
 <div class="p-3 bg-stone-200">
-  <form class="flex justify-center" formGroupName="addAddressForm">
+  <form class="flex justify-center" [formGroup]="addAddressForm">
     <div class="bg-white shadow-md rounded-md p-3 lg:w-1/2 w-11/12">
       <!-- Şehir -->
       <div>
@@ -68,7 +68,7 @@
         />
       </div>
       <button
-        onclick="submitForm($event)"
+        (click)="submitForm()"
         class="bg-[#febd69] p-1 rounded-md font-semibold border border-[#dea466] shadow-md w-full"
       >
         Adres Ekle

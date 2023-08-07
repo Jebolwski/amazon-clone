@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Notyf } from 'notyf';
 import { AddressService } from 'src/app/services/address.service';
 
 @Component({
@@ -8,8 +9,9 @@ import { AddressService } from 'src/app/services/address.service';
   styleUrls: ['./add-address.component.scss'],
 })
 export class AddAddressComponent {
+  notyf: Notyf = new Notyf();
   constructor(private addressService: AddressService) {}
-  public addAddressForm: FormGroup = new FormGroup({
+  addAddressForm: FormGroup = new FormGroup({
     city: new FormControl('', [
       Validators.required,
       Validators.minLength(3),
@@ -33,8 +35,8 @@ export class AddAddressComponent {
     floor: new FormControl('', [Validators.required, Validators.maxLength(2)]),
   });
 
-  submitForm(event: any) {
-    event.preventDefault();
+  submitForm() {
+    console.log('mesi');
     if (
       !this.city?.errors &&
       !this.hood?.errors &&
@@ -42,7 +44,21 @@ export class AddAddressComponent {
       !this.apartmentName?.errors &&
       !this.floor?.errors
     ) {
-      this.addressService.addAddress(this.addAddressForm.value);
+      this.addressService
+        .addAddress(this.addAddressForm.value)
+        .subscribe((res: any) => {});
+    } else {
+      console.log(
+        !this.city?.errors,
+        !this.hood?.errors,
+        !this.apartmentNo?.errors,
+        !this.apartmentName?.errors,
+        !this.floor?.errors
+      );
+
+      if (this.addAddressForm.errors) {
+        this.notyf.error(this.addAddressForm.errors[0]?.message);
+      }
     }
   }
 
