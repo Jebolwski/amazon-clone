@@ -11,6 +11,7 @@
   <div class="flex items-center gap-2 mt-3" *ngIf="addresses.length > 0">
     <div *ngFor="let address of addresses">
       <div
+        [routerLink]="'/address/' + address.id"
         class="bg-stone-100 shadow-md hover:shadow-lg duration-200 cursor-pointer rounded-md border border-stone-300 px-3 py-1"
       >
         {{ address.apartmentName }} apt., {{ address.hood }}, {{ address.city }}

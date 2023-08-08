@@ -12,5 +12,6 @@ namespace AmazonClone.Application.Interfaces
         public ResponseViewModel addAddress(string authToken, AddressAddModel model);
         public ResponseViewModel deleteAddress(string authToken, Guid id);
         public ResponseViewModel updateAddress(string authToken, AddressUpdateModel model);
+        public ResponseViewModel getAddressById(string authToken, Guid id);
     }
 }

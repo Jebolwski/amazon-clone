@@ -28,7 +28,7 @@ namespace AmazonClone.Application.Services
             this.userService = userService;
         }
 
-        public ResponseViewModel addCreditCart(string authToken,CreditCartAddModel model)
+        public ResponseViewModel addCreditCart(string authToken, CreditCartAddModel model)
         {
             if (authToken != null)
             {
@@ -49,8 +49,8 @@ namespace AmazonClone.Application.Services
                 CreditCart cart = new CreditCart()
                 {
                     cartNumber = model.cartNumber,
-                    cvvNumber= model.cvvNumber,
-                    expDate= model.expDate,
+                    cvvNumber = model.cvvNumber,
+                    expDate = model.expDate,
                     nameSurname = model.nameSurname,
                     userId = user.id
                 };
@@ -60,10 +60,10 @@ namespace AmazonClone.Application.Services
                     message = "Kredi kartı başarıyla eklendi. 😍",
                     responseModel = new CreditCartResponseModel()
                     {
-                        user= user,
-                        nameSurname= cartCreated.nameSurname,
-                        expDate= cartCreated.expDate,
-                        cvvNumber= cartCreated.cvvNumber,
+                        user = user,
+                        nameSurname = cartCreated.nameSurname,
+                        expDate = cartCreated.expDate,
+                        cvvNumber = cartCreated.cvvNumber,
                         cartNumber = cartCreated.cartNumber
                     },
                     statusCode = 200
@@ -80,7 +80,7 @@ namespace AmazonClone.Application.Services
             }
         }
 
-        public ResponseViewModel deleteCreditCart(string authToken,Guid id)
+        public ResponseViewModel deleteCreditCart(string authToken, Guid id)
         {
             if (authToken != null)
             {
@@ -152,7 +152,7 @@ namespace AmazonClone.Application.Services
                     message = "Başarıyla getirildi. 🥰",
                     statusCode = 200
                 };
-                
+
             }
             else
             {
@@ -225,6 +225,59 @@ namespace AmazonClone.Application.Services
                 };
             }
         }
+
+        public ResponseViewModel getCreditCartById(string authToken, Guid id)
+        {
+            if (authToken != null)
+            {
+                authToken = authToken.Replace("Bearer ", string.Empty);
+                var stream = authToken;
+                var handler = new JwtSecurityTokenHandler();
+                JwtSecurityToken jsonToken = handler.ReadJwtToken(stream);
+                User user = userService.getUserByUsername(jsonToken.Claims.First().Value);
+                CreditCart creditCart = creditCartRepository.get(id);
+                if (user == null)
+                {
+                    return new ResponseViewModel()
+                    {
+                        message = "Kullanıcı doğrulanamadı. 😞",
+                        responseModel = new Object(),
+                        statusCode = 400
+                    };
+                }
+                if (creditCart.userId == user.id)
+                {
+
+                    return new ResponseViewModel()
+                    {
+                        responseModel = creditCart,
+                        message = "Başarıyla getirildi. 🥰",
+                        statusCode = 200
+                    };
+                }
+                else
+                {
+
+                    return new ResponseViewModel()
+                    {
+                        message = "Kullanıcı doğrulanamadı. 😞",
+                        responseModel = new Object(),
+                        statusCode = 400
+                    };
+                }
+
+            }
+            else
+            {
+                return new ResponseViewModel()
+                {
+                    message = "Kullanıcı doğrulanamadı. 😞",
+                    responseModel = new Object(),
+                    statusCode = 400
+                };
+            }
+        }
+
     }
 }
 

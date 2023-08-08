@@ -26,6 +26,8 @@ import { AddressesComponent } from './components/addresses/addresses.component';
 import { CreditCartsComponent } from './components/credit-carts/credit-carts.component';
 import { AddCreditCartComponent } from './components/add-credit-cart/add-credit-cart.component';
 import { AddAddressComponent } from './components/add-address/add-address.component';
+import { AddressDetailComponent } from './components/address-detail/address-detail.component';
+import { CreditCartDetailComponent } from './components/credit-cart-detail/credit-cart-detail.component';
 
 const routes: Routes = [
   {
@@ -159,6 +161,16 @@ const routes: Routes = [
     path: 'add-address',
     component: AddAddressComponent,
     title: 'Kredi Adres ekle',
+  },
+  {
+    path: 'address/:id',
+    component: AddressDetailComponent,
+    title: 'Adres Detayı',
+  },
+  {
+    path: 'credit-cart/:id',
+    component: CreditCartDetailComponent,
+    title: 'Adres Detayı',
   },
 ];
 

@@ -30,7 +30,26 @@ export class AddressService {
       .pipe(
         map((response: any) => {
           let res: Response = response;
-          console.log(res);
+          if (res.statusCode === 200) {
+            return res.responseModel;
+          } else {
+            this.notyf.error(res.message);
+          }
+        })
+      );
+  }
+
+  getById(id: string) {
+    return this.http
+      .get(this.baseApiUrl + 'Address/address-by-id/' + id, {
+        headers: new HttpHeaders().append(
+          'Authorization',
+          `Bearer ${localStorage.getItem('accessToken')}`
+        ),
+      })
+      .pipe(
+        map((response: any) => {
+          let res: Response = response;
           if (res.statusCode === 200) {
             return res.responseModel;
           } else {

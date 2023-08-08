@@ -45,5 +45,13 @@ namespace AmazonClone.Controllers
 
             return CreditCartService.updateCreditCart(authToken, model);
         }
+        [HttpGet("creditCart-by-id/{id}"), Authorize(Roles = "Normal User,Admin")]
+        public ResponseViewModel getById(Guid id)
+        {
+            string authToken = HttpContext.Request.Headers["Authorization"];
+
+            return CreditCartService.getCreditCartById(authToken, id);
+        }
+
     }
 }

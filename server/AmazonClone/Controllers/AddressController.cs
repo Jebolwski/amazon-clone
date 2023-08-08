@@ -46,5 +46,13 @@ namespace AmazonClone.Controllers
 
             return AddressService.updateAddress(authToken, model);
         }
+
+        [HttpGet("address-by-id/{id}"), Authorize(Roles = "Normal User,Admin")]
+        public ResponseViewModel get(Guid id)
+        {
+            string authToken = HttpContext.Request.Headers["Authorization"];
+
+            return AddressService.getAddressById(authToken, id);
+        }
     }
 }

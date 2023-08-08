@@ -8,20 +8,19 @@
     <i class="fa-solid fa-certificate fa-sm"></i>
     Yeni kredi kartı ekle
   </div>
-  <div class="flex items-center gap-2 mt-3">
-    <div *ngIf="creditCarts.length > 0">
-      <div *ngFor="let carts of creditCarts">
-        <div
-          class="bg-stone-100 shadow-md hover:shadow-lg duration-200 cursor-pointer rounded-md border border-stone-300 px-3 py-1"
-        >
-          mesi
-        </div>
+  <div *ngIf="creditCarts.length > 0" class="flex items-center gap-2 mt-3">
+    <div *ngFor="let cart of creditCarts">
+      <div
+        [routerLink]="'/credit-cart/' + cart.id"
+        class="bg-stone-100 shadow-md hover:shadow-lg duration-200 cursor-pointer rounded-md border border-stone-300 px-3 py-1"
+      >
+        {{ cart.nameSurname }}
       </div>
     </div>
+  </div>
 
-    <div *ngIf="creditCarts.length == 0">
-      <h2>Kayıtlı kredi kartınız yok. 😥</h2>
-    </div>
+  <div *ngIf="creditCarts.length == 0">
+    <h2>Kayıtlı kredi kartınız yok. 😥</h2>
   </div>
 </div>
 <app-footer></app-footer>

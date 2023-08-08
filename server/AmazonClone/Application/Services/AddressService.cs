@@ -30,7 +30,8 @@ namespace AmazonClone.Application.Services
                 var handler = new JwtSecurityTokenHandler();
                 JwtSecurityToken jsonToken = handler.ReadJwtToken(stream);
                 User user = userService.getUserByUsername(jsonToken.Claims.First().Value);
-                if (user == null) {
+                if (user == null)
+                {
                     return new ResponseViewModel()
                     {
                         message = "Kullanıcı doğrulanamadı. 😞",
@@ -46,25 +47,25 @@ namespace AmazonClone.Application.Services
                     floor = model.floor,
                     hood = model.hood,
                     userId = user.id,
-                    addressComplete = model.hood+" mah. " + model.apartmentName + " apt. d : "+model.apartmentNo +" kat : "+model.floor+" "+model.city.ToUpper() 
+                    addressComplete = model.hood + " mah. " + model.apartmentName + " apt. d : " + model.apartmentNo + " kat : " + model.floor + " " + model.city.ToUpper()
                 };
                 Address addressCreated = addresRepository.add(address);
                 return new ResponseViewModel()
                 {
                     message = "Adres başarıyla eklendi. 😍",
-                    responseModel= new AddressResponseModel()
+                    responseModel = new AddressResponseModel()
                     {
                         addressComplete = addressCreated.addressComplete,
-                        apartmentName= addressCreated.apartmentName,
-                        city= addressCreated.city,
-                        apartmentNo= addressCreated.apartmentNo,
-                        floor= addressCreated.floor,
-                        hood= addressCreated.hood,
-                        user= user,
+                        apartmentName = addressCreated.apartmentName,
+                        city = addressCreated.city,
+                        apartmentNo = addressCreated.apartmentNo,
+                        floor = addressCreated.floor,
+                        hood = addressCreated.hood,
+                        user = user,
                     },
-                    statusCode=200
+                    statusCode = 200
                 };
-                
+
             }
             else
             {
@@ -108,7 +109,7 @@ namespace AmazonClone.Application.Services
                 }
                 if (address.userId == user.id)
                 {
-                    addresRepository.delete(id); 
+                    addresRepository.delete(id);
                     return new ResponseViewModel()
                     {
                         message = "Başarıyla silindi. 🥰",
@@ -162,9 +163,7 @@ namespace AmazonClone.Application.Services
                     };
                 }
                 List<Address> addresses = addresRepository.GetAddressesByUserId(id);
-                Console.WriteLine(addresses.Count);
-                Console.WriteLine(addresses.Any());
-                if (addAddress != null)
+                if (addresses != null)
                 {
                     return new ResponseViewModel()
                     {
@@ -195,7 +194,67 @@ namespace AmazonClone.Application.Services
 
         }
 
-        public ResponseViewModel updateAddress(string authToken,AddressUpdateModel model)
+        public ResponseViewModel getAddressById(string authToken, Guid id)
+        {
+            if (authToken != null)
+            {
+                authToken = authToken.Replace("Bearer ", string.Empty);
+                var stream = authToken;
+                var handler = new JwtSecurityTokenHandler();
+                JwtSecurityToken jsonToken = handler.ReadJwtToken(stream);
+                User user = userService.getUserByUsername(jsonToken.Claims.First().Value);
+                if (user == null)
+                {
+                    return new ResponseViewModel()
+                    {
+                        message = "Kullanıcı doğrulanamadı. 😞",
+                        responseModel = new Object(),
+                        statusCode = 400
+                    };
+                }
+
+                Address address = addresRepository.get(id);
+                if (user.id != address.userId)
+                {
+                    return new ResponseViewModel()
+                    {
+                        message = "Kullanıcı doğrulanamadı. 😞",
+                        responseModel = new Object(),
+                        statusCode = 400
+                    };
+                }
+                if (address != null)
+                {
+                    return new ResponseViewModel()
+                    {
+                        message = "Adres başarıyla getirildi. 🌝",
+                        responseModel = address,
+                        statusCode = 200
+                    };
+                }
+                else
+                {
+                    return new ResponseViewModel()
+                    {
+                        message = "Adresler getirilirken bir hata oluştu. 😞",
+                        responseModel = new Object(),
+                        statusCode = 400
+                    };
+                }
+            }
+            else
+            {
+                return new ResponseViewModel()
+                {
+                    statusCode = 400,
+                    message = "Token girilmedi. 😒",
+                    responseModel = new Object(),
+                };
+            }
+
+        }
+
+        public ResponseViewModel updateAddress(string authToken, AddressUpdateModel model)
         {
             if (model != null)
             {
@@ -220,16 +279,16 @@ namespace AmazonClone.Application.Services
                     if (user.id != address.userId)
                     {
                         return new ResponseViewModel()
-                    {
-                        message = "Kullanıcı doğrulanamadı. 😞",
-                        responseModel = new Object(),
-                        statusCode = 400
-                    };
+                        {
+                            message = "Kullanıcı doğrulanamadı. 😞",
+                            responseModel = new Object(),
+                            statusCode = 400
+                        };
                     }
                     address.hood = model.hood;
                     address.city = model.city;
                     address.apartmentNo = model.apartmentNo;
-                    address.apartmentName= model.apartmentName;
+                    address.apartmentName = model.apartmentName;
                     address.floor = model.floor;
                     address.addressComplete = model.hood + " mah. " + model.apartmentName + " apt. d : " + model.apartmentNo + " kat : " + model.floor + " " + model.city.ToUpper();
                     Address addressUpdated = addresRepository.update(address);
@@ -262,9 +321,10 @@ namespace AmazonClone.Application.Services
             else
             {
 
-                return new ResponseViewModel(){
+                return new ResponseViewModel()
+                {
                     message = "Veri girilmedli. 😶",
-                    responseModel= new Object(),
+                    responseModel = new Object(),
                     statusCode = 400
                 };
             }
