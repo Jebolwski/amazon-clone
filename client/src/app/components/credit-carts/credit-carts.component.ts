@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthService } from 'src/app/services/auth.service';
 import { CreditCartService } from 'src/app/services/credit-cart.service';
 
 @Component({
@@ -8,7 +9,10 @@ import { CreditCartService } from 'src/app/services/credit-cart.service';
 })
 export class CreditCartsComponent {
   creditCarts: any[] = [];
-  constructor(private creditCartService: CreditCartService) {
+  constructor(
+    private creditCartService: CreditCartService,
+    public authService: AuthService
+  ) {
     this.creditCartService.getYourCreditCarts().subscribe((res) => {
       this.creditCarts = res;
     });

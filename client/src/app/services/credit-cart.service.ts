@@ -85,4 +85,26 @@ export class CreditCartService {
         })
       );
   }
+
+  deleteCreditCart(id: string) {
+    return this.http
+      .delete(this.baseApiUrl + 'CreditCart/creditCart/' + id + '/delete', {
+        headers: new HttpHeaders().append(
+          'Authorization',
+          `Bearer ${localStorage.getItem('accessToken')}`
+        ),
+      })
+      .pipe(
+        map((response: any) => {
+          let res: Response = response;
+          console.log(res);
+          if (res.statusCode === 200) {
+            this.notyf.success(res.message);
+            this.router.navigate(['/credit-carts']);
+          } else {
+            this.notyf.error(res.message);
+          }
+        })
+      );
+  }
 }

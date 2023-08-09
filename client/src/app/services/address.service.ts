@@ -81,4 +81,27 @@ export class AddressService {
         })
       );
   }
+
+  deleteAddress(id: string) {
+    return this.http
+      .delete(this.baseApiUrl + 'Address/address/' + id + '/delete', {
+        headers: new HttpHeaders().append(
+          'Authorization',
+          `Bearer ${localStorage.getItem('accessToken')}`
+        ),
+      })
+      .pipe(
+        map((response: any) => {
+          let res: Response = response;
+          console.log(res);
+          if (res.statusCode === 200) {
+            this.notyf.success(res.message);
+            this.router.navigate(['/addresses']);
+            return res.responseModel;
+          } else {
+            this.notyf.error(res.message);
+          }
+        })
+      );
+  }
 }
