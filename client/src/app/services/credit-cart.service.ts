@@ -76,7 +76,6 @@ export class CreditCartService {
       .pipe(
         map((response: any) => {
           let res: Response = response;
-          console.log(res);
           if (res.statusCode === 200) {
             return res.responseModel;
           } else {
@@ -101,6 +100,28 @@ export class CreditCartService {
           if (res.statusCode === 200) {
             this.notyf.success(res.message);
             this.router.navigate(['/credit-carts']);
+          } else {
+            this.notyf.error(res.message);
+          }
+        })
+      );
+  }
+
+  updateCreditCart(data: any) {
+    return this.http
+      .put(this.baseApiUrl + 'CreditCart/creditCart/update', data, {
+        headers: new HttpHeaders().append(
+          'Authorization',
+          `Bearer ${localStorage.getItem('accessToken')}`
+        ),
+      })
+      .pipe(
+        map((response: any) => {
+          let res: Response = response;
+          if (res.statusCode === 200) {
+            this.notyf.success(res.message);
+            this.router.navigate(['/credit-carts']);
+            return res.responseModel;
           } else {
             this.notyf.error(res.message);
           }

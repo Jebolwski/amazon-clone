@@ -1,0 +1,80 @@
+<app-header></app-header>
+<div class="p-3 bg-stone-200">
+  <form [formGroup]="updateCreditCartForm" class="flex justify-center">
+    <div class="bg-white shadow-md rounded-md p-3 lg:w-1/2 w-11/12">
+      <!-- Ad Soyad -->
+      <div>
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-hashtag"></i>
+          <p class="font-semibold">Ad Soyad</p>
+        </div>
+        <input
+          type="text"
+          formControlName="nameSurname"
+          placeholder="Ali Güner"
+          class="p-2 mb-3 outline-none border shadow-md border-stone-200 rounded-md my-1 flex-1 w-full"
+        />
+      </div>
+      <!-- Kart Numarası -->
+      <div>
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-credit-card"></i>
+          <p class="font-semibold">Kart Numarası</p>
+        </div>
+        <input
+          type="text"
+          formControlName="cartNumber"
+          placeholder="4568 6548 6548 2138"
+          [defaultValue]="creditCart.cartNumber"
+          class="p-2 mb-3 outline-none border shadow-md border-stone-200 rounded-md my-1 flex-1 w-full"
+        />
+      </div>
+      <!-- CCV Numarası -->
+      <div>
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-building"></i>
+          <p class="font-semibold">CCV Numarası</p>
+        </div>
+        <input
+          type="text"
+          formControlName="cvvNumber"
+          placeholder="457"
+          [maxlength]="3"
+          [defaultValue]="creditCart.cvvNumber"
+          class="p-2 mb-3 outline-none border shadow-md border-stone-200 rounded-md my-1 flex-1 w-full"
+        />
+      </div>
+      <!-- Tarih -->
+      <div>
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-calendar-days"></i>
+          <p class="font-semibold">Tarih</p>
+        </div>
+        <div class="flex gap-3 items-center w-1/2">
+          <input
+            type="number"
+            max="12"
+            min="1"
+            placeholder="4"
+            formControlName="month"
+            class="p-2 mb-3 outline-none border shadow-md border-stone-200 rounded-md my-1 flex-1 w-full"
+          /><input
+            type="number"
+            max="35"
+            min="23"
+            placeholder="26"
+            formControlName="year"
+            class="p-2 mb-3 outline-none border shadow-md border-stone-200 rounded-md my-1 flex-1 w-full"
+          />
+        </div>
+      </div>
+      <button
+        (click)="submitIt()"
+        class="bg-[#febd69] p-1 rounded-md font-semibold border border-[#dea466] shadow-md w-full"
+      >
+        Kredi Kartını Güncelle
+      </button>
+    </div>
+  </form>
+</div>
+<app-footer></app-footer>

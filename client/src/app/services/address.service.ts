@@ -104,4 +104,26 @@ export class AddressService {
         })
       );
   }
+
+  updateAddress(data: any) {
+    return this.http
+      .put(this.baseApiUrl + 'Address/address/update', data, {
+        headers: new HttpHeaders().append(
+          'Authorization',
+          `Bearer ${localStorage.getItem('accessToken')}`
+        ),
+      })
+      .pipe(
+        map((response: any) => {
+          let res: Response = response;
+          if (res.statusCode === 200) {
+            this.notyf.success(res.message);
+            this.router.navigate(['/addresses']);
+            return res.responseModel;
+          } else {
+            this.notyf.error(res.message);
+          }
+        })
+      );
+  }
 }
