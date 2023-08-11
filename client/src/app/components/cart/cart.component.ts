@@ -8,7 +8,7 @@ import { CartService } from 'src/app/services/cart.service';
   styleUrls: ['./cart.component.scss'],
 })
 export class CartComponent {
-  id!: string;
+  public id!: string;
   constructor(public cartService: CartService, private route: ActivatedRoute) {
     this.id = this.route.snapshot.paramMap.get('id') || '0';
     cartService.getCartsProducts(this.id);

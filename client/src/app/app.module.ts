@@ -38,6 +38,7 @@ import { DeleteAddressComponent } from './components/delete-address/delete-addre
 import { DeleteCreditCartComponent } from './components/delete-credit-cart/delete-credit-cart.component';
 import { UpdateAddressComponent } from './components/update-address/update-address.component';
 import { UpdateCreditCartComponent } from './components/update-credit-cart/update-credit-cart.component';
+import { FinishBuyingCartComponent } from './components/finish-buying-cart/finish-buying-cart.component';
 
 register();
 @NgModule({
@@ -75,6 +76,7 @@ register();
     DeleteCreditCartComponent,
     UpdateAddressComponent,
     UpdateCreditCartComponent,
+    FinishBuyingCartComponent,
   ],
   imports: [
     BrowserModule,

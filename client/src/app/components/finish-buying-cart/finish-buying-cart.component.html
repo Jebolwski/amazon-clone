@@ -1,0 +1,18 @@
+<app-header></app-header>
+<div class="bg-stone-200 p-3">
+  <div class="bg-white rounded-md shadow-md p-2">
+    <div>
+      <h3 class="text-lg font-semibold">Adresler</h3>
+      <p class="text-sm font-light">İstediğin adresi seç</p>
+      <div class="flex items-start gap-3 flex-wrap">
+        <div *ngFor="let creditCart of creditCarts"></div>
+      </div>
+    </div>
+    <div class="mt-5">
+      <h3 class="text-lg font-semibold">Kredi Kartları</h3>
+      <p class="text-sm font-light">İstediğin kartı seç</p>
+      <div class="flex items-start gap-3"></div>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>

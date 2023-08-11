@@ -32,6 +32,7 @@ import { DeleteAddressComponent } from './components/delete-address/delete-addre
 import { DeleteCreditCartComponent } from './components/delete-credit-cart/delete-credit-cart.component';
 import { UpdateAddressComponent } from './components/update-address/update-address.component';
 import { UpdateCreditCartComponent } from './components/update-credit-cart/update-credit-cart.component';
+import { FinishBuyingCartComponent } from './components/finish-buying-cart/finish-buying-cart.component';
 
 const routes: Routes = [
   {
@@ -195,6 +196,11 @@ const routes: Routes = [
     path: 'credit-cart/:id/update',
     component: UpdateCreditCartComponent,
     title: 'Adresi sil',
+  },
+  {
+    path: 'cart/:id/finish',
+    component: FinishBuyingCartComponent,
+    title: 'Kartı Almayı Bitir',
   },
 ];
 
