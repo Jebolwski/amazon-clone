@@ -4,14 +4,38 @@
     <div>
       <h3 class="text-lg font-semibold">Adresler</h3>
       <p class="text-sm font-light">İstediğin adresi seç</p>
-      <div class="flex items-start gap-3 flex-wrap">
-        <div *ngFor="let creditCart of creditCarts"></div>
+      <div class="flex items-start gap-3 mt-2 addresses">
+        <div
+          *ngFor="let address of addresses"
+          (click)="pickAddress(address.id, $event)"
+          class="relative bg-stone-100 text-center shadow-md min-w-[70px] hover:shadow-lg duration-200 cursor-pointer rounded-md border border-stone-300 px-2 py-1"
+        >
+          {{ address.apartmentName }} apt., {{ address.hood }},
+          {{ address.city }}
+        </div>
       </div>
     </div>
     <div class="mt-5">
       <h3 class="text-lg font-semibold">Kredi Kartları</h3>
       <p class="text-sm font-light">İstediğin kartı seç</p>
-      <div class="flex items-start gap-3"></div>
+
+      <div class="flex items-start gap-3 flex-wrap mt-2 credit-carts">
+        <div
+          *ngFor="let creditCart of creditCarts"
+          (click)="pickCCart(creditCart.id, $event)"
+          class="relative bg-stone-100 text-center shadow-md min-w-[70px] hover:shadow-lg duration-200 cursor-pointer rounded-md border border-stone-300 px-2 py-1"
+        >
+          {{ creditCart.nameSurname }}
+        </div>
+      </div>
+    </div>
+    <div class="grid place-items-center w-full">
+      <div
+        class="bg-[#ffd814] rounded-md cursor-pointer shadow-md p-1 w-1/2 my-2 text-center py-2"
+        (click)="buyCart()"
+      >
+        Ödemeyi Tamamla
+      </div>
     </div>
   </div>
 </div>

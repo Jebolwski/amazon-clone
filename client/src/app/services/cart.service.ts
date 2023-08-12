@@ -132,7 +132,6 @@ export class CartService {
         let response: Response = res;
         if (response.statusCode === 200) {
           this.notyf.success(response.message);
-          this.router.navigate(['/']);
         } else {
           this.notyf.error(response.message);
         }

@@ -33,6 +33,7 @@ import { DeleteCreditCartComponent } from './components/delete-credit-cart/delet
 import { UpdateAddressComponent } from './components/update-address/update-address.component';
 import { UpdateCreditCartComponent } from './components/update-credit-cart/update-credit-cart.component';
 import { FinishBuyingCartComponent } from './components/finish-buying-cart/finish-buying-cart.component';
+import { SuccessfullyBoughtComponent } from './components/successfully-bought/successfully-bought.component';
 
 const routes: Routes = [
   {
@@ -151,56 +152,72 @@ const routes: Routes = [
     path: 'addresses',
     component: AddressesComponent,
     title: 'Adresler',
+    canActivate: [LoggedService],
   },
   {
     path: 'credit-carts',
     component: CreditCartsComponent,
     title: 'Kredi Kartları',
+    canActivate: [LoggedService],
   },
   {
     path: 'add-credit-cart',
     component: AddCreditCartComponent,
     title: 'Kredi Kartı ekle',
+    canActivate: [LoggedService],
   },
   {
     path: 'add-address',
     component: AddAddressComponent,
     title: 'Kredi Adres ekle',
+    canActivate: [LoggedService],
   },
   {
     path: 'address/:id',
     component: AddressDetailComponent,
     title: 'Adres Detayı',
+    canActivate: [LoggedService],
   },
   {
     path: 'credit-cart/:id',
     component: CreditCartDetailComponent,
     title: 'Adres Detayı',
+    canActivate: [LoggedService],
   },
   {
     path: 'credit-cart/:id/delete',
     component: DeleteCreditCartComponent,
     title: 'Kredi kartı sil',
+    canActivate: [LoggedService],
   },
   {
     path: 'address/:id/delete',
     component: DeleteAddressComponent,
     title: 'Adresi sil',
+    canActivate: [LoggedService],
   },
   {
     path: 'address/:id/update',
     component: UpdateAddressComponent,
-    title: 'Adresi sil',
+    title: 'Adresi Düzenle',
+    canActivate: [LoggedService],
   },
   {
     path: 'credit-cart/:id/update',
     component: UpdateCreditCartComponent,
-    title: 'Adresi sil',
+    title: 'Kredi Kartını Düzenle',
+    canActivate: [LoggedService],
   },
   {
     path: 'cart/:id/finish',
     component: FinishBuyingCartComponent,
     title: 'Kartı Almayı Bitir',
+  },
+  {
+    path: 'succesfully-bougth',
+    component: SuccessfullyBoughtComponent,
+    title: 'Başarıyla satın alındı',
+    canActivate: [LoggedService],
   },
 ];
 
