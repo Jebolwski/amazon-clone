@@ -93,8 +93,16 @@
       {{ cartService.cart.total }}
     </p>
     <button
+      *ngIf="cartService.cart?.products?.length! > 0"
       class="bg-[#ffd814] cursor-pointer rounded-md shadow-md p-1 text-sm w-full my-2"
       [routerLink]="'/cart/' + id + '/finish'"
+    >
+      Alışverişi Tamamla
+    </button>
+    <button
+      *ngIf="cartService.cart?.products?.length! == 0"
+      (click)="notyfCalis()"
+      class="bg-[#ffd814] cursor-pointer rounded-md shadow-md p-1 text-sm w-full my-2"
     >
       Alışverişi Tamamla
     </button>
