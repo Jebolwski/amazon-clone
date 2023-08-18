@@ -4,7 +4,6 @@ using AmazonClone.Application.ViewModels.CommentM;
 using AmazonClone.Application.ViewModels.CommentPhotoM;
 using AmazonClone.Application.ViewModels.ResponseM;
 using AmazonClone.Domain.Entities;
-using AmazonClone.Migrations;
 
 namespace AmazonClone.Application.Interfaces
 {
