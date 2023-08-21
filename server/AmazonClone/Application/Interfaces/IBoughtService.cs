@@ -5,5 +5,6 @@ namespace AmazonClone.Application.Interfaces
     public interface IBoughtService
     {
         public ResponseViewModel addBought(string authToken);
+        public ResponseViewModel getBoughts(string authToken);
     }
 }

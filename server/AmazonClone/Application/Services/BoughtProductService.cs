@@ -35,5 +35,16 @@ namespace AmazonClone.Application.Services
                 statusCode = 200
             };
         }
+
+        public ResponseViewModel ProductsByBoughtId(Guid id)
+        {
+            List<ViewModels.ProductM.ProductResponseModel> productResponseModels = boughtProductRespository.getProductsByBoughtId(id);
+            return new ResponseViewModel()
+            {
+                message = "Başarıyla getirildi. 🌝",
+                statusCode = 200,
+                responseModel = productResponseModels,
+            };
+        }
     }
 }

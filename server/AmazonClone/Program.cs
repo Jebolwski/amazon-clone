@@ -63,6 +63,8 @@ builder.Services.AddScoped<IAddressRepository, AddressRepository>();
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ICreditCartRepository, CreditCartRepository>();
+builder.Services.AddScoped<IBoughtRepository, BoughtRepository>();
+builder.Services.AddScoped<IBoughtProductRespository, BoughtProductRepository>();
 
 builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<ICartProductService, CartProductService>();
@@ -77,6 +79,8 @@ builder.Services.AddScoped<IRoleService, RoleService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ICreditCartService, CreditCartService>();
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+builder.Services.AddScoped<IBoughtService, BoughtService>();
+builder.Services.AddScoped<IBoughtProductService, BoughtProductService>();
 
 var app = builder.Build();
 

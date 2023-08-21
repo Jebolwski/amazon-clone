@@ -6,5 +6,6 @@ namespace AmazonClone.Application.Interfaces
     public interface IBoughtProductService
     {
         public ResponseViewModel addBoughtProduct(BoughtProductAddModel model);
+        public ResponseViewModel ProductsByBoughtId(Guid id);
     }
 }
