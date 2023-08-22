@@ -12,7 +12,7 @@ namespace AmazonClone.Data.Repositories
 
         public bool checkIfThereIs(Guid userId)
         {
-            List<Bought> boughts = dbset.Where(p=>p.userId== userId).ToList();
+            List<Bought> boughts = dbset.Where(p => p.userId == userId).ToList();
             return boughts.Any();
         }
 
@@ -29,12 +29,12 @@ namespace AmazonClone.Data.Repositories
             }
         }
 
-        public Bought getAllByUserId(Guid userId)
+        public List<Bought> getAllByUserId(Guid userId)
         {
             List<Bought> boughts = dbset.Where(p => p.userId == userId).ToList();
             if (boughts.Any())
             {
-                return boughts[0];
+                return boughts;
             }
             else
             {

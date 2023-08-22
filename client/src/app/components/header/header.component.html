@@ -54,7 +54,10 @@
       </a>
     </div>
     <!-- İadeler -->
-    <div class="text-white md:block hidden" (click)="auth.logout()">
+    <div
+      class="text-white md:block hidden cursor-pointer"
+      routerLink="/boughts"
+    >
       <p class="text-sm">İadeler</p>
       <label class="font-semibold">ve Siparişler</label>
     </div>
@@ -134,7 +137,7 @@
     <div routerLink="/add-product">Oyuncaklar ve Oyunlar</div>
     <div routerLink="/all-categories">Günün Fırsatları</div>
     <div>Moda</div>
-    <div>Spor ve Açık Hava Aktiviteleri</div>
+    <div (click)="auth.logout()">Spor ve Açık Hava Aktiviteleri</div>
   </div>
   <div>
     <img

@@ -6,5 +6,6 @@ namespace AmazonClone.Application.Interfaces
     {
         public ResponseViewModel addBought(string authToken);
         public ResponseViewModel getBoughts(string authToken);
+        public ResponseViewModel deleteBoughts(string authToken, Guid id);
     }
 }

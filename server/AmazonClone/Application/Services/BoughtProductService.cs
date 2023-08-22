@@ -46,5 +46,30 @@ namespace AmazonClone.Application.Services
                 responseModel = productResponseModels,
             };
         }
+
+
+        public ResponseViewModel deleteByBoughtId(Guid id)
+        {
+            bool v = boughtProductRespository.deleteProductsByBoughtId(id);
+            if (v)
+            {
+                return new ResponseViewModel()
+                {
+                    message = "Başarıyla silindi. 🌝",
+                    statusCode = 200,
+                    responseModel = new object(),
+                };
+            }
+            else
+            {
+                return new ResponseViewModel()
+                {
+                    message = "Başarıyla silinemedi. 😒",
+                    statusCode = 400,
+                    responseModel = new object(),
+                };
+            }
+        }
+
     }
 }

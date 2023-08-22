@@ -16,18 +16,25 @@ namespace AmazonClone.Controllers
             this.boughtService = boughtService;
         }
 
-        [HttpPost, Authorize(Roles = "Normal User,Admin")]
+        [HttpPost("add-bought"), Authorize(Roles = "Normal User,Admin")]
         public ResponseViewModel addBought()
         {
             string authToken = HttpContext.Request.Headers["Authorization"];
             return boughtService.addBought(authToken);
         }
 
-        [HttpGet, Authorize(Roles = "Normal User,Admin")]
+        [HttpGet("all-bought"), Authorize(Roles = "Normal User,Admin")]
         public ResponseViewModel getBoughts()
         {
             string authToken = HttpContext.Request.Headers["Authorization"];
             return boughtService.getBoughts(authToken);
+        }
+
+        [HttpDelete("delete-bought/{id}"), Authorize(Roles = "Normal User,Admin")]
+        public ResponseViewModel getBoughts(Guid id)
+        {
+            string authToken = HttpContext.Request.Headers["Authorization"];
+            return boughtService.deleteBoughts(authToken, id);
         }
     }
 }

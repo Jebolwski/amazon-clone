@@ -6,5 +6,6 @@ namespace AmazonClone.Domain.Interfaces
     public interface IBoughtProductRespository : IRepository<BoughtProduct>
     {
         public List<ProductResponseModel> getProductsByBoughtId(Guid id);
+        public bool deleteProductsByBoughtId(Guid id);
     }
 }

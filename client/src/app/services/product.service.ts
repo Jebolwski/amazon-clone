@@ -5,7 +5,7 @@ import { Product, ProductCategory } from '../interfaces/product';
 import { AuthService } from './auth.service';
 import { Response } from '../interfaces/response';
 import { Notyf } from 'notyf';
-import { async, map } from 'rxjs';
+import { map } from 'rxjs';
 import { UpdateProduct } from '../interfaces/updateProduct';
 import { Location } from '@angular/common';
 

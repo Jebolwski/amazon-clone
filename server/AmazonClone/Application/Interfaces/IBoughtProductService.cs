@@ -7,5 +7,6 @@ namespace AmazonClone.Application.Interfaces
     {
         public ResponseViewModel addBoughtProduct(BoughtProductAddModel model);
         public ResponseViewModel ProductsByBoughtId(Guid id);
+        public ResponseViewModel deleteByBoughtId(Guid id);
     }
 }

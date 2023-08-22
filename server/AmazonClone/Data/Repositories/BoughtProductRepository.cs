@@ -23,6 +23,26 @@ namespace AmazonClone.Data.Repositories
             this.productProductCategoryService = productProductCategoryService;
         }
 
+        public bool deleteProductsByBoughtId(Guid id)
+        {
+            List<BoughtProduct> boughtProducts = dbset.Where(p => p.boughtId == id).ToList();
+            if (boughtProducts != null)
+            {
+                DeleteItems(boughtProducts);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool DeleteItems(List<BoughtProduct> items)
+        {
+            dbset.RemoveRange(items);
+            db.SaveChanges();
+            return true;
+        }
 
         public List<ProductResponseModel> getProductsByBoughtId(Guid id)
         {
@@ -56,19 +76,21 @@ namespace AmazonClone.Data.Repositories
                         });
                     }
 
-                    commentResponseModel.Add(new CommentResponseModel() { 
+                    commentResponseModel.Add(new CommentResponseModel()
+                    {
                         comment = comment1.comment,
                         id = comment1.id,
-                        productId= comment1.productId,
-                        stars= comment1.stars,
-                        title= comment1.title,
+                        productId = comment1.productId,
+                        stars = comment1.stars,
+                        title = comment1.title,
                         user = null,
                         commentPhotos = commentPhotos,
                     });
                 }
                 ICollection<ProductCategoryResponseModel> productCategories = (HashSet<ProductCategoryResponseModel>)productProductCategoryService
                     .getProductCategoriesByProductId(id).responseModel;
-                liste.Add(new ProductResponseModel (){ 
+                liste.Add(new ProductResponseModel()
+                {
                     description = product.description,
                     photos = productPhotoModels,
                     comments = commentResponseModel,

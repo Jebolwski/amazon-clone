@@ -45,19 +45,11 @@ namespace AmazonClone.Application.Services
                 };
             }
             ResponseViewModel responseViewModel = cartService.getCart(authToken);
-            Bought boughtCreated = new Bought();
-            if (!boughtRepository.checkIfThereIs(user.id))
+            Bought boughtCreated = boughtRepository.add(new Bought()
             {
-                boughtCreated = boughtRepository.add(new Bought()
-                {
-                    userId = user.id,
-                    timeBought = DateTime.UtcNow,
-                });
-            }
-            else
-            {
-                boughtCreated = boughtRepository.getByUserId(user.id);
-            }
+                userId = user.id,
+                timeBought = DateTime.UtcNow,
+            });
             object responseModel = responseViewModel.responseModel;
             string json = JsonSerializer
                     .Serialize(responseModel);
@@ -85,7 +77,7 @@ namespace AmazonClone.Application.Services
             return new ResponseViewModel()
             {
                 message = "Önceden alınanlara başarıyla eklendi. 🥰",
-                responseModel= new object(),
+                responseModel = new object(),
                 statusCode = 200
             };
         }
@@ -97,21 +89,61 @@ namespace AmazonClone.Application.Services
             var handler = new JwtSecurityTokenHandler();
             JwtSecurityToken jsonToken = handler.ReadJwtToken(stream);
             User user = userService.getUserByUsername(jsonToken.Claims.First().Value);
-            Bought bought = boughtRepository.getByUserId(user.id);
-            BoughtResponseModel boughtResponseModel = new BoughtResponseModel()
+            List<Bought> boughts = boughtRepository.getAllByUserId(user.id);
+            if (boughts != null && boughts.Any())
             {
-                timeBought = bought.timeBought,
-                user = new UserResponseModel()
+                List<BoughtResponseModel> boughtResponses = new List<BoughtResponseModel>();
+                foreach (Bought bought in boughts)
                 {
-                    cartId = user.cartId,
-                    id = user.id,
-                    roleId = user.roleId,
-                    TokenCreated = user.TokenCreated,
-                    TokenExpires = user.TokenExpires,
-                    username = user.username
-                },
-                products = (List<ProductResponseModel>)(boughtProductService.ProductsByBoughtId(bought.id).responseModel)
+                    BoughtResponseModel boughtResponseModel = new BoughtResponseModel()
+                    {
+                        timeBought = bought.timeBought,
+                        user = new UserResponseModel()
+                        {
+                            cartId = user.cartId,
+                            id = user.id,
+                            roleId = user.roleId,
+                            TokenCreated = user.TokenCreated,
+                            TokenExpires = user.TokenExpires,
+                            username = user.username
+                        },
+                        products = (List<ProductResponseModel>)(boughtProductService.ProductsByBoughtId(bought.id).responseModel)
+                    };
+                    boughtResponses.Add(boughtResponseModel);
+                }
+                if (user == null)
+                {
+                    return new ResponseViewModel()
+                    {
+                        message = "Kullanıcı doğrulanamadı. 😞",
+                        responseModel = new Object(),
+                        statusCode = 400
+                    };
+                }
+
+                return new ResponseViewModel()
+                {
+                    message = "Siparişler listelendi. 🥰",
+                    responseModel = boughtResponses,
+                    statusCode = 200
+                };
+            }
+            return new ResponseViewModel()
+            {
+                message = "Siparişler listelendi. 🥰",
+                responseModel = new object(),
+                statusCode = 400
             };
+        }
+
+        public ResponseViewModel deleteBoughts(string authToken, Guid id)
+        {
+            authToken = authToken.Replace("Bearer ", string.Empty);
+            var stream = authToken;
+            var handler = new JwtSecurityTokenHandler();
+            JwtSecurityToken jsonToken = handler.ReadJwtToken(stream);
+            User user = userService.getUserByUsername(jsonToken.Claims.First().Value);
+            Bought bought = boughtRepository.getByUserId(user.id);
             if (user == null)
             {
                 return new ResponseViewModel()
@@ -121,15 +153,43 @@ namespace AmazonClone.Application.Services
                     statusCode = 400
                 };
             }
-
-            
-
-            return new ResponseViewModel()
+            ResponseViewModel responseViewModel = boughtProductService.deleteByBoughtId(id);
+            if (responseViewModel.statusCode == 200)
             {
-                message = "Siparişler listelendi. 🥰",
-                responseModel = boughtResponseModel,
-                statusCode = 200
-            };
+                bool v = boughtRepository.delete(id);
+                if (v)
+                {
+
+                    return new ResponseViewModel()
+                    {
+                        message = "Başarıyla silindi. 🥰",
+                        responseModel = new object(),
+                        statusCode = 200
+                    };
+                }
+                else
+                {
+                    return new ResponseViewModel()
+                    {
+                        message = "Başarıyla silinemedi. 😞",
+                        responseModel = new object(),
+                        statusCode = 400
+                    };
+                }
+            }
+            else
+            {
+                return new ResponseViewModel()
+                {
+                    message = "Başarıyla silinemedi. 😞",
+                    responseModel = new object(),
+                    statusCode = 400
+                };
+            }
+
+
         }
+
+
     }
 }
