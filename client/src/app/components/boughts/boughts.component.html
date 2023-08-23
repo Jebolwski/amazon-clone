@@ -4,10 +4,11 @@
   <div *ngIf="boughts.length > 0">
     <div *ngFor="let bought of boughts">
       <div
-        class="bg-stone-100 border border-stone-200 shadow-md rounded-md my-3"
+        class="bg-stone-100 border border-stone-200 shadow-md rounded-md my-3 p-4"
       >
-        <div *ngFor="let product of bought.products" class="p-3">
-          <div class="flex justify-between items-start p-2 gap-2">
+        <p class="font-semibold">{{ bought.timeBought }}</p>
+        <div *ngFor="let product of bought.products" class="py-3">
+          <div class="flex justify-between items-start gap-2">
             <div class="flex items-start gap-2">
               <div>
                 <swiper-container
@@ -35,6 +36,7 @@
                   {{ product.description }}
                 </p>
                 <p class="text-lg font-semibold">{{ product.price }}</p>
+                <p class="text-sm font-light">Miktar : {{ product.count }}</p>
               </div>
             </div>
             <!-- Ekleme, silme -->

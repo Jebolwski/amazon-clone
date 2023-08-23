@@ -107,7 +107,7 @@ namespace AmazonClone.Application.Services
                             TokenExpires = user.TokenExpires,
                             username = user.username
                         },
-                        products = (List<ProductResponseModel>)(boughtProductService.ProductsByBoughtId(bought.id).responseModel)
+                        products = (List<BoughtProductResponseModel>)(boughtProductService.ProductsByBoughtId(bought.id).responseModel)
                     };
                     boughtResponses.Add(boughtResponseModel);
                 }

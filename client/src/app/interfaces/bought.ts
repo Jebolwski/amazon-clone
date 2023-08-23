@@ -1,10 +1,11 @@
 export interface Bought {
-  timeBought: Date;
+  timeBought: string | Date;
   user: User;
   products: Product[];
 }
 
 export interface Product {
+  boughtId: string;
   id: string;
   name: string;
   price: string;
@@ -12,7 +13,8 @@ export interface Product {
   comments: Comment[];
   productCategories: any[];
   photos: Photo[];
-  count?: number;
+  productId: string;
+  count: number;
 }
 
 export interface Comment {

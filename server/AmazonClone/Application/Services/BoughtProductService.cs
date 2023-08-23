@@ -38,7 +38,7 @@ namespace AmazonClone.Application.Services
 
         public ResponseViewModel ProductsByBoughtId(Guid id)
         {
-            List<ViewModels.ProductM.ProductResponseModel> productResponseModels = boughtProductRespository.getProductsByBoughtId(id);
+            List<BoughtProductResponseModel> productResponseModels = boughtProductRespository.getProductsByBoughtId(id);
             return new ResponseViewModel()
             {
                 message = "Başarıyla getirildi. 🌝",

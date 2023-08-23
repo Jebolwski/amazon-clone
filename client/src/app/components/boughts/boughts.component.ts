@@ -9,20 +9,33 @@ import { BoughtService } from 'src/app/services/bought.service';
 })
 export class BoughtsComponent {
   public boughts: Bought[] = [];
+
   constructor(private boughtService: BoughtService) {
     this.boughtService.getAllBoughts().subscribe((res: any) => {
       this.boughts = res;
-      this.boughts.forEach((element) => {
+      this.boughts.forEach((element: Bought) => {
         let productsArray: Product[] = [];
+        let tarih =
+          new Date(element.timeBought).getDay() +
+          ' ' +
+          new Date(element.timeBought).toLocaleDateString('tr-TR', {
+            month: 'long',
+          }) +
+          ' ' +
+          new Date(element.timeBought).getFullYear();
+
+        element.timeBought = tarih;
         element.products.forEach((product: Product) => {
           if (
-            productsArray.filter((x: Product) => x.id == product.id).length == 0
+            productsArray.filter(
+              (x: Product) => x.productId == product.productId
+            ).length == 0
           ) {
             product.count = 1;
             productsArray.push(product);
           } else {
             productsArray.filter(
-              (x: Product) => x.id == product.id
+              (x: Product) => x.boughtId == product.boughtId
             )[0].count! += 1;
           }
         });
@@ -35,11 +48,9 @@ export class BoughtsComponent {
           return a.name.length - b.name.length;
         });
 
-        element.products?.forEach((product) => {
+        productsArray?.forEach((product) => {
           product.price = f.format(parseFloat(product.price));
         });
-        console.log(productsArray);
-
         element.products = productsArray;
       });
     });

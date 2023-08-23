@@ -1,5 +1,6 @@
 ﻿using AmazonClone.Application.Interfaces;
 using AmazonClone.Application.Services;
+using AmazonClone.Application.ViewModels.BoughtProductM;
 using AmazonClone.Application.ViewModels.CommentM;
 using AmazonClone.Application.ViewModels.CommentPhotoM;
 using AmazonClone.Application.ViewModels.ProductCategoryM;
@@ -44,10 +45,10 @@ namespace AmazonClone.Data.Repositories
             return true;
         }
 
-        public List<ProductResponseModel> getProductsByBoughtId(Guid id)
+        public List<BoughtProductResponseModel> getProductsByBoughtId(Guid id)
         {
             List<BoughtProduct> boughtProducts = dbset.Where(p => p.boughtId == id).ToList();
-            List<ProductResponseModel> liste = new List<ProductResponseModel>();
+            List<BoughtProductResponseModel> liste = new List<BoughtProductResponseModel>();
 
             foreach (BoughtProduct product in boughtProducts)
             {
@@ -89,8 +90,10 @@ namespace AmazonClone.Data.Repositories
                 }
                 ICollection<ProductCategoryResponseModel> productCategories = (HashSet<ProductCategoryResponseModel>)productProductCategoryService
                     .getProductCategoriesByProductId(id).responseModel;
-                liste.Add(new ProductResponseModel()
+                liste.Add(new BoughtProductResponseModel()
                 {
+                    boughtId = product.boughtId,
+                    productId = product.productId,
                     description = product.description,
                     photos = productPhotoModels,
                     comments = commentResponseModel,
