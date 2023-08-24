@@ -98,6 +98,7 @@ namespace AmazonClone.Application.Services
                     BoughtResponseModel boughtResponseModel = new BoughtResponseModel()
                     {
                         timeBought = bought.timeBought,
+                        id = bought.id,
                         user = new UserResponseModel()
                         {
                             cartId = user.cartId,

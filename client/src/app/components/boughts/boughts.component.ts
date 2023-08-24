@@ -11,6 +11,10 @@ export class BoughtsComponent {
   public boughts: Bought[] = [];
 
   constructor(private boughtService: BoughtService) {
+    this.getBoughts();
+  }
+
+  getBoughts() {
     this.boughtService.getAllBoughts().subscribe((res: any) => {
       this.boughts = res;
       this.boughts.forEach((element: Bought) => {
@@ -53,6 +57,14 @@ export class BoughtsComponent {
         });
         element.products = productsArray;
       });
+    });
+    console.log(this.boughts);
+  }
+
+  deleteBoughts(id: string) {
+    this.boughtService.deleteBoughts(id).subscribe(() => {
+      this.boughts = [];
+      this.getBoughts();
     });
   }
 }

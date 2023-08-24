@@ -41,4 +41,25 @@ export class BoughtService {
         })
       );
   }
+
+  deleteBoughts(id: string) {
+    return this.http
+      .delete(this.baseApiUrl + 'Bought/delete-bought/' + id, {
+        headers: new HttpHeaders().append(
+          'Authorization',
+          `Bearer ${localStorage.getItem('accessToken')}`
+        ),
+      })
+      .pipe(
+        map((response: any) => {
+          let res: Response = response;
+          if (response.statusCode === 200) {
+            this.notyf.success(response.message);
+            return response.responseModel;
+          } else {
+            return null;
+          }
+        })
+      );
+  }
 }

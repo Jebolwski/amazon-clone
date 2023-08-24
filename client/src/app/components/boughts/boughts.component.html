@@ -6,7 +6,13 @@
       <div
         class="bg-stone-100 border border-stone-200 shadow-md rounded-md my-3 p-4"
       >
-        <p class="font-semibold">{{ bought.timeBought }}</p>
+        <div class="flex items-center justify-between">
+          <p class="font-semibold">{{ bought.timeBought }}</p>
+          <i
+            class="fa-solid fa-trash text-red-500"
+            (click)="deleteBoughts(bought.id)"
+          ></i>
+        </div>
         <div *ngFor="let product of bought.products" class="py-3">
           <div class="flex justify-between items-start gap-2">
             <div class="flex items-start gap-2">

@@ -1,4 +1,5 @@
 export interface Bought {
+  id: string;
   timeBought: string | Date;
   user: User;
   products: Product[];
