@@ -19,6 +19,15 @@ export class BoughtsComponent {
       this.boughts = res;
       this.boughts.forEach((element: Bought) => {
         let productsArray: Product[] = [];
+        let date1 =
+          new Date(element.timeBought).getDate() - new Date().getDate();
+        console.log(date1);
+        if (date1 < 15) {
+          element.refundable = true;
+        } else {
+          element.refundable = false;
+        }
+
         let tarih =
           new Date(element.timeBought).getDay() +
           ' ' +
@@ -51,7 +60,6 @@ export class BoughtsComponent {
         productsArray = productsArray.sort((a, b) => {
           return a.name.length - b.name.length;
         });
-
         productsArray?.forEach((product) => {
           product.price = f.format(parseFloat(product.price));
         });

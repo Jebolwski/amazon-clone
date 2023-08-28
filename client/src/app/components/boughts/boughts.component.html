@@ -8,6 +8,13 @@
       >
         <div class="flex items-center justify-between">
           <p class="font-semibold">{{ bought.timeBought }}</p>
+          <div
+            *ngIf="bought.refundable"
+            class="cursor-pointer"
+            [routerLink]="'/bought/' + bought.id + '/refund'"
+          >
+            <i class="fa-solid fa-money-check-dollar"></i> İade Et
+          </div>
           <i
             class="fa-solid fa-trash text-red-500"
             (click)="deleteBoughts(bought.id)"

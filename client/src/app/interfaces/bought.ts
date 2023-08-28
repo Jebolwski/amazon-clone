@@ -3,6 +3,7 @@ export interface Bought {
   timeBought: string | Date;
   user: User;
   products: Product[];
+  refundable: boolean;
 }
 
 export interface Product {

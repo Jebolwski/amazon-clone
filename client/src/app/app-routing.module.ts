@@ -35,6 +35,7 @@ import { UpdateCreditCartComponent } from './components/update-credit-cart/updat
 import { FinishBuyingCartComponent } from './components/finish-buying-cart/finish-buying-cart.component';
 import { SuccessfullyBoughtComponent } from './components/successfully-bought/successfully-bought.component';
 import { BoughtsComponent } from './components/boughts/boughts.component';
+import { RefundComponent } from './components/refund/refund.component';
 
 const routes: Routes = [
   {
@@ -224,6 +225,12 @@ const routes: Routes = [
     path: 'boughts',
     component: BoughtsComponent,
     title: 'Önceden alınanlar',
+    canActivate: [LoggedService],
+  },
+  {
+    path: 'bought/:id/refund',
+    component: RefundComponent,
+    title: 'İade etmek',
     canActivate: [LoggedService],
   },
 ];
