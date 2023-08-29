@@ -59,7 +59,6 @@ namespace AmazonClone.Application.Services
                 response = JsonSerializer.Deserialize<ResposneModel>(json);
             }
 
-            Console.WriteLine(response.products.Count);
 
             foreach (ProductResponseModel product in response.products)
             {

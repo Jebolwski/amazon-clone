@@ -29,13 +29,17 @@ export class BoughtsComponent {
         }
 
         let tarih =
-          new Date(element.timeBought).getDay() +
+          new Date(element.timeBought).getUTCDate() +
           ' ' +
           new Date(element.timeBought).toLocaleDateString('tr-TR', {
             month: 'long',
           }) +
           ' ' +
-          new Date(element.timeBought).getFullYear();
+          new Date(element.timeBought).getFullYear() +
+          ' ' +
+          new Date(element.timeBought).getHours() +
+          ' : ' +
+          new Date(element.timeBought).getUTCMinutes();
 
         element.timeBought = tarih;
         element.products.forEach((product: Product) => {
