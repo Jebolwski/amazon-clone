@@ -26,6 +26,7 @@ namespace AmazonClone.Data.Context
         public DbSet<CreditCart> creditCarts { get; set; }
         public DbSet<Bought> boughts { get; set; }
         public DbSet<BoughtProduct> bougthProducts { get; set; }
+        public DbSet<Refund> refunds { get; set; }
         public BaseContext()
         {
             connectionString = $"User ID={dbUser};Password={dbPassword};Host={dbHost};Port={dbPort};Database={database};Pooling=true;";
@@ -48,6 +49,7 @@ namespace AmazonClone.Data.Context
             modelBuilder.ApplyConfiguration(new CreditCartMap());
             modelBuilder.ApplyConfiguration(new BougthProductMap());
             modelBuilder.ApplyConfiguration(new BoughtMap());
+            modelBuilder.ApplyConfiguration(new RefundMap());
             modelBuilder.HasDefaultSchema("AmazonClone");
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

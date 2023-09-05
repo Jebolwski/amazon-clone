@@ -149,6 +149,7 @@ const routes: Routes = [
     path: 'profile/:id',
     component: ProfileComponent,
     title: 'Profil',
+    canActivate: [LoggedService],
   },
   {
     path: 'addresses',
