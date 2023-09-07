@@ -61,7 +61,6 @@ namespace AmazonClone.Application.Services
                 ICollection<CommentPhoto> commentPhotos = new List<CommentPhoto>();
                 foreach (CreateCommentPhotoModel item in model.commentPhotos)
                 {
-                    System.Console.WriteLine(item.photoUrl);
                     commentPhotos.Add(new CommentPhoto()
                     {
                         photoUrl = item.photoUrl,
@@ -146,7 +145,7 @@ namespace AmazonClone.Application.Services
                         }
                         comment.comment = model.comment;
                         comment.stars = model.stars;
-                        comment.title= model.title;
+                        comment.title = model.title;
                         ICollection<CommentPhoto> commentPhotos = new List<CommentPhoto>();
                         foreach (CreateCommentPhotoModel item in model.commentPhotos)
                         {

@@ -136,6 +136,62 @@ namespace AmazonClone.Application.Services
             };
         }
 
+
+        public ResponseViewModel getArchivedBoughts(string authToken)
+        {
+            authToken = authToken.Replace("Bearer ", string.Empty);
+            var stream = authToken;
+            var handler = new JwtSecurityTokenHandler();
+            JwtSecurityToken jsonToken = handler.ReadJwtToken(stream);
+            User user = userService.getUserByUsername(jsonToken.Claims.First().Value);
+            List<Bought> boughts = boughtRepository.getAllArchivedByUserId(user.id);
+            if (boughts != null && boughts.Any())
+            {
+                List<BoughtResponseModel> boughtResponses = new List<BoughtResponseModel>();
+                foreach (Bought bought in boughts)
+                {
+                    BoughtResponseModel boughtResponseModel = new BoughtResponseModel()
+                    {
+                        timeBought = bought.timeBought,
+                        id = bought.id,
+                        user = new UserResponseModel()
+                        {
+                            cartId = user.cartId,
+                            id = user.id,
+                            roleId = user.roleId,
+                            TokenCreated = user.TokenCreated,
+                            TokenExpires = user.TokenExpires,
+                            username = user.username
+                        },
+                        products = (List<BoughtProductResponseModel>)(boughtProductService.ProductsByBoughtId(bought.id).responseModel)
+                    };
+                    boughtResponses.Add(boughtResponseModel);
+                }
+                if (user == null)
+                {
+                    return new ResponseViewModel()
+                    {
+                        message = "Kullanıcı doğrulanamadı. 😞",
+                        responseModel = new Object(),
+                        statusCode = 400
+                    };
+                }
+
+                return new ResponseViewModel()
+                {
+                    message = "Siparişler listelendi. 🥰",
+                    responseModel = boughtResponses,
+                    statusCode = 200
+                };
+            }
+            return new ResponseViewModel()
+            {
+                message = "Siparişler listelendi. 🥰",
+                responseModel = new object(),
+                statusCode = 400
+            };
+        }
+
         public ResponseViewModel deleteBoughts(string authToken, Guid id)
         {
             authToken = authToken.Replace("Bearer ", string.Empty);

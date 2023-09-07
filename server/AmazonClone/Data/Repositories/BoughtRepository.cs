@@ -31,7 +31,7 @@ namespace AmazonClone.Data.Repositories
 
         public List<Bought> getAllByUserId(Guid userId)
         {
-            List<Bought> boughts = dbset.Where(p => p.userId == userId).ToList();
+            List<Bought> boughts = dbset.Where(p => p.userId == userId).Where(p => p.archived == false).ToList();
             if (boughts.Any())
             {
                 return boughts;
@@ -41,5 +41,20 @@ namespace AmazonClone.Data.Repositories
                 return null;
             }
         }
+
+        public List<Bought> getAllArchivedByUserId(Guid userId)
+        {
+            List<Bought> boughts = dbset.Where(p => p.userId == userId).Where(p => p.archived == true).ToList();
+            if (boughts.Any())
+            {
+                return boughts;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+
     }
 }

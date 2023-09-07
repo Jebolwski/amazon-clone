@@ -5,5 +5,6 @@
         public DateTime? timeBought { get; set; }
         public List<BoughtProduct> products { get; set; }
         public Guid userId { get; set; }
+        public bool archived { get; set; }
     }
 }

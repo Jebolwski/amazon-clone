@@ -24,7 +24,6 @@ namespace AmazonClone.Data.Repositories
                 foreach (Comment comment in product.First().comments)
                 {
                     comments.Add(commentRepository.getCommentWithPhotos(comment.id));
-                    System.Console.WriteLine(comments.Count);
                 }
                 product.First().comments = comments;
 

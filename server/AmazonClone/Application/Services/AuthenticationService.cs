@@ -229,7 +229,6 @@ namespace AmazonClone.Application.Services
 
         public ResponseViewModel SearchByUsername(string username)
         {
-            Console.WriteLine(username);
             if (username != null)
             {
                 User user = userService.getUserByUsername(username);

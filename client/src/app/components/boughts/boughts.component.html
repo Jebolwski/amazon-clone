@@ -1,7 +1,78 @@
 <app-header></app-header>
 <div class="p-3">
   <h3 class="text-xl font-semibold">Önceden alınanlar</h3>
-  <div *ngIf="boughts.length > 0">
+  <p
+    *ngIf="!archived"
+    (click)="toggleArchived()"
+    class="cursor-pointer my-3 text-blue-800"
+  >
+    Arşivlenmişleri getir
+  </p>
+  <p
+    *ngIf="archived"
+    (click)="toggleArchived()"
+    class="cursor-pointer my-3 text-blue-800"
+  >
+    Geri dön
+  </p>
+  <div *ngIf="archived">
+    <div *ngFor="let bought of ArchivedBoughts">
+      <div
+        class="bg-stone-100 border border-stone-200 shadow-md rounded-md my-3 p-4"
+      >
+        <div class="flex items-center justify-between">
+          <p class="font-semibold">{{ bought.timeBought }}</p>
+          <div
+            *ngIf="bought.refundable"
+            class="cursor-pointer"
+            [routerLink]="'/bought/' + bought.id + '/refund'"
+          >
+            <i class="fa-solid fa-money-check-dollar"></i> İade Et
+          </div>
+          <i
+            class="fa-solid fa-trash text-red-500 cursor-pointer"
+            (click)="deleteBoughts(bought.id)"
+          ></i>
+        </div>
+        <div *ngFor="let product of bought.products" class="py-3">
+          <div class="flex justify-between items-start gap-2">
+            <div class="flex items-start gap-2">
+              <div>
+                <swiper-container
+                  slides-per-view="1"
+                  speed="500"
+                  loop="true"
+                  pagination="true"
+                  class="lg:w-32 w-24 border border-stone-300"
+                >
+                  <swiper-slide *ngFor="let photo of product?.photos">
+                    <img
+                      [src]="photo.photoUrl"
+                      class="lg:w-32 w-24 rounded-sm grid place-items-center h-full"
+                  /></swiper-slide>
+                </swiper-container>
+              </div>
+              <div>
+                <p class="font-semibold lg:text-lg text-base">
+                  {{ product.name }}
+                </p>
+                <p class="text-sm" *ngIf="product.description.length > 80">
+                  {{ product.description | slice : 0 : 80 }}...
+                </p>
+                <p class="text-sm" *ngIf="product.description.length <= 80">
+                  {{ product.description }}
+                </p>
+                <p class="text-lg font-semibold">{{ product.price }}</p>
+                <p class="text-sm font-light">Miktar : {{ product.count }}</p>
+              </div>
+            </div>
+            <!-- Ekleme, silme -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="!archived">
     <div *ngFor="let bought of boughts">
       <div
         class="bg-stone-100 border border-stone-200 shadow-md rounded-md my-3 p-4"

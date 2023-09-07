@@ -42,6 +42,26 @@ export class BoughtService {
       );
   }
 
+  getAllArchivedBoughts() {
+    return this.http
+      .get(this.baseApiUrl + 'Bought/all-bought-archived', {
+        headers: new HttpHeaders().append(
+          'Authorization',
+          `Bearer ${localStorage.getItem('accessToken')}`
+        ),
+      })
+      .pipe(
+        map((response: any) => {
+          let res: Response = response;
+          if (response.statusCode === 200) {
+            return response.responseModel;
+          } else {
+            return null;
+          }
+        })
+      );
+  }
+
   deleteBoughts(id: string) {
     return this.http
       .delete(this.baseApiUrl + 'Bought/delete-bought/' + id, {

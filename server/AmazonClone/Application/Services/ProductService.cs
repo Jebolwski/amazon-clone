@@ -164,7 +164,6 @@ namespace AmazonClone.Application.Services
                     foreach (Comment comment in product.comments)
                     {
                         List<CommentPhotoResponseModel> photos = new List<CommentPhotoResponseModel>();
-                        System.Console.WriteLine(comment.commentPhotos.Any());
                         foreach (var photo in comment.commentPhotos)
                         {
                             photos.Add(new CommentPhotoResponseModel()

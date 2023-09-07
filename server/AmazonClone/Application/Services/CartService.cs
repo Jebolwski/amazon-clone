@@ -112,9 +112,7 @@ namespace AmazonClone.Application.Services
                     statusCode = 400
                 };
             }
-            System.Console.WriteLine(user.id);
             Cart cart = cartRepository.getCartByUserId(user.id);
-            System.Console.WriteLine(cart.id + " " + cart.userId);
             if (cart.id != cartId)
             {
                 return new ResponseViewModel()

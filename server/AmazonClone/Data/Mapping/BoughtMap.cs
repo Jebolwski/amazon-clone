@@ -10,8 +10,9 @@ namespace AmazonClone.Data.Mapping
         {
             builder.ToTable("Bougth");
             builder.Property(p => p.id).HasColumnName("id");
-            builder.Property(p=>p.userId).HasColumnName("userId");
-            builder.Property(p=>p.timeBought).HasColumnName("timeBought");
+            builder.Property(p => p.userId).HasColumnName("userId");
+            builder.Property(p => p.timeBought).HasColumnName("timeBought");
+            builder.Property(p => p.archived).HasColumnName("archived");
             builder.HasMany(p => p.products).WithOne().HasForeignKey(p => p.boughtId);
         }
     }

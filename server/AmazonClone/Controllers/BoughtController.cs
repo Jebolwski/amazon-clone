@@ -30,6 +30,13 @@ namespace AmazonClone.Controllers
             return boughtService.getBoughts(authToken);
         }
 
+        [HttpGet("all-bought-archived"), Authorize(Roles = "Normal User,Admin")]
+        public ResponseViewModel getArchivedBoughts()
+        {
+            string authToken = HttpContext.Request.Headers["Authorization"];
+            return boughtService.getArchivedBoughts(authToken);
+        }
+
         [HttpDelete("delete-bought/{id}"), Authorize(Roles = "Normal User,Admin")]
         public ResponseViewModel getBoughts(Guid id)
         {
