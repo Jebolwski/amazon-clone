@@ -246,6 +246,59 @@ namespace AmazonClone.Application.Services
 
         }
 
+        public ResponseViewModel toggleBoughts(string authToken, Guid id)
+        {
+            authToken = authToken.Replace("Bearer ", string.Empty);
+            var stream = authToken;
+            var handler = new JwtSecurityTokenHandler();
+            JwtSecurityToken jsonToken = handler.ReadJwtToken(stream);
+            User user = userService.getUserByUsername(jsonToken.Claims.First().Value);
+            Bought bought = boughtRepository.getByUserId(user.id);
+            if (user == null)
+            {
+                return new ResponseViewModel()
+                {
+                    message = "Kullanıcı doğrulanamadı. 😞",
+                    responseModel = new Object(),
+                    statusCode = 400
+                };
+            }
+            Bought bought1 = boughtRepository.get(id);
+            if (bought1 != null)
+            {
+                bought1.archived = !bought1.archived;
+                boughtRepository.update(bought1);
+                if (bought1.archived)
+                {
+
+                    return new ResponseViewModel()
+                    {
+                        message = "Başarıyla arşivlendi. 🚀",
+                        responseModel = new Object(),
+                        statusCode = 200
+                    };
+                }
+                else
+                {
+                    return new ResponseViewModel()
+                    {
+                        message = "Başarıyla arşivden kaldırıldı. 🚀",
+                        responseModel = new Object(),
+                        statusCode = 200
+                    };
+                }
+
+            }
+            return new ResponseViewModel()
+            {
+                message = "Bulunamadı. 😞",
+                responseModel = new Object(),
+                statusCode = 400
+            };
+
+
+        }
+
 
     }
 }

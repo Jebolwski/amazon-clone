@@ -45,5 +45,12 @@ namespace AmazonClone.Controllers
         {
             return commentAppService.getComment(commentId);
         }
+
+        [HttpGet("get-users-comments"), AllowAnonymous]
+        public ResponseViewModel getYourComment()
+        {
+            string authToken = HttpContext.Request.Headers["Authorization"];
+            return commentAppService.getUsersComments(authToken);
+        }
     }
 }

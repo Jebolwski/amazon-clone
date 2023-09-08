@@ -35,5 +35,6 @@ namespace AmazonClone.Data.Repositories
             }
             return null;
         }
+
     }
 }

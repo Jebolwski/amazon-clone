@@ -8,5 +8,6 @@ namespace AmazonClone.Application.Interfaces
         public ResponseViewModel getBoughts(string authToken);
         public ResponseViewModel deleteBoughts(string authToken, Guid id);
         public ResponseViewModel getArchivedBoughts(string authToken);
+        public ResponseViewModel toggleBoughts(string authToken, Guid id);
     }
 }

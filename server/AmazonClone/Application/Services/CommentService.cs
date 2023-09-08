@@ -296,5 +296,40 @@ namespace AmazonClone.Application.Services
             };
         }
 
+
+        public ResponseViewModel getUsersComments(string authToken)
+        {
+            User user = new User();
+            if (authToken != null)
+            {
+                authToken = authToken.Replace("Bearer ", string.Empty);
+                var stream = authToken;
+                var handler = new JwtSecurityTokenHandler();
+                JwtSecurityToken jsonToken = handler.ReadJwtToken(stream);
+                user = userService.getUserByUsername(jsonToken.Claims.First().Value);
+                if (user == null)
+                {
+                    return new ResponseViewModel()
+                    {
+                        message = "Kullanıcı bulunamadı. 😥",
+                        responseModel = new Object(),
+                        statusCode = 400
+                    };
+                }
+                IQueryable<Comment> comments = commentRepository.getUsersComments(user.id);
+                return new ResponseViewModel()
+                {
+                    message = "Yorumlar getirildi. 😍",
+                    responseModel = comments,
+                    statusCode = 200
+                };
+            }
+            return new ResponseViewModel()
+            {
+                message = "Kullanıcı bulunamadı. 😥",
+                responseModel = new Object(),
+                statusCode = 400
+            };
+        }
     }
 }

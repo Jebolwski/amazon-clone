@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { addProductPhoto } from '../interfaces/addProductPhoto';
 import { Comment } from '../interfaces/product';
 import { Location } from '@angular/common';
+import { map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -19,6 +20,7 @@ export class CommentService {
   comment!: Comment;
   private baseApiUrl: string = 'http://localhost:5044/api/';
   notyf = new Notyf();
+
   postComment(data: {
     title: string;
     comment: string;
@@ -102,5 +104,27 @@ export class CommentService {
         }
         this.location.back();
       });
+  }
+
+  getUsersComments(): any {
+    return this.http
+      .get(this.baseApiUrl + 'comment/Comment/get-users-comments', {
+        headers: new HttpHeaders().append(
+          'Authorization',
+          `Bearer ${localStorage.getItem('accessToken')}`
+        ),
+      })
+      .pipe(
+        map((res: any) => {
+          let response: Response = res;
+          if (response.statusCode === 200) {
+            this.notyf.success(response.message);
+            return response.responseModel;
+          } else {
+            this.notyf.error(response.message);
+          }
+          this.location.back();
+        })
+      );
   }
 }

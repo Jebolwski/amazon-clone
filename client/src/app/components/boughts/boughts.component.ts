@@ -143,4 +143,11 @@ export class BoughtsComponent {
       this.getBoughts();
     });
   }
+
+  toggleBought(id: string) {
+    this.boughtService.toggleBought(id).subscribe(() => {
+      this.getArchivedBoughts();
+      this.getBoughts();
+    });
+  }
 }

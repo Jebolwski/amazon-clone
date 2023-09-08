@@ -27,6 +27,70 @@
         <span> Kayıtlı Kredi kartları </span>
       </div>
     </div>
+    <div>
+      <p class="text-lg mt-4 font-semibold">Yorumlar</p>
+      <div
+        *ngFor="let comment of comments"
+        class="bg-stone-100 my-2 rounded-md p-4 shadow-md"
+      >
+        <div class="text-yellow-500 my-[4px] text-sm">
+          <div class="flex items-center" *ngIf="comment.stars == 0">
+            <i class="fa-regular fa-star stars"></i>
+            <i class="fa-regular fa-star stars"></i>
+            <i class="fa-regular fa-star stars"></i>
+            <i class="fa-regular fa-star stars"></i>
+            <i class="fa-regular fa-star stars"></i>
+          </div>
+          <div class="flex items-center" *ngIf="comment.stars == 1">
+            <i class="fa-solid fa-star stars"></i>
+            <i class="fa-regular fa-star stars"></i>
+            <i class="fa-regular fa-star stars"></i>
+            <i class="fa-regular fa-star stars"></i>
+            <i class="fa-regular fa-star stars"></i>
+          </div>
+          <div class="flex items-center" *ngIf="comment.stars == 2">
+            <i class="fa-solid fa-star stars"></i>
+            <i class="fa-solid fa-star stars"></i>
+            <i class="fa-regular fa-star stars"></i>
+            <i class="fa-regular fa-star stars"></i>
+            <i class="fa-regular fa-star stars"></i>
+          </div>
+          <div class="flex items-center" *ngIf="comment.stars == 3">
+            <i class="fa-solid fa-star stars"></i>
+            <i class="fa-solid fa-star stars"></i>
+            <i class="fa-solid fa-star stars"></i>
+            <i class="fa-regular fa-star stars"></i>
+            <i class="fa-regular fa-star stars"></i>
+          </div>
+          <div class="flex items-center" *ngIf="comment.stars == 4">
+            <i class="fa-solid fa-star stars"></i>
+            <i class="fa-solid fa-star stars"></i>
+            <i class="fa-solid fa-star stars"></i>
+            <i class="fa-solid fa-star stars"></i>
+            <i class="fa-regular fa-star stars"></i>
+          </div>
+          <div class="flex items-center" *ngIf="comment.stars == 5">
+            <i class="fa-solid fa-star stars"></i>
+            <i class="fa-solid fa-star stars"></i>
+            <i class="fa-solid fa-star stars"></i>
+            <i class="fa-solid fa-star stars"></i>
+            <i class="fa-solid fa-star stars"></i>
+          </div>
+        </div>
+        <p class="text-lg font-semibold">{{ comment.title }}</p>
+        <p>{{ comment.comment }}</p>
+        <div
+          *ngFor="let photoURl of comment.commentPhotos"
+          class="flex items-start"
+        >
+          <img
+            src="{{ photoURl.photoUrl }}"
+            alt="{{ comment.title }}"
+            class="w-32 mt-3"
+          />
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 <app-footer></app-footer>

@@ -22,6 +22,12 @@
       >
         <div class="flex items-center justify-between">
           <p class="font-semibold">{{ bought.timeBought }}</p>
+          <div>
+            <i
+              class="fa-solid fa-box-archive"
+              (click)="toggleBought(bought.id)"
+            ></i>
+          </div>
           <div
             *ngIf="bought.refundable"
             class="cursor-pointer"
@@ -79,6 +85,12 @@
       >
         <div class="flex items-center justify-between">
           <p class="font-semibold">{{ bought.timeBought }}</p>
+          <div>
+            <i
+              class="fa-solid fa-box-archive"
+              (click)="toggleBought(bought.id)"
+            ></i>
+          </div>
           <div
             *ngIf="bought.refundable"
             class="cursor-pointer"

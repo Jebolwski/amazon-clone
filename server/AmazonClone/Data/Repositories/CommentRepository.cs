@@ -20,5 +20,15 @@ namespace AmazonClone.Data.Repositories
             }
             return null;
         }
+
+        public IQueryable<Comment> getUsersComments(Guid id)
+        {
+            IQueryable<Comment> comments = dbset.Where(p => p.userId == id).Include(x => x.commentPhotos);
+            if (comments != null && comments.Any())
+            {
+                return comments;
+            }
+            return null;
+        }
     }
 }

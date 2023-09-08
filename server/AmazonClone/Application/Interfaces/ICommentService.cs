@@ -9,5 +9,6 @@ namespace AmazonClone.Application.Interfaces
         public ResponseViewModel deleteComment(Guid id, string authToken);
         public ResponseViewModel getComment(Guid id);
         public ResponseViewModel postComment(PostCommentModel model, string authToken);
+        public ResponseViewModel getUsersComments(string authToken);
     }
 }

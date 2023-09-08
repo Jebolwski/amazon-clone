@@ -43,5 +43,13 @@ namespace AmazonClone.Controllers
             string authToken = HttpContext.Request.Headers["Authorization"];
             return boughtService.deleteBoughts(authToken, id);
         }
+
+        [HttpPost("toggle-boughts/{id}"), Authorize(Roles = "Normal User,Admin")]
+        public ResponseViewModel toggleBoughts(Guid id)
+        {
+            string authToken = HttpContext.Request.Headers["Authorization"];
+            return boughtService.toggleBoughts(authToken, id);
+        }
+
     }
 }

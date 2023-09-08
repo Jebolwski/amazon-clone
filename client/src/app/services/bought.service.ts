@@ -82,4 +82,29 @@ export class BoughtService {
         })
       );
   }
+
+  toggleBought(id: string) {
+    return this.http
+      .post(
+        this.baseApiUrl + 'Bought/toggle-boughts/' + id,
+        {},
+        {
+          headers: new HttpHeaders().append(
+            'Authorization',
+            `Bearer ${localStorage.getItem('accessToken')}`
+          ),
+        }
+      )
+      .pipe(
+        map((response: any) => {
+          let res: Response = response;
+          if (response.statusCode === 200) {
+            this.notyf.success(response.message);
+            return { mesi: 'ronaldo' };
+          } else {
+            return null;
+          }
+        })
+      );
+  }
 }
