@@ -16,12 +16,14 @@ namespace AmazonClone.Application.Services
         private readonly IUserService userService;
         private readonly ICartRepository cartRepository;
         private readonly ICartProductService cartProductService;
+        private readonly IProductService productService;
 
-        public CartService(ICartRepository cartRepository, ICartProductService cartProductService, IUserService userService)
+        public CartService(ICartRepository cartRepository, ICartProductService cartProductService, IUserService userService, IProductService productService = null)
         {
             this.cartRepository = cartRepository;
             this.cartProductService = cartProductService;
             this.userService = userService;
+            this.productService = productService;
         }
 
         public ResponseViewModel addCartToUser(Guid id)
@@ -293,6 +295,70 @@ namespace AmazonClone.Application.Services
                 };
             }
         }
+
+        public ResponseViewModel buyTheCartNow(string authToken, Guid cartId, Guid productId)
+        {
+            authToken = authToken.Replace("Bearer ", string.Empty);
+            var stream = authToken;
+            var handler = new JwtSecurityTokenHandler();
+            JwtSecurityToken jsonToken = handler.ReadJwtToken(stream);
+            User user = userService.getUserByUsername(jsonToken.Claims.First().Value);
+            if (user == null)
+            {
+                return new ResponseViewModel()
+                {
+                    message = "Kullanıcı doğrulanamadı. 😞",
+                    responseModel = new Object(),
+                    statusCode = 400
+                };
+            }
+            Cart cart = cartRepository.getCartByUserId(user.id);
+            if (cart.userId != cartId)
+            {
+                return new ResponseViewModel()
+                {
+                    message = "Kullanıcı doğrulanamadı. 😞",
+                    responseModel = new Object(),
+                    statusCode = 400
+                };
+            }
+            if (this.getCart(authToken).statusCode == 200)
+            {
+                string json = JsonSerializer
+                    .Serialize(this.getCart(authToken).responseModel);
+                CartWithProductModel cartWith = null;
+
+                ResponseViewModel responseViewModel = cartProductService.getProductsByCartId(cart.id);
+
+                ICollection<ProductResponseModel> products = (ICollection<ProductResponseModel>)responseViewModel.responseModel;
+                foreach (ProductResponseModel product in products)
+                {
+                    cartProductService.removeProductFromCart(cart.id, product.id);
+                }
+
+                ResponseViewModel responseViewModel2 = this.addToCart(new CartProductCreateModel()
+                {
+                    productId = productId
+                }, authToken);
+
+                return new ResponseViewModel()
+                {
+                    message = "Karttaki ürün başarıyla eklendi. 🌝",
+                    responseModel = new Object(),
+                    statusCode = 200
+                };
+            }
+            else
+            {
+                return new ResponseViewModel()
+                {
+                    message = "Eklenirken hata oluştu. 😥",
+                    responseModel = new Object(),
+                    statusCode = 400
+                };
+            }
+        }
+
 
     }
 }

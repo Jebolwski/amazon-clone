@@ -118,7 +118,6 @@ export class CommentService {
         map((res: any) => {
           let response: Response = res;
           if (response.statusCode === 200) {
-            this.notyf.success(response.message);
             return response.responseModel;
           } else {
             this.notyf.error(response.message);

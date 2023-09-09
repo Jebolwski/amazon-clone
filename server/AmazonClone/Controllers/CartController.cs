@@ -59,5 +59,13 @@ namespace AmazonClone.Controllers
             return cartAppService.buyTheCart(authToken, cartId);
         }
 
+        [HttpPost("{cartId}/{productId}/buy-now"), Authorize(Roles = "Normal User,Admin")]
+        public ResponseViewModel BuyCartNow(Guid cartId, Guid productId)
+        {
+            string authToken = HttpContext.Request.Headers["Authorization"];
+
+            return cartAppService.buyTheCartNow(authToken, cartId, productId);
+        }
+
     }
 }

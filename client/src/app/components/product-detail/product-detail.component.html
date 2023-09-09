@@ -52,7 +52,10 @@
         >
           Sepete Ekle
         </button>
-        <button class="bg-[#ffa41c] block rounded-2xl shadow-md p-1 w-100">
+        <button
+          class="bg-[#ffa41c] block rounded-2xl shadow-md p-1 w-100"
+          (click)="cartService.buyNow(authService.user.id, product?.id || '')"
+        >
           Şimdi Al
         </button>
       </div>

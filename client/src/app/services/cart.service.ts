@@ -156,4 +156,27 @@ export class CartService {
         }
       });
   }
+
+  buyNow(cartId: string, productId: string) {
+    this.http
+      .post(
+        this.baseApiUrl + 'cart/Cart/' + cartId + '/' + productId + '/buy-now',
+        {},
+        {
+          headers: new HttpHeaders().append(
+            'Authorization',
+            `Bearer ${localStorage.getItem('accessToken')}`
+          ),
+        }
+      )
+      .subscribe((res: any) => {
+        let response: Response = res;
+        if (response.statusCode === 200) {
+          this.notyf.success(response.message);
+        } else {
+          this.notyf.error(response.message);
+        }
+      });
+    this.router.navigate(['/cart/' + this.authService.user.id + '/finish']);
+  }
 }
