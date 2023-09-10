@@ -42,19 +42,23 @@ namespace AmazonClone.Application.Services
                         statusCode = 400
                     };
                 }
-                CartProduct cartProduct = cartProductRepository.add(new CartProduct()
+                List<CartProduct> products = new List<CartProduct>();
+                for (var i = 0; i < model.count; i++)
                 {
-                    cartId = user.cartId,
-                    productId = model.productId
-                });
+                    products.Add(cartProductRepository.add(new CartProduct()
+                    {
+                        cartId = user.cartId,
+                        productId = model.productId
+                    }));
+                }
 
-                ICollection<ProductResponseModel> productResponses = (ICollection<ProductResponseModel>)getProductsByCartId(cartProduct.cartId).responseModel;
+                ICollection<ProductResponseModel> productResponses = (ICollection<ProductResponseModel>)getProductsByCartId(user.cartId).responseModel;
                 return new ResponseViewModel()
                 {
                     message = "Karta ürün eklendi. 🌝",
                     responseModel = new CartResponseModel()
                     {
-                        id = cartProduct.cartId,
+                        id = user.cartId,
                         userId = user.id,
                         products = productResponses
                     },

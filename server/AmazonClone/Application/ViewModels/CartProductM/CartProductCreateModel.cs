@@ -3,5 +3,6 @@
     public class CartProductCreateModel
     {
         public Guid productId { get; set; }
+        public int count { get; set; }
     }
 }

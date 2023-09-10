@@ -24,7 +24,7 @@ export class CartService {
     private authService: AuthService
   ) {}
 
-  addToCart(data: { productId: string }) {
+  addToCart(data: { productId: string; count: number }) {
     this.http
       .post(this.baseApiUrl + 'cart/Cart/add-to-cart', data, {
         headers: new HttpHeaders().append(

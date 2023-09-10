@@ -15,11 +15,19 @@ import { ProductService } from 'src/app/services/product.service';
 })
 export class ProductDetailComponent implements OnInit {
   total: number = 0;
+
+  product_count: number = 1;
+
   private baseApiUrl: string = 'http://localhost:5044/api/';
+
   average: string = '0';
+
   product!: Product | undefined;
+
   id!: string;
+
   notyf = new Notyf();
+
   stats: {
     fives: { count: number; percentage: string };
     fours: { count: number; percentage: string };
@@ -33,6 +41,7 @@ export class ProductDetailComponent implements OnInit {
     twos: { count: 0, percentage: '' },
     ones: { count: 0, percentage: '' },
   };
+
   constructor(
     public productService: ProductService,
     private route: ActivatedRoute,
@@ -171,5 +180,12 @@ export class ProductDetailComponent implements OnInit {
 
     let average: any = document.querySelector('.average');
     average.style.width = parseFloat(this.average) * 20 + '%';
+  }
+
+  selectCount() {
+    this.product_count = parseInt(
+      (document.querySelector('.select-count') as HTMLSelectElement).value
+    );
+    console.log(this.product_count);
   }
 }

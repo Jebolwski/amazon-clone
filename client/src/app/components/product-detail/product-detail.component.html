@@ -40,13 +40,25 @@
       <p class="text-red-700 font-semibold">
         Genellikle 2–3 gün içinde kargoya verilir
       </p>
-      <p class="text-sm">Her sepete eklemede 1 kere sepete ekler.</p>
+      <div class="flex items-center gap-3">
+        <select
+          name="product-count"
+          id="product-count"
+          class="border border-black mt-3 px-3 rounded-md select-count"
+          (click)="selectCount()"
+        >
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+        </select>
+      </div>
       <div class="flex flex-1 flex-col gap-2 place-content-center mt-3">
         <button
           class="bg-[#ffd814] block rounded-2xl shadow-md p-1 w-100"
           (click)="
             cartService.addToCart({
-              productId: product?.id || ''
+              productId: product?.id || '',
+              count: product_count
             })
           "
         >

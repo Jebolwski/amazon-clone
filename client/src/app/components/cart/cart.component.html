@@ -45,7 +45,9 @@
             <div class="flex flex-col gap-1">
               <i
                 class="fa-solid fa-plus text-green-400 bg-green-200 rounded-md h-5 w-5 grid place-content-center cursor-pointer"
-                (click)="cartService.addToCart({ productId: product.id })"
+                (click)="
+                  cartService.addToCart({ productId: product.id, count: 1 })
+                "
               ></i>
               <i
                 class="fa-solid fa-minus text-red-400 bg-red-200 rounded-md h-5 w-5 grid place-content-center cursor-pointer"
