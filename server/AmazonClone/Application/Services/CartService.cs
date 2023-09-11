@@ -359,6 +359,15 @@ namespace AmazonClone.Application.Services
             }
         }
 
-
+        public ResponseViewModel getCartByUserId(Guid userId)
+        {
+            Cart cart = cartRepository.getCartByUserId(userId);
+            return new ResponseViewModel()
+            {
+                message = "Kart başarıyla getirildi. 🌝",
+                responseModel = cart,
+                statusCode = 200
+            };
+        }
     }
 }

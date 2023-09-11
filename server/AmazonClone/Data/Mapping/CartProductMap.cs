@@ -12,6 +12,7 @@ namespace AmazonClone.Data.Mapping
             builder.Property(p => p.id).HasColumnName("id");
             builder.Property(p => p.productId).HasColumnName("productId");
             builder.Property(p => p.cartId).HasColumnName("cartId");
+            builder.Property(p => p.status).HasColumnName("status");
         }
     }
 }

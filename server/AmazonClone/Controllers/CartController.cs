@@ -15,11 +15,13 @@ namespace AmazonClone.Controllers
     {
         private readonly ICartService cartAppService;
         private readonly ICartRepository cartRepository;
+        private readonly ICartProductService cartProductService;
 
-        public CartController(ICartService cartAppService, ICartRepository cartRepository)
+        public CartController(ICartService cartAppService, ICartRepository cartRepository, ICartProductService cartProductService)
         {
             this.cartAppService = cartAppService;
             this.cartRepository = cartRepository;
+            this.cartProductService = cartProductService;
         }
 
         [HttpPost("add-to-user")]
@@ -65,6 +67,14 @@ namespace AmazonClone.Controllers
             string authToken = HttpContext.Request.Headers["Authorization"];
 
             return cartAppService.buyTheCartNow(authToken, cartId, productId);
+        }
+
+        [HttpPost("{cartId}/{productId}/toggle-status"), Authorize(Roles = "Normal User,Admin")]
+        public ResponseViewModel toggleStatus(Guid cartId, Guid productId)
+        {
+            string authToken = HttpContext.Request.Headers["Authorization"];
+
+            return cartProductService.toggleStatus(cartId, productId);
         }
 
     }

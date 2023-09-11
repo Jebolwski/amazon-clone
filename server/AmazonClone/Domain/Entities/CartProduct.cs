@@ -4,5 +4,6 @@
     {
         public Guid cartId { get; set; }
         public Guid productId { get; set; }
+        public bool status { get; set; }
     }
 }

@@ -26,5 +26,23 @@ namespace AmazonClone.Data.Repositories
             }
             return false;
         }
+
+        public bool toggle(Guid cartId, Guid productId)
+        {
+            List<CartProduct> cartProducts = dbset.Where(p => p.cartId == cartId).Where(p => p.productId == productId).ToList();
+            if (cartProducts != null && cartProducts.Any())
+            {
+                bool status = false;
+                foreach (CartProduct cartProduct in cartProducts)
+                {
+                    cartProduct.status = !cartProduct.status;
+                    status = cartProduct.status;
+                    db.Update(cartProduct);
+                    db.SaveChanges();
+                }
+                return status;
+            }
+            return false;
+        }
     }
 }

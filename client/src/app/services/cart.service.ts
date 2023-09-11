@@ -5,6 +5,7 @@ import { Notyf } from 'notyf';
 import { Response } from '../interfaces/response';
 import { Product } from '../interfaces/product';
 import { AuthService } from './auth.service';
+import { map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -53,6 +54,8 @@ export class CartService {
       })
       .subscribe((res: any) => {
         let response: Response = res;
+        console.log(response);
+
         if (response.statusCode === 200) {
           let productsArray: Product[] = [];
 
@@ -178,5 +181,36 @@ export class CartService {
         }
       });
     this.router.navigate(['/cart/' + this.authService.user.id + '/finish']);
+  }
+
+  toggleStatus(productId: string, cartId: string) {
+    console.log(productId, cartId);
+
+    return this.http
+      .post(
+        this.baseApiUrl +
+          'cart/Cart/' +
+          cartId +
+          '/' +
+          productId +
+          '/toggle-status',
+        {},
+        {
+          headers: new HttpHeaders().append(
+            'Authorization',
+            `Bearer ${localStorage.getItem('accessToken')}`
+          ),
+        }
+      )
+      .pipe(
+        map((res: any) => {
+          let response: Response = res;
+          if (response.statusCode === 200) {
+            return response.responseModel;
+          } else {
+            return null;
+          }
+        })
+      );
   }
 }

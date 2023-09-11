@@ -12,6 +12,19 @@
         <div *ngFor="let product of cartService.cart?.products" class="p-3">
           <div class="flex justify-between items-start p-2 gap-2">
             <div class="flex items-start gap-2">
+              <input
+                type="checkbox"
+                class="mt-auto mb-auto"
+                (click)="toggleStatus(product.id, id)"
+                *ngIf="product.status"
+                checked
+              />
+              <input
+                type="checkbox"
+                class="mt-auto mb-auto"
+                (click)="toggleStatus(product.id, id)"
+                *ngIf="!product.status"
+              />
               <div>
                 <swiper-container
                   slides-per-view="1"

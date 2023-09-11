@@ -16,7 +16,7 @@ import { ProductService } from 'src/app/services/product.service';
 export class ProductDetailComponent implements OnInit {
   total: number = 0;
 
-  product_count: number = 1;
+  public product_count: number = 1;
 
   private baseApiUrl: string = 'http://localhost:5044/api/';
 

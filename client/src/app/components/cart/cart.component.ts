@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Notyf } from 'notyf';
+import { AuthService } from 'src/app/services/auth.service';
 import { CartService } from 'src/app/services/cart.service';
 
 @Component({
@@ -14,6 +15,14 @@ export class CartComponent {
   constructor(public cartService: CartService, private route: ActivatedRoute) {
     this.id = this.route.snapshot.paramMap.get('id') || '0';
     cartService.getCartsProducts(this.id);
+  }
+
+  toggleStatus(productId: string, cartId: string) {
+    this.cartService
+      .toggleStatus(productId, cartId)
+      .subscribe((res: boolean) => {
+        this.cartService.getCartsProducts(this.id);
+      });
   }
 
   buyCart() {

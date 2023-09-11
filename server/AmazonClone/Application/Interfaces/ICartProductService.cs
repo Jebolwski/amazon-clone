@@ -13,5 +13,6 @@ namespace AmazonClone.Application.Interfaces
         public ResponseViewModel add(CartProductCreateModel model, string authToken);
         public ResponseViewModel getProductsByCartId(Guid id);
         public ResponseViewModel removeProductFromCart(Guid cartId, Guid productId);
+        public ResponseViewModel toggleStatus(Guid cartId, Guid productId);
     }
 }

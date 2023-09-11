@@ -7,6 +7,7 @@ export interface Product {
   productCategories: ProductCategory[];
   photos: Photo[];
   count?: number;
+  status?: number;
 }
 
 export interface Comment {
