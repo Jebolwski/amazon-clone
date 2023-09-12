@@ -50,11 +50,12 @@ namespace AmazonClone.Application.Services
                     products.Add(cartProductRepository.add(new CartProduct()
                     {
                         cartId = user.cartId,
-                        productId = model.productId
+                        productId = model.productId,
+                        status = true
                     }));
                 }
 
-                ICollection<ProductResponseModel> productResponses = (ICollection<ProductResponseModel>)getProductsByCartId(user.cartId).responseModel;
+                ICollection<CartProductProductResponseModel> productResponses = (ICollection<CartProductProductResponseModel>)getProductsByCartId(user.cartId).responseModel;
                 return new ResponseViewModel()
                 {
                     message = "Karta ürün eklendi. 🌝",

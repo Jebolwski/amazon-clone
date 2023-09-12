@@ -19,6 +19,13 @@ export class CartService {
     total: '0',
     userId: '',
   };
+
+  cartStatusOne: {
+    id: string;
+    userId: string;
+    products: Product[];
+    total: string;
+  } = { id: '', products: [], total: '0', userId: '' };
   constructor(
     private http: HttpClient,
     private router: Router,
@@ -54,11 +61,9 @@ export class CartService {
       })
       .subscribe((res: any) => {
         let response: Response = res;
-        console.log(response);
 
         if (response.statusCode === 200) {
           let productsArray: Product[] = [];
-
           response.responseModel.products.forEach((product: Product) => {
             if (
               productsArray.filter((x: Product) => x.id == product.id).length ==
@@ -87,13 +92,31 @@ export class CartService {
             total: '0',
           };
           this.cart?.products?.forEach((product) => {
-            this.cart.total = String(
-              parseFloat(this.cart.total) +
-                parseFloat(product.price) * (product.count || 1)
-            );
-            product.price = f.format(parseFloat(product.price));
+            this.cart.total =
+              this.cart.total +
+              parseFloat(product.price) * (product.count || 1);
+            // product.price = f.format(parseFloat(product.price));
           });
-          this.cart.total = f.format(parseFloat(this.cart.total));
+          // this.cart.total = f.format(parseFloat(this.cart.total));
+
+          this.cartStatusOne.id = this.cart.id;
+          this.cartStatusOne.userId = this.cart.userId;
+
+          this.cartStatusOne.products = this.cart.products.filter((product) => {
+            return product.status == 1;
+          });
+
+          this.cartStatusOne.total = '0';
+          this.cartStatusOne.products.forEach((product) => {
+            this.cartStatusOne.total +=
+              this.cartStatusOne.total +
+              parseFloat(product.price) * (product.count || 1);
+            // product.price = f.format(parseFloat(product.price));
+          });
+          this.cart.total = parseFloat(String(this.cart.total)).toFixed(2);
+          this.cartStatusOne.total = parseFloat(
+            String(this.cartStatusOne.total)
+          ).toFixed(2);
         } else {
           this.notyf.error(response.message);
         }

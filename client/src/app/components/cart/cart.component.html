@@ -50,7 +50,7 @@
                 <p class="text-sm" *ngIf="product.description.length <= 80">
                   {{ product.description }}
                 </p>
-                <p class="text-lg font-semibold">{{ product.price }}</p>
+                <p class="text-lg font-semibold">{{ product.price }} ₺</p>
                 <p class="text-sm font-light">Miktar : {{ product.count }}</p>
               </div>
             </div>
@@ -89,8 +89,8 @@
       </div>
       <hr />
       <p class="text-right text-lg">
-        Ara toplam ({{ cartService.cart.products.length }} ürün):
-        {{ cartService.cart.total }}
+        Ara toplam ({{ cartService.cartStatusOne.products.length }} ürün):
+        {{ cartService.cartStatusOne.total }} ₺
       </p>
     </div>
     <p class="text-xs mt-2">
@@ -104,18 +104,18 @@
   </div>
   <div class="bg-white shadow-md md:w-80 w-full p-2">
     <p class="font-semibold text-lg">
-      Ara toplam ({{ cartService.cart.products.length }} ürün):
-      {{ cartService.cart.total }}
+      Ara toplam ({{ cartService.cartStatusOne.products.length }} ürün):
+      {{ cartService.cartStatusOne.total }} ₺
     </p>
     <button
-      *ngIf="cartService.cart?.products?.length! > 0"
+      *ngIf="cartService.cartStatusOne?.products?.length! > 0"
       class="bg-[#ffd814] cursor-pointer rounded-md shadow-md p-1 text-sm w-full my-2"
       [routerLink]="'/cart/' + id + '/finish'"
     >
       Alışverişi Tamamla
     </button>
     <button
-      *ngIf="cartService.cart?.products?.length! == 0"
+      *ngIf="cartService.cartStatusOne?.products?.length! == 0"
       (click)="notyfCalis()"
       class="bg-[#ffd814] cursor-pointer rounded-md shadow-md p-1 text-sm w-full my-2"
     >

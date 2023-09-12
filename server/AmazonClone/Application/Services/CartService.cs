@@ -9,6 +9,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Text.Json;
 using System.Net.Mail;
 using System.Net;
+using AmazonClone.Application.ViewModels.CartProduct;
 namespace AmazonClone.Application.Services
 {
     public class CartService : ICartService
@@ -41,7 +42,7 @@ namespace AmazonClone.Application.Services
                     {
                         id = cart.id,
                         userId = id,
-                        products = new HashSet<ProductResponseModel>()
+                        products = new HashSet<CartProductProductResponseModel>()
                     },
                     statusCode = 200
                 };
@@ -56,6 +57,7 @@ namespace AmazonClone.Application.Services
 
         public ResponseViewModel addToCart(CartProductCreateModel model, string authToken)
         {
+            model.status = true;
             return cartProductService.add(model, authToken);
         }
 

@@ -30,6 +30,6 @@ export class CartComponent {
   }
 
   notyfCalis() {
-    this.notyf.error('Kartta ürün yok. 😒');
+    this.notyf.error('Kartta seçili ürün yok. 😒');
   }
 }

@@ -1,4 +1,5 @@
-﻿using AmazonClone.Application.ViewModels.ProductM;
+﻿using AmazonClone.Application.ViewModels.CartProduct;
+using AmazonClone.Application.ViewModels.ProductM;
 
 namespace AmazonClone.Application.ViewModels.CartM
 {
@@ -6,6 +7,6 @@ namespace AmazonClone.Application.ViewModels.CartM
     {
         public Guid id { get; set; }
         public Guid userId { get; set; }
-        public ICollection<ProductResponseModel> products { get; set; } 
+        public ICollection<CartProductProductResponseModel> products { get; set; }
     }
 }
