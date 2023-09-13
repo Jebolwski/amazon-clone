@@ -15,6 +15,11 @@ namespace AmazonClone.Data.Repositories
             return dbset.Where(p => p.cartId == id).ToList();
         }
 
+        public ICollection<CartProduct> getByCartIdStatusOne(Guid id)
+        {
+            return dbset.Where(p => p.cartId == id).Where(p => p.status == true).ToList();
+        }
+
         public bool deleteByCartIdAndProductId(Guid productId, Guid cartId)
         {
             List<CartProduct> cartProducts = dbset.Where(p => p.cartId == cartId).Where(p => p.productId == productId).ToList();
@@ -43,6 +48,16 @@ namespace AmazonClone.Data.Repositories
                 return status;
             }
             return false;
+        }
+
+        public CartProduct getByCartIdAndProductId(Guid cartId, Guid productId)
+        {
+            List<CartProduct> cartProducts = dbset.Where(p => p.cartId == cartId).Where(p => p.productId == productId).ToList();
+            if (cartProducts != null && cartProducts.Any())
+            {
+                return cartProducts.First();
+            }
+            return null;
         }
     }
 }

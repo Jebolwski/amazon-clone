@@ -100,6 +100,84 @@ namespace AmazonClone.Application.Services
             };
         }
 
+        public ResponseViewModel getCartStatusOne(string authToken)
+        {
+            authToken = authToken.Replace("Bearer ", string.Empty);
+            var stream = authToken;
+            var handler = new JwtSecurityTokenHandler();
+            JwtSecurityToken jsonToken = handler.ReadJwtToken(stream);
+            User user = userService.getUserByUsername(jsonToken.Claims.First().Value);
+            if (user == null)
+            {
+                return new ResponseViewModel()
+                {
+                    message = "Kullanıcı doğrulanamadı. 😞",
+                    responseModel = new Object(),
+                    statusCode = 400
+                };
+            }
+            Cart cart = cartRepository.getCartByUserId(user.id);
+            ResponseViewModel responseViewModel = cartProductService.getProductsByCartIdStatusOne(cart.id);
+            if (responseViewModel == null)
+            {
+                return new ResponseViewModel()
+                {
+                    message = "Ürünler yok. 😞",
+                    responseModel = new Object(),
+                    statusCode = 400
+                };
+            }
+            return new ResponseViewModel()
+            {
+                message = "Kart başarıyla getirildi. 🌝",
+                responseModel = new
+                {
+                    products = responseViewModel.responseModel,
+                    cart = cart
+                },
+                statusCode = 200
+            };
+        }
+
+        public ResponseViewModel getCartWithStatusOneProducts(string authToken)
+        {
+            authToken = authToken.Replace("Bearer ", string.Empty);
+            var stream = authToken;
+            var handler = new JwtSecurityTokenHandler();
+            JwtSecurityToken jsonToken = handler.ReadJwtToken(stream);
+            User user = userService.getUserByUsername(jsonToken.Claims.First().Value);
+            if (user == null)
+            {
+                return new ResponseViewModel()
+                {
+                    message = "Kullanıcı doğrulanamadı. 😞",
+                    responseModel = new Object(),
+                    statusCode = 400
+                };
+            }
+            Cart cart = cartRepository.getCartByUserId(user.id);
+            ResponseViewModel responseViewModel = cartProductService.getProductsByCartId(cart.id);
+            if (responseViewModel == null)
+            {
+                return new ResponseViewModel()
+                {
+                    message = "Ürünler yok. 😞",
+                    responseModel = new Object(),
+                    statusCode = 400
+                };
+            }
+            return new ResponseViewModel()
+            {
+                message = "Kart başarıyla getirildi. 🌝",
+                responseModel = new
+                {
+                    products = responseViewModel.responseModel,
+                    cart = cart
+                },
+                statusCode = 200
+            };
+        }
+
         public ResponseViewModel deleteProductFromCart(string authToken, Guid productId, Guid cartId)
         {
             authToken = authToken.Replace("Bearer ", string.Empty);
@@ -177,12 +255,19 @@ namespace AmazonClone.Application.Services
                 string json = JsonSerializer
                     .Serialize(this.getCart(authToken).responseModel);
                 CartWithProductModel cartWith = null;
-                ResponseViewModel responseViewModel = cartProductService.getProductsByCartId(cartId);
+                ResponseViewModel responseViewModel = cartProductService.getProductsByCartIdStatusOne(cartId);
                 string extra = "";
-                ICollection<ProductResponseModel> products = (ICollection<ProductResponseModel>)responseViewModel.responseModel;
-                foreach (ProductResponseModel product in products)
+                HashSet<CartProductProductResponseModel> CartProducts = (HashSet<CartProductProductResponseModel>)responseViewModel.responseModel;
+                foreach (CartProductProductResponseModel CartProduct in CartProducts)
                 {
-                    extra += "<p style='font-size:16px;text-align:left;margin-top:3px;'>" + product.name + "</p>";
+                    //!CartProduct'tan status getiriliyor
+                    ResponseViewModel responseViewModel2 = cartProductService.getByCartIdAndProductId(cart.id, CartProduct.id);
+                    CartProduct cartProduct = (CartProduct)responseViewModel2.responseModel;
+
+                    if (cartProduct.status == true)
+                    {
+                        extra += "<p style='font-size:16px;text-align:left;margin-top:3px;'>" + CartProduct.name + "</p>";
+                    }
                 }
                 string body = """
                 <!DOCTYPE html>
@@ -260,7 +345,12 @@ namespace AmazonClone.Application.Services
                 }
                 foreach (ProductResponseModel product in cartWith.products)
                 {
-                    cartProductService.removeProductFromCart(cartId, product.id);
+                    ResponseViewModel responseViewModel1 = cartProductService.getByCartIdAndProductId(cart.id, product.id);
+                    CartProduct cartProduct = (CartProduct)responseViewModel1.responseModel;
+                    if (cartProduct.status == true)
+                    {
+                        cartProductService.removeProductFromCart(cartId, product.id);
+                    }
                 }
 
                 var smtpClient = new SmtpClient("smtp.gmail.com")

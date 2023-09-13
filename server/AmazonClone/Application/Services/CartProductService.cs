@@ -106,6 +106,36 @@ namespace AmazonClone.Application.Services
             };
         }
 
+        public ResponseViewModel getProductsByCartIdStatusOne(Guid id)
+        {
+            ICollection<CartProduct> cartProducts =
+                cartProductRepository.getByCartIdStatusOne(id);
+            ICollection<CartProductProductResponseModel> productResponseModels = new HashSet<CartProductProductResponseModel>();
+
+            foreach (CartProduct item in cartProducts)
+            {
+                ProductResponseModel productResponseModel = (ProductResponseModel)productService.get(item.productId).responseModel;
+                productResponseModels.Add(new CartProductProductResponseModel()
+                {
+                    comments = productResponseModel.comments,
+                    description = productResponseModel.description,
+                    id = productResponseModel.id,
+                    name = productResponseModel.name,
+                    photos = productResponseModel.photos,
+                    price = productResponseModel.price,
+                    productCategories = productResponseModel.productCategories,
+                    status = item.status
+                });
+            }
+
+            return new ResponseViewModel()
+            {
+                message = "Veri getirildi. 🌝",
+                responseModel = productResponseModels,
+                statusCode = 200
+            };
+        }
+
         public ResponseViewModel removeProductFromCart(Guid cartId, Guid productId)
         {
             bool boolean =
@@ -149,6 +179,30 @@ namespace AmazonClone.Application.Services
                 return new ResponseViewModel()
                 {
                     message = "Ürün durumu değiştirilirken bir hata oluştu. 😒",
+                    responseModel = new object(),
+                    statusCode = 400
+                };
+            }
+        }
+
+
+        public ResponseViewModel getByCartIdAndProductId(Guid cartId, Guid productId)
+        {
+            CartProduct cartProduct = cartProductRepository.getByCartIdAndProductId(cartId, productId);
+            if (cartProduct != null)
+            {
+                return new ResponseViewModel()
+                {
+                    message = "Başarıyla getirildi. 🌝",
+                    responseModel = cartProduct,
+                    statusCode = 200
+                };
+            }
+            else
+            {
+                return new ResponseViewModel()
+                {
+                    message = "Getirilirken hata oluştu. 😞",
                     responseModel = new object(),
                     statusCode = 400
                 };

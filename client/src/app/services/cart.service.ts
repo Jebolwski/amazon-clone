@@ -106,17 +106,13 @@ export class CartService {
             return product.status == 1;
           });
 
-          this.cartStatusOne.total = '0';
+          let total = 0;
           this.cartStatusOne.products.forEach((product) => {
-            this.cartStatusOne.total +=
-              this.cartStatusOne.total +
-              parseFloat(product.price) * (product.count || 1);
+            total += parseFloat(product.price) * (product.count || 1);
             // product.price = f.format(parseFloat(product.price));
           });
           this.cart.total = parseFloat(String(this.cart.total)).toFixed(2);
-          this.cartStatusOne.total = parseFloat(
-            String(this.cartStatusOne.total)
-          ).toFixed(2);
+          this.cartStatusOne.total = parseFloat(String(total)).toFixed(2);
         } else {
           this.notyf.error(response.message);
         }

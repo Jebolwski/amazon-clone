@@ -17,6 +17,7 @@ namespace AmazonClone.Application.Interfaces
         public ResponseViewModel buyTheCart(string authToken, Guid cartId);
         public ResponseViewModel buyTheCartNow(string authToken, Guid cartId, Guid productId);
         public ResponseViewModel getCartByUserId(Guid userId);
+        public ResponseViewModel getCartStatusOne(string authToken);
 
     }
 }

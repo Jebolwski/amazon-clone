@@ -20,12 +20,15 @@ namespace AmazonClone.Application.Services
         private readonly IBoughtRepository boughtRepository;
         private readonly IUserService userService;
 
-        public BoughtService(ICartService cartService, IBoughtProductService boughtProductService, IBoughtRepository boughtRepository, IUserService userService)
+        private readonly ICartProductService cartProductService;
+
+        public BoughtService(ICartService cartService, IBoughtProductService boughtProductService, IBoughtRepository boughtRepository, IUserService userService, ICartProductService cartProductService)
         {
             this.cartService = cartService;
             this.boughtProductService = boughtProductService;
             this.boughtRepository = boughtRepository;
             this.userService = userService;
+            this.cartProductService = cartProductService;
         }
 
         public ResponseViewModel addBought(string authToken)
@@ -44,7 +47,7 @@ namespace AmazonClone.Application.Services
                     statusCode = 400
                 };
             }
-            ResponseViewModel responseViewModel = cartService.getCart(authToken);
+            ResponseViewModel responseViewModel = cartService.getCartStatusOne(authToken);
             Bought boughtCreated = boughtRepository.add(new Bought()
             {
                 userId = user.id,
@@ -62,15 +65,22 @@ namespace AmazonClone.Application.Services
 
             foreach (ProductResponseModel product in response.products)
             {
-                BoughtProductAddModel boughtProductAddModel = new BoughtProductAddModel()
+                //!CartProduct'tan status getiriliyor
+                ResponseViewModel responseViewModel2 = cartProductService.getByCartIdAndProductId(response.cart.id, product.id);
+                CartProduct cartProduct = (CartProduct)responseViewModel2.responseModel;
+                if (cartProduct.status == true)
                 {
-                    description = product.description,
-                    name = product.name,
-                    price = product.price,
-                    productId = product.id,
-                    boughtId = boughtCreated.id
-                };
-                boughtProductService.addBoughtProduct(boughtProductAddModel);
+
+                    BoughtProductAddModel boughtProductAddModel = new BoughtProductAddModel()
+                    {
+                        description = product.description,
+                        name = product.name,
+                        price = product.price,
+                        productId = product.id,
+                        boughtId = boughtCreated.id
+                    };
+                    boughtProductService.addBoughtProduct(boughtProductAddModel);
+                }
             }
 
             return new ResponseViewModel()
