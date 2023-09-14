@@ -1,9 +1,12 @@
 <app-header></app-header>
 <div class="flex items-start flex-wrap bg-[#eaeded] p-4 gap-2">
   <div class="flex-1 min-w-[240px]">
-    <div class="bg-white p-2 shadow-md">
+    <div class="bg-white p-4 shadow-md">
       <h3 class="lg:text-3xl text-xl">Alışveriş Sepeti</h3>
-      <p class="text-green-700 lg:text-sm text-xs">
+      <p
+        class="text-green-700 lg:text-sm text-xs cursor-pointer mt-2"
+        (click)="toggleAllOff()"
+      >
         Tüm ürünlerin seçimini kaldır
       </p>
       <hr />

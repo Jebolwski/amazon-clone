@@ -343,7 +343,7 @@ namespace AmazonClone.Application.Services
                 {
                     cartWith = JsonSerializer.Deserialize<CartWithProductModel>(json);
                 }
-                foreach (ProductResponseModel product in cartWith.products)
+                foreach (CartProductProductResponseModel product in cartWith.products)
                 {
                     ResponseViewModel responseViewModel1 = cartProductService.getByCartIdAndProductId(cart.id, product.id);
                     CartProduct cartProduct = (CartProduct)responseViewModel1.responseModel;
@@ -461,5 +461,12 @@ namespace AmazonClone.Application.Services
                 statusCode = 200
             };
         }
+
+        public ResponseViewModel toggleAllStatusOff(Guid cartId, string authToken)
+        {
+            return cartProductService.toggleAllStatusOff(cartId, authToken);
+        }
+
+
     }
 }

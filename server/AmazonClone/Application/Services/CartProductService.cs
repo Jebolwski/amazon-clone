@@ -8,6 +8,8 @@ using AmazonClone.Application.ViewModels.CartM;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using AmazonClone.Application.ViewModels.ResponseM;
+using AmazonClone.Application.ViewModels.ProductCategoryM;
+using System.Text.Json;
 
 namespace AmazonClone.Application.Services
 {
@@ -185,6 +187,79 @@ namespace AmazonClone.Application.Services
             }
         }
 
+        public ResponseViewModel getCart(string authToken)
+        {
+            authToken = authToken.Replace("Bearer ", string.Empty);
+            var stream = authToken;
+            var handler = new JwtSecurityTokenHandler();
+            JwtSecurityToken jsonToken = handler.ReadJwtToken(stream);
+            User user = userService.getUserByUsername(jsonToken.Claims.First().Value);
+            if (user == null)
+            {
+                return new ResponseViewModel()
+                {
+                    message = "Kullanıcı doğrulanamadı. 😞",
+                    responseModel = new Object(),
+                    statusCode = 400
+                };
+            }
+            Cart cart = cartRepository.getCartByUserId(user.id);
+            ResponseViewModel responseViewModel = getProductsByCartId(cart.id);
+            if (responseViewModel == null)
+            {
+                return new ResponseViewModel()
+                {
+                    message = "Ürünler yok. 😞",
+                    responseModel = new Object(),
+                    statusCode = 400
+                };
+            }
+            List<CartProductProductResponseModel> list = new List<CartProductProductResponseModel>();
+
+            string json = JsonSerializer
+                .Serialize(responseViewModel.responseModel);
+            if (json.Equals("{}") == false)
+            {
+                list = JsonSerializer.Deserialize<List<CartProductProductResponseModel>>(json);
+            }
+
+            return new ResponseViewModel()
+            {
+                message = "Kart başarıyla getirildi. 🌝",
+                responseModel = new CartWithProductModel()
+                {
+                    products = list,
+                    cart = cart
+                },
+                statusCode = 200
+            };
+        }
+
+        public ResponseViewModel toggleAllStatusOff(Guid cartId, string authToken)
+        {
+            ResponseViewModel responseViewModel = getCart(authToken);
+            CartWithProductModel response = (CartWithProductModel)(responseViewModel.responseModel);
+            foreach (CartProductProductResponseModel product in response.products)
+            {
+                bool v = cartProductRepository.turnOff(cartId, product.id);
+                if (!v)
+                {
+                    return new ResponseViewModel()
+                    {
+                        message = "Ürünlerin seçilmesi kaldırılırken hata oluştu. 😞",
+                        responseModel = new object(),
+                        statusCode = 500
+                    };
+                }
+            }
+            return new ResponseViewModel()
+            {
+                message = "Başarıyla ürünlerin seçilmesi kaldırıldı. 😄",
+                responseModel = new object(),
+                statusCode = 200
+            };
+
+        }
 
         public ResponseViewModel getByCartIdAndProductId(Guid cartId, Guid productId)
         {

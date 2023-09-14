@@ -203,8 +203,6 @@ export class CartService {
   }
 
   toggleStatus(productId: string, cartId: string) {
-    console.log(productId, cartId);
-
     return this.http
       .post(
         this.baseApiUrl +
@@ -213,6 +211,30 @@ export class CartService {
           '/' +
           productId +
           '/toggle-status',
+        {},
+        {
+          headers: new HttpHeaders().append(
+            'Authorization',
+            `Bearer ${localStorage.getItem('accessToken')}`
+          ),
+        }
+      )
+      .pipe(
+        map((res: any) => {
+          let response: Response = res;
+          if (response.statusCode === 200) {
+            return response.responseModel;
+          } else {
+            return null;
+          }
+        })
+      );
+  }
+
+  toggleAllOf(cartId: string) {
+    return this.http
+      .post(
+        this.baseApiUrl + 'cart/Cart/' + cartId + '/toggle-off',
         {},
         {
           headers: new HttpHeaders().append(

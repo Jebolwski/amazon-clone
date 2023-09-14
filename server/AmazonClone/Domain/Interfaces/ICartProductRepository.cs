@@ -9,5 +9,6 @@ namespace AmazonClone.Domain.Interfaces
         public bool toggle(Guid cartId, Guid productId);
         public CartProduct getByCartIdAndProductId(Guid cartId, Guid productId);
         public ICollection<CartProduct> getByCartIdStatusOne(Guid id);
+        public bool turnOff(Guid cartId, Guid productId);
     }
 }

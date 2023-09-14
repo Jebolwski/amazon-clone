@@ -32,4 +32,12 @@ export class CartComponent {
   notyfCalis() {
     this.notyf.error('Kartta seçili ürün yok. 😒');
   }
+
+  toggleAllOff() {
+    this.cartService
+      .toggleAllOf(this.cartService.cart.id)
+      .subscribe((res: boolean) => {
+        this.cartService.getCartsProducts(this.id);
+      });
+  }
 }

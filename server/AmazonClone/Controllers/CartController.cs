@@ -77,5 +77,13 @@ namespace AmazonClone.Controllers
             return cartProductService.toggleStatus(cartId, productId);
         }
 
+        [HttpPost("{cartId}/toggle-off"), Authorize(Roles = "Normal User,Admin")]
+        public ResponseViewModel toggleOff(Guid cartId)
+        {
+            string authToken = HttpContext.Request.Headers["Authorization"];
+
+            return cartProductService.toggleAllStatusOff(cartId, authToken);
+        }
+
     }
 }
