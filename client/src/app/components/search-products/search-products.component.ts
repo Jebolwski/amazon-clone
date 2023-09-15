@@ -9,7 +9,7 @@ import { ProductService } from 'src/app/services/product.service';
   templateUrl: './search-products.component.html',
   styleUrls: ['./search-products.component.scss'],
 })
-export class SearchProductsComponent implements OnInit {
+export class SearchProductsComponent {
   name!: string | null;
   category!: string | null;
   products: Product[] = [];
@@ -23,6 +23,24 @@ export class SearchProductsComponent implements OnInit {
     public productService: ProductService
   ) {
     console.log('git bakam');
+    route.params.subscribe((val) => {
+      this.category = this.route.snapshot.params['category'];
+      this.name = this.route.snapshot.params['name'];
+      if (this.name == "''") {
+        this.name = '+';
+      }
+      if (this.category == 'all') {
+        this.category = 'all';
+      }
+      console.log(this.category, this.name);
+      // put the code to initialize the page
+      this.productService
+        .getByNameAndCategory(this.name || '', this.category || '')
+        .subscribe((res: any) => {
+          this.products = res;
+          this.productsTemp = res;
+        });
+    });
   }
 
   f = new Intl.NumberFormat('tr-TR', {
@@ -30,23 +48,6 @@ export class SearchProductsComponent implements OnInit {
     currency: 'TRY',
     minimumFractionDigits: 2,
   });
-
-  ngOnInit(): any {
-    this.category = this.route.snapshot.paramMap.get('category');
-    if (this.category == 'all') {
-      this.category = 'all';
-    }
-    this.name = this.route.snapshot.paramMap.get('name');
-    if (this.name == "''") {
-      this.name = '+';
-    }
-    this.productService
-      .getByNameAndCategory(this.name || '', this.category || '')
-      .subscribe((res: any) => {
-        this.products = res;
-        this.productsTemp = res;
-      });
-  }
 
   checkIt(event: Event, num1: number, num2: number) {
     let list = (
